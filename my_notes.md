@@ -12,4 +12,8 @@
 
 # Medium series about LLM
   * [medium](https://cismography.medium.com/knowledge-bases-and-retrieval-augmented-llms-a-primer-c054db532b91)
-  * 
+  
+  * What is *langchain*?
+    * Open-source framework that makes it easier to build applications LLM
+  * Using *langchain* with [gpt4all](https://gpt4all.io/index.html)
+  * use of *langchain* as the embedder here [embedding LLM with langchain](https://www.linkedin.com/pulse/implementation-knowledge-base-embedding-llm-flexidigit-technologies-8hqmc)
