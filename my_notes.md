@@ -17,3 +17,10 @@
     * Open-source framework that makes it easier to build applications LLM
   * Using *langchain* with [gpt4all](https://gpt4all.io/index.html)
   * use of *langchain* as the embedder here [embedding LLM with langchain](https://www.linkedin.com/pulse/implementation-knowledge-base-embedding-llm-flexidigit-technologies-8hqmc)
+
+* How does vector databse work?
+  * Each entity is represented as a high-dimensional vector and the similarity between entities is calculated based on vecotr distance
+
+* Nice source of material and frameworks: [llamahub](https://llamahub.ai/)
+* Plaban Nayak [k graph vs vector db](https://medium.aiplanet.com/implement-rag-with-knowledge-graph-and-llama-index-6a3370e93cdd) tried to connect with him
+
