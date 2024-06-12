@@ -1,0 +1,18 @@
+[tool.poetry]
+name = "bachelors-thesis"
+version = "0.1.0"
+description = ""
+authors = ["Martin Lejko <Martin.lejko@outlook.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+
+[tool.poetry.group.dev.dependencies]
+ruff = "^0.4.2"
+mypy = "^1.10.0"
+pytest = "^8.2.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

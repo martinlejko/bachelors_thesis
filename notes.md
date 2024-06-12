@@ -42,3 +42,12 @@
     * Continuesly sync the new data into the model
 
 
+# What parser to use?
+    * LlammaParse is better than PyPDF as it is more accurate. #TODO: implement
+
+# What to focus on to improve RAG?
+    * Improve on the data parser and the strucure. 
+    * Chunk size --> trought experiments to see what works the best
+    * Optimal retrieval
+    * Rerank
+    * 
