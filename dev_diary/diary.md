@@ -37,11 +37,22 @@ Moving forward, I plan to continue researching methods for gathering and embeddi
 
 #### **Research and Exploration**
 
-What I had planned previously, I have now accomplished. I explored the methods of knowledge embedding, as I believe it will be a crucial part of my thesis. Some new terms and ways poped up. I have not dived into very scientific papers as I am not ready for this now and I am firstly testing the watters and getting a wider understanding of the concepts.
+What I had planned previously, I have now accomplished. I explored the methods of knowledge embedding, as I believe it will be a crucial part of my thesis. Some new terms and ways poped up. I have not dived into very scientific papers as I am not ready for this now and I am firstly testing the watters and getting a wider understanding of the concepts. There could be a part in my thesis for comparison of different embeddings and showing the differenct it makes if any. As the more I see the code of other developers the more I worry that it will only have couple of lines and I will fail misserably while defending. 💀Mom would not be happy let me tell you💀 Other then the concepts of embedding I initialized the overleaf teplate that my university has. It is pretty cool, the scripts and how it works. I wonder if I should also tell you guys about the things I do around the thesis that are not so from the developer side, as is this overleaf setup. The time will tell and maybe I will include it in some parts. Also I have 
 
 ---
 
 #### **New Concepts and Terms**
 
-*Vector database* -->
-*Knowledge graph* --> 
+*Vector database* / *Knowledge graph* :  From my currect understanding, the data determins which method we want to use as if the data we get is all over the place the knowledge graph will be harder to create and structure. Vector databases are a common practice and I saw their appearence in multiple texts and videos I have seen. 
+
+---
+
+#### **Challenges and Concerns**
+
+As I stated in the previous section, the length of the code will be conserning, but maybe I can do experiments for different embedding methods and see how it will prolong it and of course the results 😁
+
+---
+
+#### **Reflections and Insights**
+
+To the future me: You should ask about the data you will be working with, in which format it will be and how it will be structured. Also maybe do a deeper dive into the methods as of now we only have a high-level of understanding.
