@@ -25,4 +25,15 @@
 * Plaban Nayak [k graph vs vector db](https://medium.aiplanet.com/implement-rag-with-knowledge-graph-and-llama-index-6a3370e93cdd) tried to connect with him
 
 
+# Benchmarking LLMs
+  * Types of benchmarks and what do they test [benchmarks](https://symbl.ai/developers/blog/an-in-depth-guide-to-benchmarking-llms/)
+  * Important to us are HellaSwag as it tests commonsense reasoning and natural language inference, (maybe not as ti doesnt test reasoning for specialised domains)
+  * MMLU tests how well it understands the language and subsequently its ability to solve problems with the knowledge
+  * TruthfulQA tests the benchmark for hallucination 
+  * MT Bench --> tests longer conversations about the same topic and how well it can follow
 
+# LLM Leaderboards
+  * we can use [HuggingFaceLeaderboard](https://huggingface.co/collections/open-llm-leaderboard/the-big-benchmarks-collection-64faca6335a7fc7d4ffe974a) which test these LLMS on the benchmarks above 
+  * [arxiv mistral 7B](https://arxiv.org/abs/2310.06825) Text about how mistral 7B outperforms llama2 13B in every benchmark
+  * Another website for tierlists [site](https://llm.extractum.io/)
+  
