@@ -9,7 +9,12 @@ os.environ["USER_AGENT"] = (
 from langchain_community.document_loaders import WebBaseLoader
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 
-loader = WebBaseLoader("https://lilianweng.github.io/posts/2023-06-23-agent/")
+urls = [
+    "https://d3s.mff.cuni.cz/teaching/nswi200/teams/",
+    "https://d3s.mff.cuni.cz/teaching/nprg035/"
+]
+
+loader = WebBaseLoader(urls)
 data = loader.load()
 
 text_splitter = RecursiveCharacterTextSplitter(chunk_size=500, chunk_overlap=0)
@@ -19,9 +24,13 @@ all_splits = text_splitter.split_documents(data)
 from langchain_chroma import Chroma
 from langchain_ollama import OllamaEmbeddings
 
+
 local_embeddings = OllamaEmbeddings(model="nomic-embed-text")
 
-vectorstore = Chroma.from_documents(documents=all_splits, embedding=local_embeddings)
+try:
+    vectorstore = Chroma.from_documents(documents=all_splits, embedding=local_embeddings)
+except Exception as e:
+    print(e)
 
 # search for similar documents and test if the vectorstore is working
 question = "What are the approaches to Task Decomposition?"
@@ -67,7 +76,10 @@ qa_chain = (
     | StrOutputParser()
 )
 
-question = "What are the approaches to Task Decomposition?"
+# question = "What is the amout of people in a team for operating systems course at MFF cuni?"
+# question = "How many points do I need to get to pass the course of c# programming?"
+# question = "What is the bare minumum that i need to reach to get a credit from the course of c# programming?"
+question = "How many points do I need from homeworks to get a credit from the course of c# programming?"
 
 response = qa_chain.invoke(question)
 print(response)
