@@ -1,0 +1,28 @@
+{
+  "test_name": "team_size",
+  "timestamp": "2025-02-15T13:55:36.734492",
+  "question": "What is the amount of people in a team for operating systems course at MFF cuni?",
+  "actual_output": "According to the context, each team for milestone M02 and onwards consists of 3 students. Therefore, the amount of people in a team is 3.",
+  "expected_output": "Teams should consist of 2-3 students.",
+  "context": [
+    "For the Operating Systems course at MFF CUNI, teams should consist of 2-3 students for project work."
+  ],
+  "metrics": {
+    "Answer Correctness (GEval)": {
+      "score": 0.2,
+      "threshold": 0.7,
+      "passed": false
+    },
+    "Answer Relevancy (GEval)": {
+      "score": 1.0,
+      "threshold": 0.7,
+      "passed": true
+    },
+    "Conciseness (GEval)": {
+      "score": 0.2,
+      "threshold": 0.8,
+      "passed": false
+    }
+  },
+  "success": false
+}
