@@ -12,56 +12,61 @@ from proof_of_concept import (
     create_qa_chain,
 )
 
-# Initialize RAG pipeline globally so it can be reused across tests
-setup_environment()
-urls = [
-    "https://d3s.mff.cuni.cz/teaching/nswi200/teams/",
-    "https://d3s.mff.cuni.cz/teaching/nprg035/",
+# Initialize RAG pipeline in a controlled way
+def initialize_rag():
+    """Initialize RAG pipeline once."""
+    setup_environment()
+    urls = [
+        "https://d3s.mff.cuni.cz/teaching/nswi200/teams/",
+        "https://d3s.mff.cuni.cz/teaching/nprg035/",
+    ]
+    
+    raw_data = load_data(urls)
+    processed_data = process_data(raw_data)
+    vectorstore = create_vectorstore(processed_data)
+    model = setup_model()
+    prompt = create_prompt_template()
+    return create_qa_chain(vectorstore, model, prompt)
+
+# Initialize once at module level
+qa_pipeline = initialize_rag()
+
+# Define metrics
+metrics = [
+    GEval(
+        name="Answer Correctness",
+        criteria="Determine if the actual output correctly answers the question based on the expected output and context.",
+        evaluation_params=[
+            LLMTestCaseParams.INPUT,
+            LLMTestCaseParams.ACTUAL_OUTPUT,
+            LLMTestCaseParams.EXPECTED_OUTPUT,
+            LLMTestCaseParams.CONTEXT,
+        ],
+        threshold=0.7,
+    ),
+    GEval(
+        name="Answer Relevancy",
+        criteria="Evaluate if the response is directly relevant to the question asked, regardless of correctness.",
+        evaluation_params=[
+            LLMTestCaseParams.INPUT,
+            LLMTestCaseParams.ACTUAL_OUTPUT,
+        ],
+        threshold=0.7,
+    ),
+    GEval(
+        name="Conciseness",
+        criteria="Check if the response is within three sentences and provides a clear, concise answer without unnecessary information.",
+        evaluation_params=[
+            LLMTestCaseParams.ACTUAL_OUTPUT,
+        ],
+        threshold=0.8,
+    )
 ]
-
-raw_data = load_data(urls)
-processed_data = process_data(raw_data)
-vectorstore = create_vectorstore(processed_data)
-model = setup_model()
-prompt = create_prompt_template()
-qa_chain = create_qa_chain(vectorstore, model, prompt)
-
-# Define metrics globally
-correctness_metric = GEval(
-    name="Answer Correctness",
-    criteria="Determine if the actual output correctly answers the question based on the expected output and context.",
-    evaluation_params=[
-        LLMTestCaseParams.INPUT,
-        LLMTestCaseParams.ACTUAL_OUTPUT,
-        LLMTestCaseParams.EXPECTED_OUTPUT,
-        LLMTestCaseParams.CONTEXT,
-    ],
-    threshold=0.7,
-)
-
-relevancy_metric = GEval(
-    name="Answer Relevancy",
-    criteria="Evaluate if the response is directly relevant to the question asked, regardless of correctness.",
-    evaluation_params=[
-        LLMTestCaseParams.INPUT,
-        LLMTestCaseParams.ACTUAL_OUTPUT,
-    ],
-    threshold=0.7,
-)
-
-conciseness_metric = GEval(
-    name="Conciseness",
-    criteria="Check if the response is within three sentences and provides a clear, concise answer without unnecessary information.",
-    evaluation_params=[
-        LLMTestCaseParams.ACTUAL_OUTPUT,
-    ],
-    threshold=0.8,
-)
 
 def test_team_size():
     """Test the RAG pipeline for team size question."""
     question = "What is the amount of people in a team for operating systems course at MFF cuni?"
-    actual_output = qa_chain.invoke(question)
+    actual_output = qa_pipeline.invoke(question)
     
     test_case = LLMTestCase(
         input=question,
@@ -72,13 +77,13 @@ def test_team_size():
     
     evaluate(
         test_cases=[test_case],
-        metrics=[correctness_metric, relevancy_metric, conciseness_metric]
+        metrics=metrics
     )
 
 def test_programming_language():
     """Test the RAG pipeline for programming language question."""
     question = "What programming language is used in NPRG035?"
-    actual_output = qa_chain.invoke(question)
+    actual_output = qa_pipeline.invoke(question)
     
     test_case = LLMTestCase(
         input=question,
@@ -89,5 +94,5 @@ def test_programming_language():
     
     evaluate(
         test_cases=[test_case],
-        metrics=[correctness_metric, relevancy_metric, conciseness_metric]
+        metrics=metrics
     ) 
