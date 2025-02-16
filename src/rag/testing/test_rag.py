@@ -7,11 +7,13 @@ import json
 import os
 from evaluation.evaluation_factory import EvaluationDatasetFactory
 
-def save_test_results(test_name, test_case, evaluation_result):
+def save_test_results(evaluation_result):
     """Save test results to a JSON file."""
-    # Extract the metrics data from evaluation result
+    all_results = []
+
     metrics_data = {}
     for test_result in evaluation_result.test_results:
+        # Extract the metrics data from evaluation result
         for metric_data in test_result.metrics_data:
             metrics_data[metric_data.name] = {
                 'score': metric_data.score,
@@ -19,22 +21,24 @@ def save_test_results(test_name, test_case, evaluation_result):
                 'passed': metric_data.success
             }
 
-    result = {
-        'test_name': test_name,
-        'timestamp': datetime.now().isoformat(),
-        'question': test_case.input,
-        'actual_output': test_case.actual_output,
-        'expected_output': test_case.expected_output,
-        'context': test_case.context,
-        'metrics': metrics_data,
-        'success': evaluation_result.test_results[0].success 
-    }
+        result = {
+            'test_name': test_result.name,
+            'timestamp': datetime.now().isoformat(),
+            'question': test_result.input,
+            'actual_output': test_result.actual_output,
+            'expected_output': test_result.expected_output,
+            'context': test_result.context,
+            'metrics': metrics_data,
+            'success': test_result.success 
+        }
+
+        all_results.append(result)
     
     os.makedirs('test_results', exist_ok=True)
     
-    filename = f"test_results/{test_name}_{datetime.now().strftime('%Y%m%d_%H%M%S')}.json"
+    filename = f"test_results/all_test_results_{datetime.now().strftime('%Y%m%d_%H%M%S')}.json"
     with open(filename, 'w') as f:
-        json.dump(result, f, indent=2)
+        json.dump(all_results, f, indent=2)
     
     return filename
 
@@ -77,8 +81,6 @@ def save_test_results(test_name, test_case, evaluation_result):
 
 #     save_test_results("programming_language", test_case, result)
 
-
-
 def test_all_dataset(qa_pipeline, evaluation_metrics):
     """Test the RAG pipeline using EvaluationDatasetFactory on all test cases."""
     # Pass the entire TEST_CASES dict to the factory
@@ -86,14 +88,11 @@ def test_all_dataset(qa_pipeline, evaluation_metrics):
     
     # Evaluate the full dataset
     result = evaluate(
-        test_cases=dataset,
+        test_cases=dataset.test_cases,
         metrics=evaluation_metrics,
     )
-    
-    # Save results for each test case in the dataset
-    for name, test_case in TEST_CASES.items():
-        # Assumes the insertion order of TEST_CASES matches dataset.test_cases
-        save_test_results(name, dataset.test_cases.pop(0), result)
+
+    save_test_results(result)
 
 
 
