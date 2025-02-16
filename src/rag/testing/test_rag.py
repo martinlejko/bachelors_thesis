@@ -93,6 +93,3 @@ def test_all_dataset(qa_pipeline, evaluation_metrics):
     )
 
     save_test_results(result)
-
-
-
