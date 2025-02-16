@@ -1,10 +1,11 @@
 """RAG system evaluation tests"""
 from deepeval import evaluate
 from deepeval.test_case import LLMTestCase
-from .test_cases import TEST_CASES
+from .test_data import TEST_CASES
 from datetime import datetime
 import json
 import os
+from evaluation.evaluation_factory import EvaluationDatasetFactory
 
 def save_test_results(test_name, test_case, evaluation_result):
     """Save test results to a JSON file."""
@@ -37,42 +38,62 @@ def save_test_results(test_name, test_case, evaluation_result):
     
     return filename
 
-def test_team_size(qa_pipeline, evaluation_metrics):
-    """Test the RAG pipeline for team size question."""
-    case = TEST_CASES["team_size"]
-    actual_output = qa_pipeline.invoke(case["question"])
+# def test_team_size(qa_pipeline, evaluation_metrics):
+#     """Test the RAG pipeline for team size question."""
+#     case = TEST_CASES["team_size"]
+#     actual_output = qa_pipeline.invoke(case["question"])
     
-    test_case = LLMTestCase(
-        input=case["question"],
-        actual_output=actual_output,
-        expected_output=case["expected_output"],
-        context=case["context"]
-    )
+#     test_case = LLMTestCase(
+#         input=case["question"],
+#         actual_output=actual_output,
+#         expected_output=case["expected_output"],
+#         context=case["context"]
+#     )
     
+#     result = evaluate(
+#         test_cases=[test_case],
+#         metrics=evaluation_metrics,
+#     )
+    
+#     save_test_results("team_size", test_case, result)
+    
+
+# def test_programming_language(qa_pipeline, evaluation_metrics):
+#     """Test the RAG pipeline for programming language question."""
+#     case = TEST_CASES["programming_language"]
+#     actual_output = qa_pipeline.invoke(case["question"])
+    
+#     test_case = LLMTestCase(
+#         input=case["question"],
+#         actual_output=actual_output,
+#         expected_output=case["expected_output"],
+#         context=case["context"]
+#     )
+    
+#     result = evaluate(
+#         test_cases=[test_case],
+#         metrics=evaluation_metrics,
+#     )
+
+#     save_test_results("programming_language", test_case, result)
+
+
+
+def test_all_dataset(qa_pipeline, evaluation_metrics):
+    """Test the RAG pipeline using EvaluationDatasetFactory on all test cases."""
+    # Pass the entire TEST_CASES dict to the factory
+    dataset = EvaluationDatasetFactory.create_from_dict_with_invocation(TEST_CASES, qa_pipeline)
+    
+    # Evaluate the full dataset
     result = evaluate(
-        test_cases=[test_case],
+        test_cases=dataset,
         metrics=evaluation_metrics,
     )
     
-    save_test_results("team_size", test_case, result)
-    
+    # Save results for each test case in the dataset
+    for name, test_case in TEST_CASES.items():
+        # Assumes the insertion order of TEST_CASES matches dataset.test_cases
+        save_test_results(name, dataset.test_cases.pop(0), result)
 
-def test_programming_language(qa_pipeline, evaluation_metrics):
-    """Test the RAG pipeline for programming language question."""
-    case = TEST_CASES["programming_language"]
-    actual_output = qa_pipeline.invoke(case["question"])
-    
-    test_case = LLMTestCase(
-        input=case["question"],
-        actual_output=actual_output,
-        expected_output=case["expected_output"],
-        context=case["context"]
-    )
-    
-    result = evaluate(
-        test_cases=[test_case],
-        metrics=evaluation_metrics,
-    )
 
-    save_test_results("programming_language", test_case, result)
-    
+
