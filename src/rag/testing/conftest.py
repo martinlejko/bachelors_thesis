@@ -1,6 +1,14 @@
 """Pytest configuration and shared fixtures"""
 import pytest
-from deepeval.metrics import GEval
+from deepeval.metrics import (
+    GEval,
+    ContextualRecallMetric,
+    FaithfulnessMetric,            # New metric import
+    ContextualRelevancyMetric,      # New metric import
+    SummarizationMetric,            # New metric import
+    BiasMetric,                     # New metric import
+    ToxicityMetric                  # New metric import
+)
 from deepeval.test_case import LLMTestCaseParams
 from rag.proof_of_concept import (
     setup_environment,
@@ -27,6 +35,7 @@ def qa_pipeline():
     model = setup_model()
     prompt = create_prompt_template()
     return create_qa_chain(vectorstore, model, prompt)
+
 
 @pytest.fixture(scope="session")
 def evaluation_metrics():
@@ -59,5 +68,14 @@ def evaluation_metrics():
                 LLMTestCaseParams.ACTUAL_OUTPUT,
             ],
             threshold=0.8,
+        ),
+        GEval(
+            name="Context Relevancy",
+            criteria="Evaluate if the retrieved context contains information relevant to answering the query. The context should contain facts or information directly related to what the question is asking about.",
+            evaluation_params=[
+                LLMTestCaseParams.INPUT,
+                LLMTestCaseParams.RETRIEVAL_CONTEXT,
+            ],
+            threshold=0.7,
         )
-    ] 
+    ]

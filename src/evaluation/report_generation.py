@@ -124,6 +124,7 @@ def generate_html_report(json_data):
         <div class="test-case">
             <h3>{test['test_name']} - <span class="{status_class}">{status_text}</span></h3>
             <p><strong>Question:</strong> {test['question']}</p>
+            <p><strong>Actual context:</strong> {test['actual_context']}</p>
             <p><strong>Expected Output:</strong> {test['expected_output']}</p>
             <p><strong>Actual Output:</strong> {test['actual_output']}</p>
             

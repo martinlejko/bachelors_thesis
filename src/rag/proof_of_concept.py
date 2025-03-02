@@ -71,14 +71,25 @@ def format_docs(docs: List[Document]) -> str:
 
 
 def create_qa_chain(vectorstore: Chroma, model: ChatOllama, prompt: ChatPromptTemplate):
-    """Create the question-answering chain."""
+    """Create the question-answering chain that returns both answer and retrieved documents."""
     retriever = vectorstore.as_retriever()
-    return (
+    
+    # Create the standard QA chain
+    qa_chain = (
         {"context": retriever | format_docs, "question": RunnablePassthrough()}
         | prompt
         | model
         | StrOutputParser()
     )
+    
+    def invoke_with_retrieval_context(question):
+        retrieved_docs = retriever.invoke(question)
+        answer = qa_chain.invoke(question)
+
+        context_strings = [doc.page_content for doc in retrieved_docs]
+        return {"answer": answer, "retrieval_context": context_strings}
+    
+    return invoke_with_retrieval_context
 
 
 def main():

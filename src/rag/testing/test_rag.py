@@ -25,9 +25,10 @@ def save_test_results(evaluation_result):
             'test_name': test_result.name,
             'timestamp': datetime.now().isoformat(),
             'question': test_result.input,
+            'actual_conext': test_result.retrieval_context,
+            'context': test_result.context,
             'actual_output': test_result.actual_output,
             'expected_output': test_result.expected_output,
-            'context': test_result.context,
             'metrics': metrics_data,
             'success': test_result.success 
         }

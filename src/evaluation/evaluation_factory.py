@@ -45,12 +45,13 @@ class EvaluationDatasetFactory:
         test_cases = []
         for name, config in test_cases_config.items():
             question = config.get("question", "")
-            actual_output = qa_pipeline.invoke(question)
+            output_and_context = qa_pipeline(question)
             test_case = LLMTestCase(
                 input=question,
-                actual_output=actual_output,
-                expected_output=config.get("expected_output", ""),
-                context=config.get("context", "")
+                context=config.get("context", ""),
+                retrieval_context=output_and_context["retrieval_context"],
+                actual_output=output_and_context["answer"],
+                expected_output=config.get("expected_output", "")
             )
             test_cases.append(test_case)
         return EvaluationDataset(test_cases=test_cases)
