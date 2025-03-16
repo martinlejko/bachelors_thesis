@@ -1,0 +1,5 @@
+.pytest_cache
+.deepeval*
+*.pyc
+*.json
+.DS_Store

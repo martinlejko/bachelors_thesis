@@ -1,0 +1,17 @@
+langchain
+langchain-community
+langchain-core
+langchain-text-splitters
+langchain-chroma
+langchain-ollama
+ollama
+python-docx
+pypdf
+chromadb
+deepeval
+python-dotenv
+html2text
+transformers
+fastapi
+uvicorn
+jinja2
