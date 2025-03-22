@@ -3,6 +3,7 @@ Report generation module.
 
 This module handles the generation of HTML reports from JSON evaluation results.
 """
+
 import os
 import json
 import logging
@@ -14,26 +15,27 @@ from src.common.config import TEST_RESULTS_DIR
 
 logger = logging.getLogger(__name__)
 
+
 def generate_html_report(json_data: List[Dict[str, Any]]) -> str:
     """
     Generate an HTML report from JSON evaluation results.
-    
+
     Args:
         json_data: List of test result dictionaries
-        
+
     Returns:
         str: HTML report content
     """
     # Calculate statistics
     total_tests = len(json_data)
-    passed_tests = sum(1 for test in json_data if test.get('success', False))
+    passed_tests = sum(1 for test in json_data if test.get("success", False))
     failed_tests = total_tests - passed_tests
-    
+
     success_rate = (passed_tests / total_tests * 100) if total_tests > 0 else 0
-    
+
     # Generate timestamp
     timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-    
+
     # Start HTML content
     html = f"""
     <!DOCTYPE html>
@@ -150,19 +152,19 @@ def generate_html_report(json_data: List[Dict[str, Any]]) -> str:
         
         <h2>Test Results</h2>
     """
-    
+
     # Add individual test cases
     for test in json_data:
-        status_class = "success" if test.get('success', False) else "failure"
-        status_text = "PASSED" if test.get('success', False) else "FAILED"
-        
+        status_class = "success" if test.get("success", False) else "failure"
+        status_text = "PASSED" if test.get("success", False) else "FAILED"
+
         html += f"""
         <div class="test-case">
-            <h3>{test.get('test_name', 'Unnamed Test')} - <span class="{status_class}">{status_text}</span></h3>
-            <p><strong>Question:</strong> {test.get('question', '')}</p>
-            <div><strong>Actual context:</strong> <pre>{test.get('actual_context', test.get('actual_conext', ''))}</pre></div>
-            <p><strong>Expected Output:</strong> {test.get('expected_output', '')}</p>
-            <p><strong>Actual Output:</strong> {test.get('actual_output', '')}</p>
+            <h3>{test.get("test_name", "Unnamed Test")} - <span class="{status_class}">{status_text}</span></h3>
+            <p><strong>Question:</strong> {test.get("question", "")}</p>
+            <div><strong>Actual context:</strong> <pre>{test.get("actual_context", test.get("actual_conext", ""))}</pre></div>
+            <p><strong>Expected Output:</strong> {test.get("expected_output", "")}</p>
+            <p><strong>Actual Output:</strong> {test.get("actual_output", "")}</p>
             
             <table class="metrics-table">
                 <tr>
@@ -172,22 +174,22 @@ def generate_html_report(json_data: List[Dict[str, Any]]) -> str:
                     <th>Status</th>
                 </tr>
         """
-        
+
         # Add metrics if they exist
-        if 'metrics' in test:
-            for metric, data in test['metrics'].items():
-                status_class = "success" if data.get('passed', False) else "failure"
-                status_text = "PASSED" if data.get('passed', False) else "FAILED"
-                
+        if "metrics" in test:
+            for metric, data in test["metrics"].items():
+                status_class = "success" if data.get("passed", False) else "failure"
+                status_text = "PASSED" if data.get("passed", False) else "FAILED"
+
                 html += f"""
                 <tr>
                     <td>{metric}</td>
-                    <td>{data.get('score', 0):.2f}</td>
-                    <td>{data.get('threshold', 0):.2f}</td>
+                    <td>{data.get("score", 0):.2f}</td>
+                    <td>{data.get("threshold", 0):.2f}</td>
                     <td class="{status_class}">{status_text}</td>
                 </tr>
                 """
-            
+
         html += """
             </table>
         </div>
@@ -198,45 +200,47 @@ def generate_html_report(json_data: List[Dict[str, Any]]) -> str:
     </body>
     </html>
     """
-    
+
     return html
+
 
 def save_report(json_data_file: str, output_file: Optional[str] = None) -> str:
     """
     Save an HTML report from a JSON results file.
-    
+
     Args:
         json_data_file: Path to the JSON results file
         output_file: Path to save the HTML report, if None a default path is used
-        
+
     Returns:
         str: Path to the saved HTML report
     """
     try:
-        with open(json_data_file, 'r', encoding='utf-8') as f:
+        with open(json_data_file, "r", encoding="utf-8") as f:
             json_data = json.load(f)
-            
+
         html_content = generate_html_report(json_data)
-        
+
         if output_file is None:
             # Create output file path based on input file
             input_path = Path(json_data_file)
             output_file = str(TEST_RESULTS_DIR / f"{input_path.stem}.html")
-        
-        with open(output_file, 'w', encoding='utf-8') as f:
+
+        with open(output_file, "w", encoding="utf-8") as f:
             f.write(html_content)
-            
+
         logger.info(f"HTML report saved to {output_file}")
         return output_file
-        
+
     except Exception as e:
         logger.error(f"Error generating HTML report: {e}")
         raise
 
+
 def report_from_latest_json() -> Optional[str]:
     """
     Generate an HTML report from the latest JSON results file.
-    
+
     Returns:
         Optional[str]: Path to the saved HTML report, or None if no JSON files found
     """
@@ -246,12 +250,12 @@ def report_from_latest_json() -> Optional[str]:
         if not json_files:
             logger.warning("No JSON result files found")
             return None
-            
+
         latest_file = max(json_files, key=os.path.getmtime)
-        
+
         # Generate and save report
         return save_report(str(latest_file))
-        
+
     except Exception as e:
         logger.error(f"Error generating report from latest JSON: {e}")
-        return None 
+        return None

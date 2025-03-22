@@ -1,7 +1,7 @@
 """
 EvaluationDatasetFactory module.
 
-This module implements a factory design pattern for creating an EvaluationDataset 
+This module implements a factory design pattern for creating an EvaluationDataset
 from a set of test case configurations.
 
 Each test case configuration should be a dict with keys:
@@ -13,7 +13,7 @@ Each test case configuration should be a dict with keys:
 Usage:
 
     from evaluation.evaluation_factory import EvaluationDatasetFactory
-    
+
     test_cases_config = {
         "team_size": {
             "question": "How many people are in a team?",
@@ -28,19 +28,20 @@ Usage:
             "actual_output": "Python"
         }
     }
-    
+
     dataset = EvaluationDatasetFactory.create_from_dict(test_cases_config)
 """
 
 from deepeval.test_case import LLMTestCase
 from deepeval.dataset import EvaluationDataset
 
+
 class EvaluationDatasetFactory:
     @staticmethod
     def create_from_dict_with_invocation(test_cases_config: dict, qa_pipeline) -> EvaluationDataset:
         """
         Create an EvaluationDataset from a dictionary of test case configurations by invoking the qa_pipeline
-        to obtain the actual_output. 
+        to obtain the actual_output.
         """
         test_cases = []
         for name, config in test_cases_config.items():
@@ -51,7 +52,7 @@ class EvaluationDatasetFactory:
                 context=config.get("context", ""),
                 retrieval_context=output_and_context["retrieval_context"],
                 actual_output=output_and_context["answer"],
-                expected_output=config.get("expected_output", "")
+                expected_output=config.get("expected_output", ""),
             )
             test_cases.append(test_case)
         return EvaluationDataset(test_cases=test_cases)

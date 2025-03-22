@@ -1,1 +1,1 @@
-"""Data ingestion module for RAG system.""" 
+"""Data ingestion module for RAG system."""

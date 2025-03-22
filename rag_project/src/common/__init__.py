@@ -1,1 +1,1 @@
-"""Common utilities and models for the RAG system.""" 
+"""Common utilities and models for the RAG system."""

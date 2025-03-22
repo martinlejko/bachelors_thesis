@@ -1,1 +1,1 @@
-"""Initial iteration of the RAG system using basic components.""" 
+"""Initial iteration of the RAG system using basic components."""

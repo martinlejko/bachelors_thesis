@@ -1,7 +1,7 @@
 """
 EvaluationDatasetFactory module.
 
-This module implements a factory design pattern for creating an EvaluationDataset 
+This module implements a factory design pattern for creating an EvaluationDataset
 from a set of test case configurations.
 
 Each test case configuration should be a dict with keys:
@@ -13,7 +13,7 @@ Each test case configuration should be a dict with keys:
 Usage:
 
     from evaluation.evaluation_factory import EvaluationDatasetFactory
-    
+
     test_cases_config = {
         "team_size": {
             "question": "How many people are in a team?",
@@ -28,27 +28,30 @@ Usage:
             "actual_output": "Python"
         }
     }
-    
+
     dataset = EvaluationDatasetFactory.create_from_dict(test_cases_config)
 """
 
-from typing import Dict, List, Any
+from typing import Dict, Any
 from deepeval.test_case import LLMTestCase
 from deepeval.dataset import EvaluationDataset
 
+
 class EvaluationDatasetFactory:
     """Factory for creating evaluation datasets from different sources."""
-    
+
     @staticmethod
-    def create_from_dict_with_invocation(test_cases_config: Dict[str, Dict[str, Any]], qa_pipeline) -> EvaluationDataset:
+    def create_from_dict_with_invocation(
+        test_cases_config: Dict[str, Dict[str, Any]], qa_pipeline
+    ) -> EvaluationDataset:
         """
         Create an EvaluationDataset from a dictionary of test case configurations by invoking the qa_pipeline
         to obtain the actual_output and retrieval_context.
-        
+
         Args:
             test_cases_config: Dictionary mapping test case names to configuration dicts
             qa_pipeline: A function that takes a question and returns a dict with "answer" and "retrieval_context"
-            
+
         Returns:
             EvaluationDataset: The created dataset
         """
@@ -62,19 +65,19 @@ class EvaluationDatasetFactory:
                 retrieval_context=output_and_context["retrieval_context"],
                 actual_output=output_and_context["answer"],
                 expected_output=config.get("expected_output", ""),
-                name=name
+                name=name,
             )
             test_cases.append(test_case)
         return EvaluationDataset(test_cases=test_cases)
-    
+
     @staticmethod
     def create_from_dict(test_cases_config: Dict[str, Dict[str, Any]]) -> EvaluationDataset:
         """
         Create an EvaluationDataset from a dictionary of test case configurations.
-        
+
         Args:
             test_cases_config: Dictionary mapping test case names to configuration dicts
-            
+
         Returns:
             EvaluationDataset: The created dataset
         """
@@ -86,7 +89,7 @@ class EvaluationDatasetFactory:
                 retrieval_context=config.get("retrieval_context", []),
                 actual_output=config.get("actual_output", ""),
                 expected_output=config.get("expected_output", ""),
-                name=name
+                name=name,
             )
             test_cases.append(test_case)
-        return EvaluationDataset(test_cases=test_cases) 
+        return EvaluationDataset(test_cases=test_cases)

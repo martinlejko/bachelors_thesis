@@ -1,13 +1,8 @@
 """Pytest configuration and shared fixtures"""
+
 import pytest
 from deepeval.metrics import (
-    GEval,
-    ContextualRecallMetric,
-    FaithfulnessMetric,            # New metric import
-    ContextualRelevancyMetric,      # New metric import
-    SummarizationMetric,            # New metric import
-    BiasMetric,                     # New metric import
-    ToxicityMetric                  # New metric import
+    GEval,  # New metric import
 )
 from deepeval.test_case import LLMTestCaseParams
 from rag.proof_of_concept import (
@@ -20,6 +15,7 @@ from rag.proof_of_concept import (
     create_qa_chain,
 )
 
+
 @pytest.fixture(scope="session")
 def qa_pipeline():
     """Initialize RAG pipeline once for all tests."""
@@ -28,7 +24,7 @@ def qa_pipeline():
         "https://d3s.mff.cuni.cz/teaching/nswi200/teams/",
         "https://d3s.mff.cuni.cz/teaching/nprg035/",
     ]
-    
+
     raw_data = load_data(urls)
     processed_data = process_data(raw_data)
     vectorstore = create_vectorstore(processed_data)
@@ -77,5 +73,5 @@ def evaluation_metrics():
                 LLMTestCaseParams.RETRIEVAL_CONTEXT,
             ],
             threshold=0.7,
-        )
+        ),
     ]
