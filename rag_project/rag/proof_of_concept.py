@@ -13,8 +13,7 @@ from langchain_core.documents import Document
 def setup_environment() -> None:
     """Set up environment variables and configurations."""
     os.environ["USER_AGENT"] = (
-        "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 "
-        "(KHTML, like Gecko) Chrome/44.0.2403.157 Safari/537.36"
+        "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/44.0.2403.157 Safari/537.36"
     )
 
 
@@ -23,19 +22,13 @@ def load_data(urls: List[str]) -> List[Document]:
     return loader.load()
 
 
-def process_data(
-    documents: List[Document], chunk_size: int = 500, chunk_overlap: int = 0
-) -> List[Document]:
+def process_data(documents: List[Document], chunk_size: int = 500, chunk_overlap: int = 0) -> List[Document]:
     """Split documents into chunks for processing."""
-    text_splitter = RecursiveCharacterTextSplitter(
-        chunk_size=chunk_size, chunk_overlap=chunk_overlap
-    )
+    text_splitter = RecursiveCharacterTextSplitter(chunk_size=chunk_size, chunk_overlap=chunk_overlap)
     return text_splitter.split_documents(documents)
 
 
-def create_vectorstore(
-    documents: List[Document], model_name: str = "nomic-embed-text"
-) -> Chroma:
+def create_vectorstore(documents: List[Document], model_name: str = "nomic-embed-text") -> Chroma:
     """Create and return a vector store from processed documents."""
     try:
         embeddings = OllamaEmbeddings(model=model_name)
@@ -73,22 +66,19 @@ def format_docs(docs: List[Document]) -> str:
 def create_qa_chain(vectorstore: Chroma, model: ChatOllama, prompt: ChatPromptTemplate):
     """Create the question-answering chain that returns both answer and retrieved documents."""
     retriever = vectorstore.as_retriever()
-    
+
     # Create the standard QA chain
     qa_chain = (
-        {"context": retriever | format_docs, "question": RunnablePassthrough()}
-        | prompt
-        | model
-        | StrOutputParser()
+        {"context": retriever | format_docs, "question": RunnablePassthrough()} | prompt | model | StrOutputParser()
     )
-    
+
     def invoke_with_retrieval_context(question):
         retrieved_docs = retriever.invoke(question)
         answer = qa_chain.invoke(question)
 
         context_strings = [doc.page_content for doc in retrieved_docs]
         return {"answer": answer, "retrieval_context": context_strings}
-    
+
     return invoke_with_retrieval_context
 
 

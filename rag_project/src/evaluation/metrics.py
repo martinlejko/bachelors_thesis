@@ -3,26 +3,20 @@ Evaluation metrics module.
 
 This module defines the evaluation metrics used for RAG system evaluation.
 """
+
 import logging
 from typing import List
 
-from deepeval.metrics import (
-    GEval,
-    ContextualRecallMetric,
-    FaithfulnessMetric,
-    ContextualRelevancyMetric,
-    SummarizationMetric,
-    BiasMetric,
-    ToxicityMetric
-)
+from deepeval.metrics import GEval, FaithfulnessMetric, ContextualRelevancyMetric
 from deepeval.test_case import LLMTestCaseParams
 
 logger = logging.getLogger(__name__)
 
+
 def get_default_metrics() -> List:
     """
     Get the default evaluation metrics for RAG evaluation.
-    
+
     Returns:
         List: List of deepeval metrics
     """
@@ -65,5 +59,5 @@ def get_default_metrics() -> List:
             threshold=0.7,
         ),
         FaithfulnessMetric(threshold=0.7),
-        ContextualRelevancyMetric(threshold=0.7)
-    ] 
+        ContextualRelevancyMetric(threshold=0.7),
+    ]

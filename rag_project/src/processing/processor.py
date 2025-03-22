@@ -4,35 +4,29 @@ Document processor module.
 This module handles the processing of documents, including text cleaning,
 splitting into chunks, and caching of processed data.
 """
+
 import os
 import logging
-import uuid
 from datetime import datetime
-from typing import List, Dict, Any, Optional, Union
-from pathlib import Path
+from typing import List, Dict, Any, Optional
 
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 from langchain_core.documents import Document as LangchainDocument
 
-from src.common.models import Document, ProcessedChunk, DocumentSource, CacheInfo
-from src.common.config import (
-    CHUNK_SIZE, 
-    CHUNK_OVERLAP,
-    CACHE_DIR,
-    CACHE_ENABLED,
-    CACHE_VERSION
-)
+from src.common.models import Document, ProcessedChunk, DocumentSource
+from src.common.config import CHUNK_SIZE, CHUNK_OVERLAP, CACHE_DIR, CACHE_ENABLED, CACHE_VERSION
 from src.common.utils import create_hash, save_to_cache, load_from_cache
 
 logger = logging.getLogger(__name__)
 
+
 class DocumentProcessor:
     """Processor for documents in the RAG system."""
-    
+
     def __init__(self, chunk_size: int = CHUNK_SIZE, chunk_overlap: int = CHUNK_OVERLAP):
         """
         Initialize the document processor.
-        
+
         Args:
             chunk_size: Size of each chunk in characters
             chunk_overlap: Overlap between chunks in characters
@@ -41,26 +35,20 @@ class DocumentProcessor:
         self.chunk_overlap = chunk_overlap
         self.cache_dir = CACHE_DIR / "processed"
         os.makedirs(self.cache_dir, exist_ok=True)
-        
-        self.text_splitter = RecursiveCharacterTextSplitter(
-            chunk_size=chunk_size,
-            chunk_overlap=chunk_overlap
-        )
-    
+
+        self.text_splitter = RecursiveCharacterTextSplitter(chunk_size=chunk_size, chunk_overlap=chunk_overlap)
+
     def process_documents(
-        self, 
-        documents: List[Document], 
-        force_reprocess: bool = False,
-        source_info: Optional[Dict[str, Any]] = None
+        self, documents: List[Document], force_reprocess: bool = False, source_info: Optional[Dict[str, Any]] = None
     ) -> List[ProcessedChunk]:
         """
         Process a list of documents.
-        
+
         Args:
             documents: List of documents to process
             force_reprocess: Force reprocessing even if cached data exists
             source_info: Information about the source for cache identification
-            
+
         Returns:
             List[ProcessedChunk]: List of processed chunks
         """
@@ -69,7 +57,7 @@ class DocumentProcessor:
             # Create a unique cache key based on documents content
             data_hash = create_hash([doc.dict() for doc in documents])
             cache_key = f"processed_{data_hash}_{self.chunk_size}_{self.chunk_overlap}_{CACHE_VERSION}.json"
-            
+
             # Try to load from cache
             cached_data = load_from_cache(self.cache_dir, cache_key)
             if cached_data:
@@ -80,47 +68,43 @@ class DocumentProcessor:
                     return chunks
                 except Exception as e:
                     logger.error(f"Error loading chunks from cache: {e}")
-        
+
         # Process documents
         chunks = []
-        
+
         for doc in documents:
             try:
                 # Convert to LangChain Document for splitting
-                lc_doc = LangchainDocument(
-                    page_content=doc.content,
-                    metadata=doc.metadata
-                )
-                
+                lc_doc = LangchainDocument(page_content=doc.content, metadata=doc.metadata)
+
                 # Split into chunks
                 split_docs = self.text_splitter.split_documents([lc_doc])
-                
+
                 # Convert back to our model
                 for i, split_doc in enumerate(split_docs):
                     chunk_id = f"{doc.id}_chunk_{i}"
-                    
+
                     # Update metadata with chunk info
                     metadata = split_doc.metadata.copy()
-                    metadata.update({
-                        "chunk_index": i,
-                        "chunk_count": len(split_docs),
-                        "source": doc.source.value if isinstance(doc.source, DocumentSource) else str(doc.source)
-                    })
-                    
-                    chunk = ProcessedChunk(
-                        id=chunk_id,
-                        content=split_doc.page_content,
-                        document_id=doc.id,
-                        metadata=metadata
+                    metadata.update(
+                        {
+                            "chunk_index": i,
+                            "chunk_count": len(split_docs),
+                            "source": doc.source.value if isinstance(doc.source, DocumentSource) else str(doc.source),
+                        }
                     )
-                    
+
+                    chunk = ProcessedChunk(
+                        id=chunk_id, content=split_doc.page_content, document_id=doc.id, metadata=metadata
+                    )
+
                     chunks.append(chunk)
-                    
+
             except Exception as e:
                 logger.error(f"Error processing document {doc.id}: {e}")
-        
+
         logger.info(f"Processed {len(documents)} documents into {len(chunks)} chunks")
-        
+
         # Cache the processed chunks if enabled
         if CACHE_ENABLED:
             try:
@@ -133,34 +117,34 @@ class DocumentProcessor:
                         "chunk_size": self.chunk_size,
                         "chunk_overlap": self.chunk_overlap,
                         "cache_version": CACHE_VERSION,
-                        "source_info": source_info or {}
-                    }
+                        "source_info": source_info or {},
+                    },
                 }
-                
+
                 # Create a unique cache key based on documents content
                 data_hash = create_hash([doc.dict() for doc in documents])
                 cache_key = f"processed_{data_hash}_{self.chunk_size}_{self.chunk_overlap}_{CACHE_VERSION}.json"
-                
+
                 save_to_cache(cache_data, self.cache_dir, cache_key)
             except Exception as e:
                 logger.error(f"Error caching processed chunks: {e}")
-        
+
         return chunks
-    
+
     def clean_text(self, text: str) -> str:
         """
         Clean and normalize text.
-        
+
         Args:
             text: Raw text
-            
+
         Returns:
             str: Cleaned text
         """
         # Remove extra whitespace
-        cleaned = ' '.join(text.split())
-        
+        cleaned = " ".join(text.split())
+
         # Basic normalization - expand as needed
-        cleaned = cleaned.replace('\t', ' ')
-        
-        return cleaned 
+        cleaned = cleaned.replace("\t", " ")
+
+        return cleaned

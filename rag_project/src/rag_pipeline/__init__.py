@@ -1,1 +1,1 @@
-"""RAG pipeline module for the system.""" 
+"""RAG pipeline module for the system."""

@@ -20,6 +20,17 @@ langchain-community = "^0.3.20"
 deepeval = "^2.5.5"
 pytest = "^8.1.1"
 
+[tool.poetry.group.dev.dependencies]
+ruff = "^0.11.2"
+
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
+
+[tool.ruff]
+line-length = 120
+exclude = [".venv", "build", "dist"]
+
+[tool.ruff.lint]
+select = ["E", "F"]
+ignore = ["E501"]

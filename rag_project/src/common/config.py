@@ -4,6 +4,7 @@ Configuration settings for the RAG system.
 This module contains paths, model settings, and other configuration variables
 used throughout the project.
 """
+
 import os
 from pathlib import Path
 
@@ -48,4 +49,4 @@ CACHE_VERSION = "v1"  # Increment this when the caching mechanism changes
 TEST_URLS = [
     "https://d3s.mff.cuni.cz/teaching/nswi200/teams/",
     "https://d3s.mff.cuni.cz/teaching/nprg035/",
-] 
+]

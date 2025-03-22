@@ -1,21 +1,21 @@
 import json
-from datetime import datetime
+
 
 def generate_html_report(json_data):
     # Calculate statistics
     total_tests = len(json_data)
-    passed_tests = sum(1 for test in json_data if test['success'])
+    passed_tests = sum(1 for test in json_data if test["success"])
     failed_tests = total_tests - passed_tests
-    
+
     metrics_summary = {}
     for test in json_data:
-        for metric, data in test['metrics'].items():
+        for metric, data in test["metrics"].items():
             if metric not in metrics_summary:
-                metrics_summary[metric] = {'passed': 0, 'failed': 0}
-            if data['passed']:
-                metrics_summary[metric]['passed'] += 1
+                metrics_summary[metric] = {"passed": 0, "failed": 0}
+            if data["passed"]:
+                metrics_summary[metric]["passed"] += 1
             else:
-                metrics_summary[metric]['failed'] += 1
+                metrics_summary[metric]["failed"] += 1
 
     # Generate HTML
     html = f"""
@@ -93,18 +93,18 @@ def generate_html_report(json_data):
                 <h3>Metrics Summary</h3>
                 <div class="metric-bars">
     """
-    
+
     # Add metric bars
     for metric, data in metrics_summary.items():
-        total = data['passed'] + data['failed']
-        pass_percentage = (data['passed'] / total) * 100 if total > 0 else 0
+        total = data["passed"] + data["failed"]
+        pass_percentage = (data["passed"] / total) * 100 if total > 0 else 0
         html += f"""
                     <div class="metric-bar">
                         <div style="width: 200px;">{metric}:</div>
                         <div class="metric-progress" style="width: 300px;">
                             <div class="metric-progress-bar" style="width: {pass_percentage}%;"></div>
                         </div>
-                        <div>{data['passed']}/{total} passed ({pass_percentage:.1f}%)</div>
+                        <div>{data["passed"]}/{total} passed ({pass_percentage:.1f}%)</div>
                     </div>
         """
 
@@ -114,19 +114,19 @@ def generate_html_report(json_data):
             
         <h2>Individual Test Cases</h2>
     """
-    
+
     # Add individual test cases
     for test in json_data:
-        status_class = "success" if test['success'] else "failure"
-        status_text = "PASSED" if test['success'] else "FAILED"
-        
+        status_class = "success" if test["success"] else "failure"
+        status_text = "PASSED" if test["success"] else "FAILED"
+
         html += f"""
         <div class="test-case">
-            <h3>{test['test_name']} - <span class="{status_class}">{status_text}</span></h3>
-            <p><strong>Question:</strong> {test['question']}</p>
-            <p><strong>Actual context:</strong> {test['actual_context']}</p>
-            <p><strong>Expected Output:</strong> {test['expected_output']}</p>
-            <p><strong>Actual Output:</strong> {test['actual_output']}</p>
+            <h3>{test["test_name"]} - <span class="{status_class}">{status_text}</span></h3>
+            <p><strong>Question:</strong> {test["question"]}</p>
+            <p><strong>Actual context:</strong> {test["actual_context"]}</p>
+            <p><strong>Expected Output:</strong> {test["expected_output"]}</p>
+            <p><strong>Actual Output:</strong> {test["actual_output"]}</p>
             
             <table class="metrics-table">
                 <tr>
@@ -136,20 +136,20 @@ def generate_html_report(json_data):
                     <th>Status</th>
                 </tr>
         """
-        
-        for metric, data in test['metrics'].items():
-            status_class = "success" if data['passed'] else "failure"
-            status_text = "PASSED" if data['passed'] else "FAILED"
-            
+
+        for metric, data in test["metrics"].items():
+            status_class = "success" if data["passed"] else "failure"
+            status_text = "PASSED" if data["passed"] else "FAILED"
+
             html += f"""
                 <tr>
                     <td>{metric}</td>
-                    <td>{data['score']:.2f}</td>
-                    <td>{data['threshold']:.2f}</td>
+                    <td>{data["score"]:.2f}</td>
+                    <td>{data["threshold"]:.2f}</td>
                     <td class="{status_class}">{status_text}</td>
                 </tr>
             """
-            
+
         html += """
             </table>
         </div>
@@ -160,17 +160,19 @@ def generate_html_report(json_data):
     </body>
     </html>
     """
-    
+
     return html
 
+
 def save_report(json_data_file, output_file="test_report.html"):
-    with open(json_data_file, 'r', encoding='utf-8') as f:
+    with open(json_data_file, "r", encoding="utf-8") as f:
         json_data = json.load(f)
 
     html_content = generate_html_report(json_data)
-    with open(output_file, 'w', encoding='utf-8') as f:
+    with open(output_file, "w", encoding="utf-8") as f:
         f.write(html_content)
     return output_file
+
 
 if __name__ == "__main__":
     save_report("/src/test_results/all_test_results_20250216_230657.json")
