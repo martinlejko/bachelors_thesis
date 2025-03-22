@@ -23,7 +23,7 @@ def get_default_metrics() -> List:
     return [
         GEval(
             name="Answer Correctness",
-            criteria="Determine if the actual output correctly answers the question based on the expected output and context.",
+            criteria="Determine if the actual output correctly answers the question based on the expected output.",
             evaluation_params=[
                 LLMTestCaseParams.INPUT,
                 LLMTestCaseParams.ACTUAL_OUTPUT,

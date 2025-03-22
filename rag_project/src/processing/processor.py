@@ -55,7 +55,7 @@ class DocumentProcessor:
         # Check cache if enabled and not forcing reprocess
         if CACHE_ENABLED and not force_reprocess:
             # Create a unique cache key based on documents content
-            data_hash = create_hash([doc.dict() for doc in documents])
+            data_hash = create_hash([doc.model_dump() for doc in documents])
             cache_key = f"processed_{data_hash}_{self.chunk_size}_{self.chunk_overlap}_{CACHE_VERSION}.json"
 
             # Try to load from cache
@@ -109,7 +109,7 @@ class DocumentProcessor:
         if CACHE_ENABLED:
             try:
                 cache_data = {
-                    "chunks": [chunk.dict() for chunk in chunks],
+                    "chunks": [chunk.model_dump() for chunk in chunks],
                     "metadata": {
                         "timestamp": datetime.now().isoformat(),
                         "document_count": len(documents),
@@ -122,7 +122,7 @@ class DocumentProcessor:
                 }
 
                 # Create a unique cache key based on documents content
-                data_hash = create_hash([doc.dict() for doc in documents])
+                data_hash = create_hash([doc.model_dump() for doc in documents])
                 cache_key = f"processed_{data_hash}_{self.chunk_size}_{self.chunk_overlap}_{CACHE_VERSION}.json"
 
                 save_to_cache(cache_data, self.cache_dir, cache_key)
