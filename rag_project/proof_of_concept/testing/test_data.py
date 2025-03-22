@@ -1,4 +1,12 @@
-"""Test case definitions and expected results"""
+"""
+Test case definitions and expected results for RAG system evaluation.
+
+This module defines test cases used for evaluating the RAG system's performance.
+Each test case contains:
+- question: The query to be answered by the RAG system
+- expected_output: The expected answer from the system
+- context: Sample context data that contains the information needed to answer correctly
+"""
 
 TEST_CASES = {
     "team_size": {
