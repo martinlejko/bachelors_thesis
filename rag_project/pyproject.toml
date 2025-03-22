@@ -1,0 +1,25 @@
+[tool.poetry]
+name = "rag-project"
+version = "0.1.0"
+description = "Source code for bachelor thesis by Martin Lejko"
+authors = ["Martin Lejko <Martin.lejko@outlook.com>"]
+readme = "README.md"
+packages = [
+    { include = "rag" },
+    { include = "src" }
+]
+
+[tool.poetry.dependencies]
+python = "^3.11"
+pydantic = "^2.10.6"
+langchain-text-splitters = "^0.3.7"
+langchain-ollama = "^0.3.0"
+langchain-chroma = "^0.2.2"
+pypdf = "^5.4.0"
+langchain-community = "^0.3.20"
+deepeval = "^2.5.5"
+pytest = "^8.1.1"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
