@@ -1,4 +1,3 @@
-import os
 from typing import List
 from langchain_community.document_loaders import WebBaseLoader
 from langchain_text_splitters import RecursiveCharacterTextSplitter
@@ -8,13 +7,6 @@ from langchain_core.runnables import RunnablePassthrough
 from langchain_core.output_parsers import StrOutputParser
 from langchain_core.prompts import ChatPromptTemplate
 from langchain_core.documents import Document
-
-
-def setup_environment() -> None:
-    """Set up environment variables and configurations."""
-    os.environ["USER_AGENT"] = (
-        "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/44.0.2403.157 Safari/537.36"
-    )
 
 
 def load_data(urls: List[str]) -> List[Document]:
@@ -91,9 +83,6 @@ def main():
         "https://martinlejko.github.io/posts/hello-blog/",
     ]
 
-    # Setup and initialization
-    setup_environment()
-
     # Data pipeline
     raw_data = load_data(urls)
     processed_data = process_data(raw_data)
@@ -108,8 +97,22 @@ def main():
 
     # Example question
     question = "What is the amount of people in a team for operating systems course at MFF cuni?"
-    response = qa_chain.invoke(question)
-    print(response)
+    response = qa_chain(question)
+
+    print("\n" + "=" * 80)
+    print(f"QUESTION: {question}")
+    print("-" * 80)
+    print(f"ANSWER: {response['answer']}")
+    print("-" * 80)
+    print("SOURCES:")
+    for i, source in enumerate(response["retrieval_context"], 1):
+        formatted_source = source.replace("\n", "")
+        print(
+            f"\n[Source {i}]:\n{formatted_source[:300]}..."
+            if len(formatted_source) > 300
+            else f"\n[Source {i}]:\n{formatted_source}"
+        )
+    print("=" * 80 + "\n")
 
 
 if __name__ == "__main__":
