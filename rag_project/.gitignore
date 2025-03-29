@@ -52,6 +52,7 @@ test_results/
 .mypy_cache/
 __pycache__/
 .cache/
+./src/data/cache/
 
 # Database
 *.db
