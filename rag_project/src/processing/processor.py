@@ -54,6 +54,7 @@ class DocumentProcessor:
         """
         # Check cache if enabled and not forcing reprocess
         if CACHE_ENABLED and not force_reprocess:
+            logger.info("Checking cache for processed chunks...")
             # Create a unique cache key based on documents content
             data_hash = create_hash([doc.model_dump() for doc in documents])
             cache_key = f"processed_{data_hash}_{self.chunk_size}_{self.chunk_overlap}_{CACHE_VERSION}.json"

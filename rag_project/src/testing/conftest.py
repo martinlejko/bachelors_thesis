@@ -10,6 +10,7 @@ import importlib
 
 from src.common.config import ITERATIONS_DIR
 from src.evaluation.metrics import get_default_metrics
+from src.testing.test_data import TEST_CASES
 
 
 def get_iteration_modules():
@@ -43,7 +44,7 @@ def qa_pipeline(iteration_name):
         # Create the pipeline
         pipeline = pipeline_module.create_pipeline(
             use_web_urls=True,
-            use_pdf=True,
+            use_pdf=False,
             use_confluence=False,  # Set to True if Confluence credentials are configured
             force_refresh=False,
         )
@@ -64,17 +65,4 @@ def evaluation_metrics():
 @pytest.fixture
 def test_data():
     """Define test data for RAG evaluation."""
-    return {
-        "team_size": {
-            "question": "What is the amount of people in a team for operating systems course at MFF cuni?",
-            "expected_output": "Teams should consist of 2-3 students.",
-            "context": [
-                "For the Operating Systems course at MFF CUNI, teams should consist of 2-3 students for project work."
-            ],
-        },
-        "programming_language": {
-            "question": "What programming language is used in NPRG035?",
-            "expected_output": "The course uses Python programming language.",
-            "context": ["NPRG035 is taught using Python as the main programming language."],
-        },
-    }
+    return TEST_CASES

@@ -57,7 +57,5 @@ def get_default_metrics() -> List:
                 LLMTestCaseParams.RETRIEVAL_CONTEXT,
             ],
             threshold=0.7,
-        ),
-        FaithfulnessMetric(threshold=0.7),
-        ContextualRelevancyMetric(threshold=0.7),
+        )
     ]
