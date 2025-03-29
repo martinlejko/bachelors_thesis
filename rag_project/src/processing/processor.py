@@ -129,6 +129,20 @@ class DocumentProcessor:
             except Exception as e:
                 logger.error(f"Error caching processed chunks: {e}")
 
+        debug_file = "processed_chunks.txt"
+
+        with open(debug_file, "w", encoding="utf-8") as f:
+            f.write(f"Total chunks processed: {len(chunks)}\n\n")
+            for i, chunk in enumerate(chunks):
+                f.write(f"Chunk {i + 1}/{len(chunks)}\n")
+                f.write(f"ID: {chunk.id}\n")
+                f.write(f"Document ID: {chunk.document_id}\n")
+                f.write(f"Metadata: {chunk.metadata}\n")
+                f.write("Content:\n")
+                f.write(f"{chunk.content}\n")
+                f.write("-" * 80 + "\n\n")
+
+        logger.debug(f"Saved chunk debug info to {debug_file}")
         return chunks
 
     def clean_text(self, text: str) -> str:

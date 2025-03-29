@@ -20,10 +20,10 @@ from langchain_core.documents import Document
 def load_data(urls: List[str]) -> List[Document]:
     """
     Load data from a list of web URLs into Document objects.
-    
+
     Args:
         urls: List of URLs to fetch data from
-        
+
     Returns:
         List of Document objects containing the loaded content
     """
@@ -34,12 +34,12 @@ def load_data(urls: List[str]) -> List[Document]:
 def process_data(documents: List[Document], chunk_size: int = 500, chunk_overlap: int = 0) -> List[Document]:
     """
     Split documents into chunks for processing.
-    
+
     Args:
         documents: List of Document objects to process
         chunk_size: Maximum size of each chunk in characters
         chunk_overlap: Number of overlapping characters between chunks
-        
+
     Returns:
         List of Document objects after splitting
     """
@@ -50,14 +50,14 @@ def process_data(documents: List[Document], chunk_size: int = 500, chunk_overlap
 def create_vectorstore(documents: List[Document], model_name: str = "nomic-embed-text") -> Chroma:
     """
     Create and return a vector store from processed documents.
-    
+
     Args:
         documents: List of Document objects to embed
         model_name: Name of the embedding model to use
-        
+
     Returns:
         Chroma vector store containing embeddings
-        
+
     Raises:
         Exception: If vectorstore creation fails
     """
@@ -72,10 +72,10 @@ def create_vectorstore(documents: List[Document], model_name: str = "nomic-embed
 def setup_model(model_name: str = "llama3.1:8b") -> ChatOllama:
     """
     Initialize and return the language model.
-    
+
     Args:
         model_name: Name of the Ollama model to use
-        
+
     Returns:
         Configured ChatOllama model instance
     """
@@ -85,7 +85,7 @@ def setup_model(model_name: str = "llama3.1:8b") -> ChatOllama:
 def create_prompt_template() -> ChatPromptTemplate:
     """
     Create and return the RAG prompt template.
-    
+
     Returns:
         ChatPromptTemplate configured for RAG question answering
     """
@@ -105,10 +105,10 @@ def create_prompt_template() -> ChatPromptTemplate:
 def format_docs(docs: List[Document]) -> str:
     """
     Format retrieved documents into a single string.
-    
+
     Args:
         docs: List of Document objects to format
-        
+
     Returns:
         String containing all document contents joined by newlines
     """
@@ -118,12 +118,12 @@ def format_docs(docs: List[Document]) -> str:
 def create_qa_chain(vectorstore: Chroma, model: ChatOllama, prompt: ChatPromptTemplate):
     """
     Create the question-answering chain that returns both answer and retrieved documents.
-    
+
     Args:
         vectorstore: Vector store with embedded documents
         model: Language model for answering questions
         prompt: Prompt template for the QA task
-        
+
     Returns:
         Function that takes a question and returns answer with retrieval context
     """
@@ -137,10 +137,10 @@ def create_qa_chain(vectorstore: Chroma, model: ChatOllama, prompt: ChatPromptTe
     def invoke_with_retrieval_context(question):
         """
         Invoke the QA chain and return both the answer and retrieval context.
-        
+
         Args:
             question: The question to answer
-            
+
         Returns:
             Dictionary containing the answer and retrieval context
         """

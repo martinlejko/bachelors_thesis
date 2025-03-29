@@ -48,7 +48,6 @@ def create_pipeline(
         model_name: Name of the LLM model to use
         embedding_model: Name of the embedding model to use
         force_refresh: Force refresh of data sources and vector store
-
     Returns:
         RagPipeline: The initialized RAG pipeline
     """

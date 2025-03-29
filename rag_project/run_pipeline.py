@@ -19,12 +19,11 @@ if __name__ == "__main__":
     logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s")
 
     # Create the pipeline with default parameters
-    pipeline = create_pipeline(use_web_urls=True, use_pdf=True, use_confluence=False, force_refresh=False)
+    pipeline = create_pipeline(use_web_urls=False, use_pdf=True, use_confluence=False, force_refresh=False)
 
     # Run a sample query
     query = "What is RAG?"
     result = pipeline.query(query)
-
     print("\nPipeline execution completed.")
     print(f"Question: {query}")
     print(f"Answer: {result.answer}")
