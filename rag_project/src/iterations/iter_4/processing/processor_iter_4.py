@@ -212,7 +212,7 @@ class DocumentProcessor:
 
                 cleaned_content = self.clean_text_moderate(content_step2)
                 if not cleaned_content.strip():
-                    logger.warning(f"Content for doc {doc_id} became empty after minimal cleaning.")
+                    logger.warning(f"Content for doc {doc.id} became empty after minimal cleaning.")
                     continue
 
                 # Convert to LangChain Document for splitting
@@ -286,7 +286,7 @@ class DocumentProcessor:
         logger.debug(f"Saved chunk debug info to {debug_file}")
         return chunks
 
-    def clean_text_moderate(text: str) -> str:
+    def clean_text_moderate(self, text: str) -> str:
         """Moderate cleaning for financial documents: normalize Unicode, preserve key symbols,
         remove unnecessary special characters, and consolidate whitespace.
 
