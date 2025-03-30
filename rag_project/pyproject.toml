@@ -27,11 +27,18 @@ mkdocs = "^1.6.1"
 mkdocstrings = "^0.29.0"
 mkdocstrings-python = "^1.16.7"
 mkdocs-material = "^9.6.9"
+poethepoet = "^0.33.1"
 
 [tool.poetry.scripts]
 docs-serve = "mkdocs:serve"
 docs-build = "mkdocs:build"
 nltk-setup = "src.common.nltk_setup:main"
+
+[tool.poe.tasks]
+test-iterations = "pytest src/testing/ --log-file=debug/pytest.log --log-file-level=INFO"
+test-proof = "pytest proof_of_concept/ --log-file=debug/pytest-proof.log --log-file-level=INFO"
+run-pipeline = "python src/testing/run_pipeline.py"
+run-proof = "python proof_of_concept/proof_of_concept.py"
 
 [build-system]
 requires = ["poetry-core"]

@@ -29,8 +29,10 @@ def test_rag_pipeline(qa_pipeline, evaluation_metrics, test_data, iteration_name
         iteration_name: Name of the iteration being tested
     """
     # Create evaluation dataset
+    logger.info(f"Creating evaluation dataset for iteration {iteration_name}")
     dataset = EvaluationDatasetFactory.create_from_dict_with_invocation(test_data, qa_pipeline)
 
+    logger.info(f"Evaluating dataset for iteration {iteration_name}")
     # Evaluate the dataset
     result = evaluate(
         test_cases=dataset.test_cases,
