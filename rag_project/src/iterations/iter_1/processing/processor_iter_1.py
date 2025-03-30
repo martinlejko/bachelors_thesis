@@ -22,6 +22,7 @@ from langchain_core.documents import Document as LangchainDocument
 from src.common.models import Document, ProcessedChunk, DocumentSource
 from src.common.config import CHUNK_SIZE, CHUNK_OVERLAP, CACHE_DIR, CACHE_ENABLED, CACHE_VERSION
 from src.common.utils import create_hash, save_to_cache, load_from_cache
+from pathlib import Path
 
 logger = logging.getLogger(__name__)
 
@@ -45,12 +46,9 @@ class DocumentProcessor:
         self.text_splitter = RecursiveCharacterTextSplitter(chunk_size=chunk_size, chunk_overlap=chunk_overlap)
 
         try:
+            logger.debug("Initializing NLTK components...")
             self.stop_words = set(stopwords.words("english"))
             self.lemmatizer = WordNetLemmatizer()
-            # Ensure necessary NLTK data is downloaded (user needs to run nltk.download(...))
-            nltk.data.find("tokenizers/punkt")
-            nltk.data.find("corpora/wordnet")
-            nltk.data.find("corpora/stopwords")
         except LookupError:
             logger.error(
                 "NLTK data not found. Please run nltk.download('punkt'), nltk.download('stopwords'), nltk.download('wordnet')"
@@ -201,6 +199,7 @@ class DocumentProcessor:
             return cleaned
 
         try:
+            logger.info("Starting NLTK processing...")
             # Tokenize
             tokens = word_tokenize(cleaned)
 
@@ -213,10 +212,9 @@ class DocumentProcessor:
 
             # Join tokens back into string
             cleaned = " ".join(processed_tokens)
-
+            logger.info("NLTK processing completed successfully.")
         except Exception as e:
             logger.error(f"Error during NLTK processing: {e}. Returning partially cleaned text.")
-            # Return the text after initial cleaning if NLTK fails
             return re.sub(r"\s+", " ", text.lower()).strip()  # Basic fallback cleaning
 
         return cleaned
