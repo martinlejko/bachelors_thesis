@@ -91,7 +91,7 @@ class DocumentProcessor:
                     chunk_id = f"{doc.id}_chunk_{i}"
                     chunk_content = split_doc.page_content.strip() 
                     if not chunk_content:
-                        # logger.debug(f"Skipping empty chunk {i} from doc {doc_id}")
+                        logger.debug(f"Skipping empty chunk {i} from doc {doc.id}")
                         continue
 
                     # Update metadata with chunk info
@@ -155,7 +155,7 @@ class DocumentProcessor:
         logger.debug(f"Saved chunk debug info to {debug_file}")
         return chunks
 
-    def clean_text_minimal(text: str) -> str:
+    def clean_text_minimal(self, text: str) -> str:
         """Minimal cleaning: lowercase, consolidate whitespace, basic unicode normalization.
         Args:
             text: Raw text
