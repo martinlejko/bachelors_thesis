@@ -44,6 +44,9 @@ htmlcov/
 .deepeval_telemtry.txt
 deepeval_results/
 
+# Debugging
+debug/
+
 # Test results
 test_results/
 
