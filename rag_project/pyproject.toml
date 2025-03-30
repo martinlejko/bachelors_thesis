@@ -5,7 +5,7 @@ description = "Source code for bachelor thesis by Martin Lejko"
 authors = ["Martin Lejko <Martin.lejko@outlook.com>"]
 readme = "README.md"
 packages = [
-    { include = "rag" },
+    { include = "proof_of_concept" },
     { include = "src" }
 ]
 
@@ -19,6 +19,7 @@ pypdf = "^5.4.0"
 langchain-community = "^0.3.20"
 deepeval = "^2.5.5"
 pytest = "^8.1.1"
+nltk = "^3.9.1"
 
 [tool.poetry.group.dev.dependencies]
 ruff = "^0.11.2"
@@ -30,6 +31,7 @@ mkdocs-material = "^9.6.9"
 [tool.poetry.scripts]
 docs-serve = "mkdocs:serve"
 docs-build = "mkdocs:build"
+nltk-setup = "src.common.nltk_setup:main"
 
 [build-system]
 requires = ["poetry-core"]
