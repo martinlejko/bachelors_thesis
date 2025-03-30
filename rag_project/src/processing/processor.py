@@ -159,7 +159,7 @@ class DocumentProcessor:
         # Remove extra whitespace
         cleaned = " ".join(text.split())
 
-        # Basic normalization - expand as needed
+        # Basic normalization
         cleaned = cleaned.replace("\t", " ")
 
         return cleaned

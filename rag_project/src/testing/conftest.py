@@ -43,10 +43,10 @@ def qa_pipeline(iteration_name):
 
         # Create the pipeline
         pipeline = pipeline_module.create_pipeline(
-            use_web_urls=True,
-            use_pdf=False,
-            use_confluence=False,  # Set to True if Confluence credentials are configured
-            force_refresh=False,
+            use_web_urls=False,
+            use_pdf=True,
+            use_confluence=False,
+            force_refresh=True,
         )
 
         return pipeline.query

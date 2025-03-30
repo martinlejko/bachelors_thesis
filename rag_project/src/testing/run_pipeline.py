@@ -12,8 +12,7 @@ import logging
 # Add the project root to the Python path
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
-# Now import from our project
-from src.iterations.iter_1.pipeline import create_pipeline
+from src.iterations.iter_0.pipeline import create_pipeline
 
 if __name__ == "__main__":
     logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s")

@@ -21,6 +21,128 @@ from src.common.config import CHUNK_SIZE, CHUNK_OVERLAP, CACHE_DIR, CACHE_ENABLE
 from src.common.utils import create_hash, save_to_cache, load_from_cache
 
 logger = logging.getLogger(__name__)
+# --- Configuration for Cleaning ---
+# Set to True to remove lines matching footer/identifier patterns
+REMOVE_IDENTIFIERS_FOOTERS = True
+# Set to True to remove lines looking like TOC entries (Text ..... PageNumber)
+REMOVE_TOC_LINES = True
+# Set to True to reformat lines like 'Sector ..... Value%' into 'Sector Value%'
+REFORMAT_ALLOCATION_LINES = True
+# How to handle complex lines (e.g., 'Metric .... Val1 Val2 Val3'):
+# 'reformat': Change to 'Metric Val1 Val2 Val3' (keeps data, may be messy)
+# 'remove': Delete these lines entirely (safer if data is duplicated elsewhere)
+# 'keep_original': Leave these lines untouched
+HANDLE_COMPLEX_DOT_LEADER_LINES = "reformat"
+
+# --- Regex Patterns (Compile for efficiency) ---
+
+# Identifiers (Customize based on your documents)
+RE_IDENTIFIER = re.compile(r"^\s*(?:BNM\S+|ISIN\s+[A-Z0-9]+|CUSIP\s+[A-Z0-9]+)\s*$", re.IGNORECASE)
+
+# Footers (Customize heavily based on your documents)
+RE_FOOTERS = [
+    re.compile(r"^\s*\d+\s+[A-Z\s]+(?:REPORT|SHAREHOLDERS|INC|LLC|LTD)", re.IGNORECASE),
+    re.compile(r"^\s*page\s+\d+\s*(?:of\s+\d+)?\s*$", re.IGNORECASE),
+    re.compile(r"^\s*(?:www\.|https?://).+\.(?:com|org|net)\b", re.IGNORECASE),
+    re.compile(
+        r"^\s*\d{1,2}\s+\d{2,4}\s+I\s?S\s?H\s?A\s?R\s?E\s?S\s+A\s?N\s?N\s?U\s?A\s?L", re.IGNORECASE
+    ),  # From example
+]
+
+# Dot leader pattern - captures label, dots/spaces, value part
+RE_DOT_LEADER = re.compile(r"^(.*?)\s*((?:[\s.]\.){5,}|[\s.]{5,})\s*(.+)$")
+
+# Pattern to identify simple TOC lines (ending in digits only)
+RE_TOC_SIMPLE = re.compile(r"^\s*\d+\s*$")  # Check if the value part is just digits
+
+# Pattern to identify single allocation values (number, maybe %, $, parens)
+RE_ALLOCATION_VALUE = re.compile(r"^\s*\(?[$€£]?\s?[\d,.' -]+?\s?\)?%?\s*$")
+
+# --- Cleaning Functions ---
+
+
+def remove_specific_lines(text: str) -> str:
+    """Removes lines matching identifier or footer patterns if REMOVE_IDENTIFIERS_FOOTERS is True."""
+    if not REMOVE_IDENTIFIERS_FOOTERS:
+        return text
+
+    cleaned_lines = []
+    lines_removed_count = 0
+    for line in text.splitlines():
+        removed = False
+        if RE_IDENTIFIER.match(line):
+            removed = True
+        else:
+            for pattern in RE_FOOTERS:
+                if pattern.search(line):  # Use search for footers that might not start at beginning
+                    removed = True
+                    break
+        if removed:
+            lines_removed_count += 1
+            # logger.debug(f"Removed identifier/footer line: '{line}'")
+            continue
+        cleaned_lines.append(line)
+
+    if lines_removed_count > 0:
+        logger.debug(f"Removed {lines_removed_count} identifier/footer lines.")
+    return "\n".join(cleaned_lines)
+
+
+def clean_dot_leader_lines(text: str) -> str:
+    """
+    Intelligently handles lines with dot leaders based on global config flags.
+    """
+    cleaned_lines = []
+    lines_processed_count = 0
+
+    for line in text.splitlines():
+        match = RE_DOT_LEADER.match(line)
+        if match:
+            label = match.group(1).strip()
+            value_part = match.group(3).strip()
+            lines_processed_count += 1
+
+            # Skip if label is empty
+            if not label:
+                cleaned_lines.append(line)  # Keep line if label part is missing
+                continue
+
+            # 1. Check if it's a simple TOC line
+            if REMOVE_TOC_LINES and RE_TOC_SIMPLE.fullmatch(value_part):
+                # logger.debug(f"Removed TOC line: '{line}'")
+                continue
+
+            # 2. Check if it's likely a single allocation value
+            # Be a bit more careful: check length, avoid matching very long complex values here
+            if (
+                REFORMAT_ALLOCATION_LINES and RE_ALLOCATION_VALUE.fullmatch(value_part) and len(value_part) < 25
+            ):  # Added length check
+                # Reformat: Label Value
+                cleaned_value = re.sub(r"\s+", " ", value_part).strip()
+                reformatted_line = f"{label} {cleaned_value}"
+                cleaned_lines.append(reformatted_line)
+                # logger.debug(f"Reformatted allocation line: '{line}' -> '{reformatted_line}'")
+                continue
+
+            # 3. Handle complex/multi-value lines based on config
+            if HANDLE_COMPLEX_DOT_LEADER_LINES == "reformat":
+                cleaned_value = re.sub(r"\s+", " ", value_part).strip()
+                reformatted_line = f"{label} {cleaned_value}"
+                cleaned_lines.append(reformatted_line)
+                # logger.debug(f"Reformatted complex dot leader line: '{line}' -> '{reformatted_line}'")
+                continue
+            elif HANDLE_COMPLEX_DOT_LEADER_LINES == "remove":
+                # logger.debug(f"Removed complex dot leader line: '{line}'")
+                continue
+            else:  # 'keep_original' or other cases
+                cleaned_lines.append(line)  # Keep original line
+
+        else:  # Line doesn't match dot leader pattern
+            cleaned_lines.append(line)
+
+    if lines_processed_count > 0:
+        logger.debug(f"Processed {lines_processed_count} dot-leader lines based on configuration.")
+    return "\n".join(cleaned_lines)
 
 
 class DocumentProcessor:
@@ -78,8 +200,20 @@ class DocumentProcessor:
 
         for doc in documents:
             try:
-                # Clean the document content first
-                cleaned_content = self.clean_text_minimal(doc.content)
+                content_step1 = remove_specific_lines(doc.content)
+                if not content_step1.strip():
+                    logger.warning(f"Content for doc {doc.id} became empty after removing specific lines.")
+                    continue
+
+                content_step2 = clean_dot_leader_lines(content_step1)
+                if not content_step2.strip():
+                    logger.warning(f"Content for doc {doc.id} became empty after cleaning dot leaders.")
+                    continue
+
+                cleaned_content = self.clean_text_moderate(content_step2)
+                if not cleaned_content.strip():
+                    logger.warning(f"Content for doc {doc_id} became empty after minimal cleaning.")
+                    continue
 
                 # Convert to LangChain Document for splitting
                 lc_doc = LangchainDocument(page_content=cleaned_content, metadata=doc.metadata)
