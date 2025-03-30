@@ -79,7 +79,7 @@ class DocumentProcessor:
         for doc in documents:
             try:
                 # Clean the document content first
-                cleaned_content = self.clean_text_minimal(doc.content)
+                cleaned_content = self.clean_text_moderate(doc.content)
 
                 # Convert to LangChain Document for splitting
                 lc_doc = LangchainDocument(page_content=cleaned_content, metadata=doc.metadata)
@@ -90,6 +90,10 @@ class DocumentProcessor:
                 # Convert back to our model
                 for i, split_doc in enumerate(split_docs):
                     chunk_id = f"{doc.id}_chunk_{i}"
+                    chunk_content = split_doc.page_content.strip() 
+                    if not chunk_content:
+                        logger.debug(f"Skipping empty chunk {i} from doc {doc.id}")
+                        continue
 
                     # Update metadata with chunk info
                     metadata = split_doc.metadata.copy()
@@ -152,7 +156,7 @@ class DocumentProcessor:
         logger.debug(f"Saved chunk debug info to {debug_file}")
         return chunks
 
-    def clean_text_moderate(text: str) -> str:
+    def clean_text_moderate(self, text: str) -> str:
         """Moderate cleaning for financial documents: normalize Unicode, preserve key symbols,
         remove unnecessary special characters, and consolidate whitespace.
 
