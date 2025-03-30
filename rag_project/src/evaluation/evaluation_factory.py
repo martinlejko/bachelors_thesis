@@ -70,7 +70,7 @@ class EvaluationDatasetFactory:
             test_case = LLMTestCase(
                 input=question,
                 context=config.get("context", []),
-                retrieval_context= retrieval_context,
+                retrieval_context=retrieval_context,
                 actual_output=answer,
                 expected_output=config.get("expected_output", ""),
                 name=name,

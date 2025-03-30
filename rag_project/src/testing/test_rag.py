@@ -4,19 +4,16 @@ RAG system evaluation tests.
 This module contains tests for evaluating the RAG system across different iterations.
 """
 
-import os
-import json
 import logging
-from datetime import datetime
 
 from deepeval import evaluate
 
-from src.common.config import TEST_RESULTS_DIR
 from src.evaluation.evaluation_factory import EvaluationDatasetFactory
 from src.evaluation.report_generation import save_report
 from src.evaluation.json_storing import save_test_results
 
 logger = logging.getLogger(__name__)
+
 
 def test_rag_pipeline(qa_pipeline, evaluation_metrics, test_data, iteration_name):
     """

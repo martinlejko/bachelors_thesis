@@ -45,17 +45,19 @@ class DocumentProcessor:
         self.text_splitter = RecursiveCharacterTextSplitter(chunk_size=chunk_size, chunk_overlap=chunk_overlap)
 
         try:
-            self.stop_words = set(stopwords.words('english'))
+            self.stop_words = set(stopwords.words("english"))
             self.lemmatizer = WordNetLemmatizer()
             # Ensure necessary NLTK data is downloaded (user needs to run nltk.download(...))
-            nltk.data.find('tokenizers/punkt')
-            nltk.data.find('corpora/wordnet')
-            nltk.data.find('corpora/stopwords')
+            nltk.data.find("tokenizers/punkt")
+            nltk.data.find("corpora/wordnet")
+            nltk.data.find("corpora/stopwords")
         except LookupError:
-            logger.error("NLTK data not found. Please run nltk.download('punkt'), nltk.download('stopwords'), nltk.download('wordnet')")
+            logger.error(
+                "NLTK data not found. Please run nltk.download('punkt'), nltk.download('stopwords'), nltk.download('wordnet')"
+            )
             # Handle the error appropriately, maybe raise an exception or use defaults
-            self.stop_words = set() # Default to empty set if download failed
-            self.lemmatizer = None # Cannot lemmatize without data
+            self.stop_words = set()  # Default to empty set if download failed
+            self.lemmatizer = None  # Cannot lemmatize without data
         except Exception as e:
             logger.error(f"Error initializing NLTK components: {e}")
             self.stop_words = set()
@@ -156,7 +158,7 @@ class DocumentProcessor:
             except Exception as e:
                 logger.error(f"Error caching processed chunks: {e}")
 
-        debug_file = "processed_chunks.txt"
+        debug_file = "debug/processed_chunks.txt"
 
         with open(debug_file, "w", encoding="utf-8") as f:
             f.write(f"Total chunks processed: {len(chunks)}\n\n")
@@ -190,13 +192,13 @@ class DocumentProcessor:
         """
         # Initial cleaning steps
         cleaned = text.lower()
-        cleaned = re.sub(r'[^a-z0-9\s]', '', cleaned) # Keep alphanumeric and spaces
-        cleaned = re.sub(r'\s+', ' ', cleaned).strip() # Consolidate whitespace
+        cleaned = re.sub(r"[^a-z0-9\s]", "", cleaned)  # Keep alphanumeric and spaces
+        cleaned = re.sub(r"\s+", " ", cleaned).strip()  # Consolidate whitespace
 
         # NLTK processing
         if not self.lemmatizer or not self.stop_words:
-             logger.warning("Skipping NLTK processing due to initialization error.")
-             return cleaned
+            logger.warning("Skipping NLTK processing due to initialization error.")
+            return cleaned
 
         try:
             # Tokenize
@@ -204,17 +206,17 @@ class DocumentProcessor:
 
             # Remove stop words and lemmatize
             processed_tokens = [
-                self.lemmatizer.lemmatize(word) 
-                for word in tokens 
-                if word not in self.stop_words and len(word) > 1 # Also remove single characters
+                self.lemmatizer.lemmatize(word)
+                for word in tokens
+                if word not in self.stop_words and len(word) > 1  # Also remove single characters
             ]
 
             # Join tokens back into string
-            cleaned = ' '.join(processed_tokens)
+            cleaned = " ".join(processed_tokens)
 
         except Exception as e:
             logger.error(f"Error during NLTK processing: {e}. Returning partially cleaned text.")
             # Return the text after initial cleaning if NLTK fails
-            return re.sub(r'\s+', ' ', text.lower()).strip() # Basic fallback cleaning
+            return re.sub(r"\s+", " ", text.lower()).strip()  # Basic fallback cleaning
 
         return cleaned
