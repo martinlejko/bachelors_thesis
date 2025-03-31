@@ -6,7 +6,7 @@ The system loads data from web URLs, processes it into chunks, embeds them into 
 and creates a question-answering chain that retrieves relevant context to answer user queries.
 """
 
-from typing import List
+from typing import Any, List
 from langchain_community.document_loaders import WebBaseLoader
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 from langchain_chroma import Chroma
@@ -153,6 +153,23 @@ def create_qa_chain(vectorstore: Chroma, model: ChatOllama, prompt: ChatPromptTe
     return invoke_with_retrieval_context
 
 
+def print_formated_response(question: str, response: dict[str, Any]) -> None:
+    print("\n" + "=" * 80)
+    print(f"QUESTION: {question}")
+    print("-" * 80)
+    print(f"ANSWER: {response['answer']}")
+    print("-" * 80)
+    print("SOURCES:")
+    for i, source in enumerate(response["retrieval_context"], 1):
+        formatted_source = source.replace("\n", "")
+        print(
+            f"\n[Source {i}]:\n{formatted_source[:300]}..."
+            if len(formatted_source) > 300
+            else f"\n[Source {i}]:\n{formatted_source}"
+        )
+    print("=" * 80 + "\n")
+
+
 def main():
     """
     Main function to demonstrate RAG pipeline functionality with example data.
@@ -181,20 +198,7 @@ def main():
     question = "What is the amount of people in a team for operating systems course at MFF cuni?"
     response = qa_chain(question)
 
-    print("\n" + "=" * 80)
-    print(f"QUESTION: {question}")
-    print("-" * 80)
-    print(f"ANSWER: {response['answer']}")
-    print("-" * 80)
-    print("SOURCES:")
-    for i, source in enumerate(response["retrieval_context"], 1):
-        formatted_source = source.replace("\n", "")
-        print(
-            f"\n[Source {i}]:\n{formatted_source[:300]}..."
-            if len(formatted_source) > 300
-            else f"\n[Source {i}]:\n{formatted_source}"
-        )
-    print("=" * 80 + "\n")
+    print_formated_response(question, response)
 
 
 if __name__ == "__main__":

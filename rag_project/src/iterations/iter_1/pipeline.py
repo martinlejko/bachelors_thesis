@@ -2,7 +2,8 @@
 Initial RAG pipeline implementation.
 
 This module implements the first iteration of the RAG pipeline,
-based on the proof of concept code.
+where we try to use very strict cleaning. With the use of nltk library for removing stop words, adding lemmatization, etc.
+With hope to improve the quality of the data.
 """
 
 import logging
@@ -17,7 +18,6 @@ from src.rag_pipeline.vector_store import VectorStoreManager
 from src.ingestion.pdf import PdfFolderSource
 from src.common.models import Document
 
-# Try to import ConfluenceSource, but make it optional since it requires credentials
 try:
     from src.ingestion.confluence import ConfluenceSource
 
@@ -38,7 +38,8 @@ def create_pipeline(
     force_refresh: bool = False,
 ) -> RagPipeline:
     """
-    Create the RAG pipeline for the first iteration (improved cleaning).
+    Create the RAG pipeline for the first iteration, where we use very strict cleaning. With the use of nltk library for removing stop words, adding lemmatization, etc.
+    This module implements the first iteration of cleaning data strategy.
 
     Args:
         use_web_urls: Whether to use web URLs as a data source
@@ -51,17 +52,14 @@ def create_pipeline(
     Returns:
         RagPipeline: The initialized RAG pipeline
     """
-    # Set up environment
     setup_environment()
 
-    # Initialize data sources
     data_sources = []
 
     if use_web_urls:
         try:
             from langchain_community.document_loaders import WebBaseLoader
 
-            # Create a custom data source for web URLs
             class WebSource(DataIngestionSource):
                 def __init__(self, urls):
                     self.urls = urls
@@ -75,7 +73,6 @@ def create_pipeline(
                     return {"urls": self.urls}
 
                 def has_changed(self):
-                    # For simplicity, always consider web data as unchanged
                     return False
 
                 def load_data(self):
@@ -127,7 +124,6 @@ def create_pipeline(
         force_refresh=force_refresh,
     )
 
-    # Initialize the pipeline
     pipeline.initialize()
 
     return pipeline

@@ -52,14 +52,11 @@ def save_test_results(evaluation_result, iteration_name):
 
         all_results.append(result)
 
-    # Create output directory if it doesn't exist
     os.makedirs(TEST_RESULTS_DIR, exist_ok=True)
 
-    # Create filename with timestamp and iteration name
     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
     filename = f"{TEST_RESULTS_DIR}/results_{iteration_name}_{timestamp}.json"
 
-    # Save results to file
     with open(filename, "w", encoding="utf-8") as f:
         json.dump(all_results, f, indent=2)
 

@@ -1,8 +1,8 @@
 """
 Initial RAG pipeline implementation.
 
-This module implements the first iteration of the RAG pipeline,
-based on the proof of concept code.
+This module implements the fourth iteration of the RAG pipeline,
+based on the proof of concept code. Aiming to improve the quality of the data by implementing more advanced cleaning strategy.
 """
 
 import logging
@@ -17,7 +17,6 @@ from src.rag_pipeline.vector_store import VectorStoreManager
 from src.ingestion.pdf import PdfFolderSource
 from src.common.models import Document
 
-# Try to import ConfluenceSource, but make it optional since it requires credentials
 try:
     from src.ingestion.confluence import ConfluenceSource
 
@@ -51,17 +50,14 @@ def create_pipeline(
     Returns:
         RagPipeline: The initialized RAG pipeline
     """
-    # Set up environment
     setup_environment()
 
-    # Initialize data sources
     data_sources = []
 
     if use_web_urls:
         try:
             from langchain_community.document_loaders import WebBaseLoader
 
-            # Create a custom data source for web URLs
             class WebSource(DataIngestionSource):
                 def __init__(self, urls):
                     self.urls = urls
@@ -75,7 +71,6 @@ def create_pipeline(
                     return {"urls": self.urls}
 
                 def has_changed(self):
-                    # For simplicity, always consider web data as unchanged
                     return False
 
                 def load_data(self):
@@ -127,7 +122,6 @@ def create_pipeline(
         force_refresh=force_refresh,
     )
 
-    # Initialize the pipeline
     pipeline.initialize()
 
     return pipeline

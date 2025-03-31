@@ -56,20 +56,16 @@ class ConfluenceSource(DataIngestionSource):
 
     def has_changed(self) -> bool:
         """Check if the Confluence space has changed."""
-        # Get the list of pages
         try:
             current_pages = self._get_page_list()
 
-            # Load cached page list
             cache_file = f"confluence_{self.space_key}_pages.json"
             cached_pages = load_from_cache(self.cache_dir, cache_file)
 
             if cached_pages is None:
-                # No cache, consider as changed
                 logger.info("No cached page list found, considering as changed")
                 return True
 
-            # Compare current and cached page lists
             current_hash = create_hash(current_pages)
             cached_hash = create_hash(cached_pages)
 
@@ -83,16 +79,13 @@ class ConfluenceSource(DataIngestionSource):
 
         except Exception as e:
             logger.error(f"Error checking if Confluence space has changed: {e}")
-            # In case of error, assume it has changed
             return True
 
     def load_data(self) -> List[Document]:
         """Load data from Confluence."""
         try:
-            # Get the list of pages
             pages = self._get_page_list()
 
-            # Cache the page list
             cache_file = f"confluence_{self.space_key}_pages.json"
             save_to_cache(pages, self.cache_dir, cache_file)
 
@@ -100,17 +93,14 @@ class ConfluenceSource(DataIngestionSource):
 
             for page in pages:
                 try:
-                    # Download the page content as DOCX
                     page_id = page["id"]
                     page_title = page["title"]
 
                     docx_content = self._download_page_as_docx(page_id)
 
                     if docx_content:
-                        # Extract text from DOCX
                         text = self._extract_text_from_docx(docx_content)
 
-                        # Create document
                         doc_id = f"confluence_{page_id}"
                         metadata = {
                             "title": page_title,

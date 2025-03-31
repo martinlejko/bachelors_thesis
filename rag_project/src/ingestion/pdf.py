@@ -53,19 +53,15 @@ class PdfFolderSource(DataIngestionSource):
     def has_changed(self) -> bool:
         """Check if the PDF files have changed."""
         try:
-            # Get file metadata
             current_files = self._get_file_metadata()
 
-            # Load cached file metadata
             cache_file = "pdf_files_metadata.json"
             cached_files = load_from_cache(self.cache_dir, cache_file)
 
             if cached_files is None:
-                # No cache, consider as changed
                 logger.info("No cached PDF file metadata found, considering as changed")
                 return True
 
-            # Compare current and cached file metadata
             current_hash = create_hash(current_files)
             cached_hash = create_hash(cached_files)
 
@@ -79,16 +75,13 @@ class PdfFolderSource(DataIngestionSource):
 
         except Exception as e:
             logger.error(f"Error checking if PDF files have changed: {e}")
-            # In case of error, assume they have changed
             return True
 
     def load_data(self) -> List[Document]:
         """Load data from PDF files."""
         try:
-            # Get file metadata
             files_metadata = self._get_file_metadata()
 
-            # Cache the file metadata
             cache_file = "pdf_files_metadata.json"
             save_to_cache(files_metadata, self.cache_dir, cache_file)
 
@@ -98,11 +91,9 @@ class PdfFolderSource(DataIngestionSource):
                 try:
                     file_path = file_info["path"]
 
-                    # Extract text from PDF
                     text = self._extract_text_from_pdf(file_path)
 
                     if text:
-                        # Create document
                         doc_id = f"pdf_{file_info['id']}"
                         metadata = {
                             "filename": file_info["filename"],

@@ -4,13 +4,10 @@ Evaluation metrics module.
 This module defines the evaluation metrics used for RAG system evaluation.
 """
 
-import logging
 from typing import List
 
 from deepeval.metrics import GEval
 from deepeval.test_case import LLMTestCaseParams
-
-logger = logging.getLogger(__name__)
 
 
 def get_default_metrics() -> List:

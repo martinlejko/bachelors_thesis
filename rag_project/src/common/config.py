@@ -10,6 +10,7 @@ from pathlib import Path
 
 # Base paths
 BASE_DIR = Path(__file__).resolve().parent.parent.parent
+DEBUG_DIR = BASE_DIR / "debug"
 DATA_DIR = BASE_DIR / "src" / "data"
 CACHE_DIR = DATA_DIR / "cache"
 PRIVATE_DATA_DIR = DATA_DIR / "private"
@@ -29,7 +30,7 @@ EMBEDDING_MODEL = "nomic-embed-text"
 CHUNK_SIZE = 500
 CHUNK_OVERLAP = 50
 
-# Confluence API settings (to be configured by the user)
+# Confluence API settings (user-specific)
 CONFLUENCE_URL = os.getenv("CONFLUENCE_URL", "")
 CONFLUENCE_USERNAME = os.getenv("CONFLUENCE_USERNAME", "")
 CONFLUENCE_API_KEY = os.getenv("CONFLUENCE_API_KEY", "")
@@ -43,7 +44,7 @@ os.makedirs(TEST_RESULTS_DIR, exist_ok=True)
 
 # Cache settings
 CACHE_ENABLED = True
-CACHE_VERSION = "v1"  # Increment this when the caching mechanism changes
+CACHE_VERSION = "v1"
 
 # URLs for testing
 TEST_URLS = [

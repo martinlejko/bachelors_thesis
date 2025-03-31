@@ -1,8 +1,8 @@
 """
-Document processor module.
+Document processor module for the first iterations.
 
 This module handles the processing of documents, including text cleaning,
-splitting into chunks, and caching of processed data.
+splitting into chunks, and caching of processed data. With the addition of radical data cleaning using the nltk library.
 """
 
 import os
@@ -20,7 +20,7 @@ from langchain_core.documents import Document as LangchainDocument
 
 from src.common.models import Document, ProcessedChunk, DocumentSource
 from src.common.config import CHUNK_SIZE, CHUNK_OVERLAP, CACHE_DIR, CACHE_ENABLED, CACHE_VERSION
-from src.common.utils import create_hash, save_to_cache, load_from_cache
+from src.common.utils import create_hash, save_chunk_debug_info, save_to_cache, load_from_cache
 
 logger = logging.getLogger(__name__)
 
@@ -51,9 +51,8 @@ class DocumentProcessor:
             logger.error(
                 "NLTK data not found. Please run nltk.download('punkt'), nltk.download('stopwords'), nltk.download('wordnet')"
             )
-            # Handle the error appropriately, maybe raise an exception or use defaults
-            self.stop_words = set()  # Default to empty set if download failed
-            self.lemmatizer = None  # Cannot lemmatize without data
+            self.stop_words = set()
+            self.lemmatizer = None
         except Exception as e:
             logger.error(f"Error initializing NLTK components: {e}")
             self.stop_words = set()
@@ -73,43 +72,33 @@ class DocumentProcessor:
         Returns:
             List[ProcessedChunk]: List of processed chunks
         """
-        # Check cache if enabled and not forcing reprocess
         if CACHE_ENABLED and not force_reprocess:
             logger.info("Checking cache for processed chunks...")
-            # Create a unique cache key based on documents content
             data_hash = create_hash([doc.model_dump() for doc in documents])
             cache_key = f"processed_{data_hash}_{self.chunk_size}_{self.chunk_overlap}_{CACHE_VERSION}.json"
 
-            # Try to load from cache
             cached_data = load_from_cache(self.cache_dir, cache_key)
             if cached_data:
                 try:
-                    # Convert cached data to ProcessedChunk objects
                     chunks = [ProcessedChunk(**chunk) for chunk in cached_data["chunks"]]
                     logger.info(f"Loaded {len(chunks)} processed chunks from cache")
                     return chunks
                 except Exception as e:
                     logger.error(f"Error loading chunks from cache: {e}")
 
-        # Process documents
         chunks = []
 
         for doc in documents:
             try:
-                # Clean the document content first
                 cleaned_content = self.clean_text(doc.content)
 
-                # Convert to LangChain Document for splitting
                 lc_doc = LangchainDocument(page_content=cleaned_content, metadata=doc.metadata)
 
-                # Split into chunks
                 split_docs = self.text_splitter.split_documents([lc_doc])
 
-                # Convert back to our model
                 for i, split_doc in enumerate(split_docs):
                     chunk_id = f"{doc.id}_chunk_{i}"
 
-                    # Update metadata with chunk info
                     metadata = split_doc.metadata.copy()
                     metadata.update(
                         {
@@ -130,7 +119,6 @@ class DocumentProcessor:
 
         logger.info(f"Processed {len(documents)} documents into {len(chunks)} chunks")
 
-        # Cache the processed chunks if enabled
         if CACHE_ENABLED:
             try:
                 cache_data = {
@@ -146,7 +134,6 @@ class DocumentProcessor:
                     },
                 }
 
-                # Create a unique cache key based on documents content
                 data_hash = create_hash([doc.model_dump() for doc in documents])
                 cache_key = f"processed_{data_hash}_{self.chunk_size}_{self.chunk_overlap}_{CACHE_VERSION}.json"
 
@@ -154,20 +141,8 @@ class DocumentProcessor:
             except Exception as e:
                 logger.error(f"Error caching processed chunks: {e}")
 
-        debug_file = "debug/processed_chunks.txt"
+        save_chunk_debug_info(chunks)
 
-        with open(debug_file, "w", encoding="utf-8") as f:
-            f.write(f"Total chunks processed: {len(chunks)}\n\n")
-            for i, chunk in enumerate(chunks):
-                f.write(f"Chunk {i + 1}/{len(chunks)}\n")
-                f.write(f"ID: {chunk.id}\n")
-                f.write(f"Document ID: {chunk.document_id}\n")
-                f.write(f"Metadata: {chunk.metadata}\n")
-                f.write("Content:\n")
-                f.write(f"{chunk.content}\n")
-                f.write("-" * 80 + "\n\n")
-
-        logger.debug(f"Saved chunk debug info to {debug_file}")
         return chunks
 
     def clean_text(self, text: str) -> str:
@@ -186,33 +161,27 @@ class DocumentProcessor:
         Returns:
             str: Cleaned text
         """
-        # Initial cleaning steps
         cleaned = text.lower()
-        cleaned = re.sub(r"[^a-z0-9\s]", "", cleaned)  # Keep alphanumeric and spaces
-        cleaned = re.sub(r"\s+", " ", cleaned).strip()  # Consolidate whitespace
+        cleaned = re.sub(r"[^a-z0-9\s%€£$±=()/-]", "", text)
+        cleaned = re.sub(r"\s+", " ", cleaned).strip()
 
-        # NLTK processing
         if not self.lemmatizer or not self.stop_words:
             logger.warning("Skipping NLTK processing due to initialization error.")
             return cleaned
 
         try:
             logger.info("Starting NLTK processing...")
-            # Tokenize
+
             tokens = word_tokenize(cleaned)
 
-            # Remove stop words and lemmatize
             processed_tokens = [
-                self.lemmatizer.lemmatize(word)
-                for word in tokens
-                if word not in self.stop_words and len(word) > 1  # Also remove single characters
+                self.lemmatizer.lemmatize(word) for word in tokens if word not in self.stop_words and len(word) > 1
             ]
 
-            # Join tokens back into string
             cleaned = " ".join(processed_tokens)
             logger.info("NLTK processing completed successfully.")
         except Exception as e:
             logger.error(f"Error during NLTK processing: {e}. Returning partially cleaned text.")
-            return re.sub(r"\s+", " ", text.lower()).strip()  # Basic fallback cleaning
+            return re.sub(r"\s+", " ", text.lower()).strip()
 
         return cleaned

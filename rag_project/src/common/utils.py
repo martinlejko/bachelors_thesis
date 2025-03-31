@@ -10,8 +10,11 @@ import json
 import hashlib
 import logging
 from pathlib import Path
-from typing import Any, Optional, Union
+from typing import Any, List, Optional, Union
 from enum import Enum
+
+from src.common.config import DEBUG_DIR
+from src.common.models import ProcessedChunk
 
 # Configure logging
 logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s")
@@ -117,3 +120,29 @@ def load_from_cache(cache_path: Union[str, Path], filename: str) -> Optional[Any
     except Exception as e:
         logger.error(f"Error loading from cache: {e}")
         return None
+
+
+def save_chunk_debug_info(chunks: List[ProcessedChunk]) -> None:
+    """
+    Save debug information about processed chunks to a file.
+    Args:
+        chunks: List of processed chunks
+
+    Returns:
+        None
+    """
+
+    debug_file = DEBUG_DIR / "processed_chunks.txt"
+
+    with open(debug_file, "w", encoding="utf-8") as f:
+        f.write(f"Total chunks processed: {len(chunks)}\n\n")
+        for i, chunk in enumerate(chunks):
+            f.write(f"Chunk {i + 1}/{len(chunks)}\n")
+            f.write(f"ID: {chunk.id}\n")
+            f.write(f"Document ID: {chunk.document_id}\n")
+            f.write(f"Metadata: {chunk.metadata}\n")
+            f.write("Content:\n")
+            f.write(f"{chunk.content}\n")
+            f.write("-" * 80 + "\n\n")
+
+    logger.debug(f"Saved chunk debug info to {debug_file}")
