@@ -46,6 +46,7 @@ deepeval_results/
 
 # Debugging
 debug/
+temp_test_run_data.json
 
 # Test results
 test_results/
@@ -55,7 +56,7 @@ test_results/
 .mypy_cache/
 __pycache__/
 .cache/
-./src/data/cache/
+src/data/cache/
 
 # Database
 *.db
