@@ -8,6 +8,21 @@ Each test case contains:
 - context: Sample context data that contains the information needed to answer correctly
 """
 
+POC_TEST_CASES = {
+    "team_size": {
+        "question": "What is the amount of people in a team for operating systems course at MFF cuni?",
+        "expected_output": "Teams should consist of 2-3 students.",
+        "context": [
+            "For the Operating Systems course at MFF CUNI, teams should consist of 2-3 students for project work."
+        ],
+    },
+    "programming_language": {
+        "question": "What programming language is used in NPRG035?",
+        "expected_output": "The course uses C# programming language.",
+        "context": ["NPRG035 is taught using C# as the main programming language."],
+    },
+}
+
 TEST_CASES = {
     "market_trends_2023": {
         "question": "What were the key market trends in 2023?",

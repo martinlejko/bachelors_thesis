@@ -7,7 +7,7 @@ for running evaluations and generating test reports.
 """
 
 from deepeval import evaluate
-from proof_of_concept.testing.test_data import TEST_CASES
+from src.testing.test_data import POC_TEST_CASES
 from src.evaluation.evaluation_factory import EvaluationDatasetFactory
 from src.evaluation.report_generation import report_from_latest_json
 from src.evaluation.json_storing import save_test_results
@@ -26,7 +26,7 @@ def test_all_dataset(qa_pipeline, evaluation_metrics):
         qa_pipeline: Fixture providing the configured RAG pipeline
         evaluation_metrics: Fixture providing the evaluation metrics
     """
-    dataset = EvaluationDatasetFactory.create_from_dict_with_invocation(TEST_CASES, qa_pipeline)
+    dataset = EvaluationDatasetFactory.create_from_dict_with_invocation(POC_TEST_CASES, qa_pipeline)
 
     result = evaluate(
         test_cases=dataset.test_cases,

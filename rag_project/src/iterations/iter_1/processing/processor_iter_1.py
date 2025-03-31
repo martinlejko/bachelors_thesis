@@ -11,7 +11,6 @@ import logging
 from datetime import datetime
 from typing import List, Dict, Any, Optional
 
-import nltk
 from nltk.corpus import stopwords
 from nltk.stem import WordNetLemmatizer
 from nltk.tokenize import word_tokenize
@@ -22,7 +21,6 @@ from langchain_core.documents import Document as LangchainDocument
 from src.common.models import Document, ProcessedChunk, DocumentSource
 from src.common.config import CHUNK_SIZE, CHUNK_OVERLAP, CACHE_DIR, CACHE_ENABLED, CACHE_VERSION
 from src.common.utils import create_hash, save_to_cache, load_from_cache
-from pathlib import Path
 
 logger = logging.getLogger(__name__)
 

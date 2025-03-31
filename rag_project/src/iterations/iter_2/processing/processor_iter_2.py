@@ -89,7 +89,7 @@ class DocumentProcessor:
                 # Convert back to our model
                 for i, split_doc in enumerate(split_docs):
                     chunk_id = f"{doc.id}_chunk_{i}"
-                    chunk_content = split_doc.page_content.strip() 
+                    chunk_content = split_doc.page_content.strip()
                     if not chunk_content:
                         logger.debug(f"Skipping empty chunk {i} from doc {doc.id}")
                         continue
