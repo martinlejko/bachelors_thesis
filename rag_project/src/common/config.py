@@ -29,6 +29,8 @@ EMBEDDING_MODEL = "nomic-embed-text"
 # Data processing settings
 CHUNK_SIZE = 500
 CHUNK_OVERLAP = 50
+CHUNK_SIZE_EXPERIMENTAL = 1000
+CHUNK_OVERLAP_EXPERIMENTAL = 100
 
 # Confluence API settings (user-specific)
 CONFLUENCE_URL = os.getenv("CONFLUENCE_URL", "")
