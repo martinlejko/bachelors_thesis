@@ -25,6 +25,7 @@ os.makedirs(PUBLIC_DATA_DIR, exist_ok=True)
 # Model settings
 OLLAMA_MODEL = "llama3.1:8b"
 EMBEDDING_MODEL = "nomic-embed-text"
+EMBEDDING_MODEL_EXPERIMENTAL = "mxbai-embed-large"
 
 # Data processing settings
 CHUNK_SIZE = 500
