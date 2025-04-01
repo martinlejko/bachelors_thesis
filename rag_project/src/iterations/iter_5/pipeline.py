@@ -11,8 +11,8 @@ from typing import Optional
 from src.common.config import TEST_URLS, OLLAMA_MODEL, EMBEDDING_MODEL
 from src.common.utils import setup_environment
 from src.ingestion.base import DataIngestionSource
-from src.iterations.iter_4.processing.processor_iter_4 import DocumentProcessor
-from src.rag_pipeline.pipeline import RagPipeline
+from src.processing.processor import DocumentProcessor
+from src.iterations.iter_5.rag_pipeline.pipeline import RagPipeline
 from src.rag_pipeline.vector_store import VectorStoreManager
 from src.ingestion.pdf import PdfFolderSource
 from src.common.models import Document
