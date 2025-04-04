@@ -1,3 +1,5 @@
+"""Iteration 2: Defines the pipeline logic for iteration 2."""
+
 """
 Initial RAG pipeline implementation.
 

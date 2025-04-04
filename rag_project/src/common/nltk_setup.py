@@ -1,3 +1,5 @@
+"""Downloads necessary NLTK data (punkt, stopwords, wordnet) required for text processing."""
+
 import nltk
 
 

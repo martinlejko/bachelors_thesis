@@ -14,7 +14,12 @@ from src.testing.test_data import TEST_CASES
 
 
 def get_iteration_modules():
-    """Get all available iteration modules."""
+    """Get all available iteration modules.
+    Scans the ITERATIONS_DIR for subdirectories starting with 'iter_'.
+
+    Returns:
+        List[str]: A sorted list of iteration directory names.
+    """
     iterations = []
     for item in os.listdir(ITERATIONS_DIR):
         if os.path.isdir(os.path.join(ITERATIONS_DIR, item)) and item.startswith("iter_"):

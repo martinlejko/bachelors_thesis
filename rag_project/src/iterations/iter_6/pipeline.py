@@ -1,3 +1,5 @@
+"""Iteration 6: Defines the pipeline logic for iteration 6."""
+
 """
 Initial RAG pipeline implementation.
 

@@ -1,3 +1,5 @@
+"""Iteration 8: Defines the pipeline logic for iteration 8."""
+
 """
 Initial RAG pipeline implementation.
 

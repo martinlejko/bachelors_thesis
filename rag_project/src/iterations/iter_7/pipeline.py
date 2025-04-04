@@ -1,3 +1,5 @@
+"""Iteration 7: Defines the pipeline logic for iteration 7."""
+
 """
 Initial RAG pipeline implementation.
 

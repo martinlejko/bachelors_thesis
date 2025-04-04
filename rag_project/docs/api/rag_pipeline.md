@@ -1,5 +1,9 @@
 # RAG Pipeline
 
+::: src.rag_pipeline.pipeline
+
+::: src.rag_pipeline.vector_store
+
 This section documents the core RAG (Retrieval-Augmented Generation) pipeline components.
 
 ## Core Module

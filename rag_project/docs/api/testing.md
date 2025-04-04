@@ -1,15 +1,10 @@
-# Testing Framework
+# Testing
 
-This section documents the testing framework used to evaluate the RAG system's performance.
+::: src.testing.conftest
 
-## Test Configuration
+::: src.testing.test_data
 
-::: proof_of_concept.testing.conftest
-
-
-## RAG System Tests
-
-::: proof_of_concept.testing.test_rag
+::: src.testing.test_rag
 
 ## Test Execution
 

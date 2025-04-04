@@ -1,3 +1,5 @@
+"""Iteration 3: Defines the pipeline logic for iteration 3."""
+
 """
 Initial RAG pipeline implementation.
 

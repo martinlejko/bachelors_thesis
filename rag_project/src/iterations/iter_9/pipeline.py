@@ -1,3 +1,5 @@
+"""Iteration 9: Defines the pipeline logic for iteration 9."""
+
 """
 Initial RAG pipeline implementation.
 

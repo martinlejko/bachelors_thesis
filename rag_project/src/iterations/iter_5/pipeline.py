@@ -1,3 +1,5 @@
+"""Iteration 5: Defines the pipeline logic for iteration 5."""
+
 """
 Initial RAG pipeline implementation.
 

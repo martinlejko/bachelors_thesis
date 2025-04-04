@@ -1,3 +1,5 @@
+"""Iteration 1: Defines the RAG pipeline using specific cleaning techniques (nltk for stop words, lemmatization)."""
+
 """
 Initial RAG pipeline implementation.
 
