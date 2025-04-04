@@ -6,9 +6,6 @@ This section documents the testing framework used to evaluate the RAG system's p
 
 ::: proof_of_concept.testing.conftest
 
-## Test Cases Data
-
-::: proof_of_concept.testing.test_data
 
 ## RAG System Tests
 

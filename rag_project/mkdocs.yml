@@ -30,4 +30,3 @@ nav:
   - Home: index.md
   - API Reference:
       - RAG Pipeline: api/rag_pipeline.md
-      - Testing: api/testing.md 
