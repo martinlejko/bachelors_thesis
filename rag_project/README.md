@@ -97,6 +97,12 @@ The primary goal is to experiment with different configurations of a RAG pipelin
     *   Place any public PDF files you want to ingest into the `data/public/` directory.
     *   If using Confluence exports or other private data, place them accordingly (e.g., `data/private/`) and ensure they are listed in your `.gitignore` if necessary.
 
+9.  **Init env:**
+    Enter the created virtual environment where you shoul also have the *ollama model running*:
+    ```bash
+    poetry shell
+    ```
+
 ## Usage
 
 All commands should be run from the project's root directory using `poe <task_name>`.
