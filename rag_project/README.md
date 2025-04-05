@@ -13,7 +13,7 @@ The primary goal is to experiment with different configurations of a RAG pipelin
 *   **Iterative Development**: Each significant change or experiment is encapsulated within its own iteration (`src/iterations/iter_X`), allowing for clear comparison.
 *   **Local LLM Integration**: Leverages Ollama to run language models locally, ensuring privacy and control.
 *   **Comprehensive Evaluation**: Uses DeepEval (`deepeval`) to measure various aspects of the RAG output (e.g., Faithfulness, Answer Relevancy, Context Relevancy).
-*   **Task Automation**: Uses `poe the poet` for streamlined execution of common tasks like testing, running pipelines, and setup.
+*   **Task Automation**: Uses [`poe the poet`](https://poethepoet.natn.io/index.html) for streamlined execution of common tasks like testing, running pipelines, and setup.
 *   **Dependency Management**: Uses Poetry for robust dependency management.
 *   **Documentation**: Uses MkDocs for generating project documentation.
 
