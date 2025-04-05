@@ -2,6 +2,7 @@
 
 import pytest
 from deepeval.metrics import GEval
+from src.common.config import TEST_URLS
 from deepeval.test_case import LLMTestCaseParams
 from proof_of_concept.proof_of_concept import (
     load_data,
@@ -16,12 +17,7 @@ from proof_of_concept.proof_of_concept import (
 @pytest.fixture(scope="session")
 def qa_pipeline():
     """Initialize RAG pipeline once for all tests."""
-    urls = [
-        "https://d3s.mff.cuni.cz/teaching/nswi200/teams/",
-        "https://d3s.mff.cuni.cz/teaching/nprg035/",
-    ]
-
-    raw_data = load_data(urls)
+    raw_data = load_data(TEST_URLS)
     processed_data = process_data(raw_data)
     vectorstore = create_vectorstore(processed_data)
     model = setup_model()

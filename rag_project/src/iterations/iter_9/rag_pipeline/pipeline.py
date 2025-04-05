@@ -199,9 +199,8 @@ class RagPipeline:
         # Create retriever
         retriever = self.vector_store.as_retriever(
             search_type="mmr",
-            search_kwargs={'k': 5, 'fetch_k': 20} # Fetch more initially (fetch_k) to select diverse k from
+            search_kwargs={"k": 5, "fetch_k": 20},  # Fetch more initially (fetch_k) to select diverse k from
         )
-
 
         # Create the QA chain
         qa_chain = (

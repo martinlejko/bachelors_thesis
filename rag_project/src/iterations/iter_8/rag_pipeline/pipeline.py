@@ -197,10 +197,7 @@ class RagPipeline:
             raise ValueError("Vector store not initialized. Call initialize() first.")
 
         # Create retriever
-        retriever = self.vector_store.as_retriever(
-            search_type="similarity",
-            search_kwargs={'k': 6}
-        ) 
+        retriever = self.vector_store.as_retriever(search_type="similarity", search_kwargs={"k": 6})
 
         # Create the QA chain
         qa_chain = (

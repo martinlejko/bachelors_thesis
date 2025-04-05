@@ -1,4 +1,3 @@
-
 """
 Document processor module.
 
@@ -15,7 +14,13 @@ from langchain_text_splitters import RecursiveCharacterTextSplitter
 from langchain_core.documents import Document as LangchainDocument
 
 from src.common.models import Document, ProcessedChunk, DocumentSource
-from src.common.config import CHUNK_SIZE_EXPERIMENTAL, CHUNK_OVERLAP_EXPERIMENTAL, CACHE_DIR, CACHE_ENABLED, CACHE_VERSION
+from src.common.config import (
+    CHUNK_SIZE_EXPERIMENTAL,
+    CHUNK_OVERLAP_EXPERIMENTAL,
+    CACHE_DIR,
+    CACHE_ENABLED,
+    CACHE_VERSION,
+)
 from src.common.utils import create_hash, save_to_cache, load_from_cache
 
 logger = logging.getLogger(__name__)

@@ -16,7 +16,6 @@ from enum import Enum
 from src.common.config import DEBUG_DIR
 from src.common.models import ProcessedChunk
 
-# Configure logging
 logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s")
 logger = logging.getLogger(__name__)
 

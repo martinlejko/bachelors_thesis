@@ -26,17 +26,14 @@ def generate_html_report(json_data: List[Dict[str, Any]]) -> str:
     Returns:
         str: HTML report content
     """
-    # Calculate statistics
     total_tests = len(json_data)
     passed_tests = sum(1 for test in json_data if test.get("success", False))
     failed_tests = total_tests - passed_tests
 
     success_rate = (passed_tests / total_tests * 100) if total_tests > 0 else 0
 
-    # Generate timestamp
     timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
-    # Start HTML content
     html = f"""
     <!DOCTYPE html>
     <html lang="en">
@@ -153,7 +150,6 @@ def generate_html_report(json_data: List[Dict[str, Any]]) -> str:
         <h2>Test Results</h2>
     """
 
-    # Add individual test cases
     for test in json_data:
         status_class = "success" if test.get("success", False) else "failure"
         status_text = "PASSED" if test.get("success", False) else "FAILED"
@@ -175,7 +171,6 @@ def generate_html_report(json_data: List[Dict[str, Any]]) -> str:
                 </tr>
         """
 
-        # Add metrics if they exist
         if "metrics" in test:
             for metric, data in test["metrics"].items():
                 status_class = "success" if data.get("passed", False) else "failure"
@@ -222,7 +217,6 @@ def save_report(json_data_file: str, output_file: Optional[str] = None) -> str:
         html_content = generate_html_report(json_data)
 
         if output_file is None:
-            # Create output file path based on input file
             input_path = Path(json_data_file)
             output_file = str(TEST_RESULTS_DIR / f"{input_path.stem}.html")
 
@@ -245,7 +239,6 @@ def report_from_latest_json() -> Optional[str]:
         Optional[str]: Path to the saved HTML report, or None if no JSON files found
     """
     try:
-        # Find the most recent JSON file
         json_files = list(TEST_RESULTS_DIR.glob("*.json"))
         if not json_files:
             logger.warning("No JSON result files found")
@@ -253,7 +246,6 @@ def report_from_latest_json() -> Optional[str]:
 
         latest_file = max(json_files, key=os.path.getmtime)
 
-        # Generate and save report
         return save_report(str(latest_file))
 
     except Exception as e:
