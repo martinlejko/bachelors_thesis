@@ -29,10 +29,11 @@ plugins:
 nav:
   - Home: index.md
   - API Reference:
+      - Proof of Concept: api/proof_of_concept.md
       - Common Utilities: api/common.md
       - Data Ingestion: api/ingestion.md
       - Document Processing: api/processing.md
       - RAG Pipeline: api/rag_pipeline.md
       - Evaluation: api/evaluation.md
       - Testing: api/testing.md
-      - Proof of Concept: api/proof_of_concept.md
+      - Iterations: api/iterations.md

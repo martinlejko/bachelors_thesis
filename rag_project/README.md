@@ -1,15 +1,15 @@
 # RAG System Project for Bachelor Thesis
 
-This repository contains the source code for a Bachelor's thesis project focused on building and evaluating a modular Retrieval-Augmented Generation (RAG) system. The system ingests data from various sources, processes it, and utilizes a RAG pipeline with local LLMs (via Ollama) to answer questions based on the ingested context. The project also includes a comprehensive testing and evaluation pipeline using the DeepEval library to compare different RAG configurations (iterations).
+This repository contains the source code for a Bachelor's thesis project focused on building and evaluating a modular Retrieval-Augmented Generation (RAG) system. The system ingests data from various sources (mostly financial data), processes it, and utilizes a RAG pipeline with local LLMs (via Ollama) to answer questions based on the ingested context. The project also includes a comprehensive testing and evaluation pipeline using the DeepEval library to compare different RAG configurations (iterations).
 
 ## Project Goal
 
-The primary goal is to experiment with different configurations of a RAG pipeline (e.g., varying data cleaning methods, chunking strategies, embedding models, reranking techniques) and systematically evaluate their performance on a specific question-answering task using DeepEval metrics. This allows for identifying the most effective RAG setup for the given domain and data.
+The primary goal is to experiment with different configurations of a RAG pipeline (e.g., varying data cleaning methods, chunking strategies, embedding models, retrieval techniques) and systematically evaluate their performance on a specific question-answering task using DeepEval metrics. This allows for identifying the most effective RAG setup for the given domain and data.
 
 ## Features
 
 *   **Modular RAG Pipeline**: Core components (ingestion, processing, vector store, LLM interaction) are designed for easy modification and extension.
-*   **Multiple Data Sources**: Supports ingestion from Web URLs, local PDF files, and Confluence (optional). Easily extensible for other sources.
+*   **Multiple Data Sources**: Supports ingestion from Web URLs, local PDF files, and Confluence. Easily extensible for other sources.
 *   **Iterative Development**: Each significant change or experiment is encapsulated within its own iteration (`src/iterations/iter_X`), allowing for clear comparison.
 *   **Local LLM Integration**: Leverages Ollama to run language models locally, ensuring privacy and control.
 *   **Comprehensive Evaluation**: Uses DeepEval (`deepeval`) to measure various aspects of the RAG output (e.g., Faithfulness, Answer Relevancy, Context Relevancy).
@@ -21,21 +21,16 @@ The primary goal is to experiment with different configurations of a RAG pipelin
 
 ```
 .
-├── .github/             # GitHub Actions workflows (if any)
-├── .gitignore
-├── README.md            # This file
-├── data/                # Data storage (not checked into Git by default)
-│   ├── cache/           # Cache for processed data and vector stores
-│   ├── private/         # Private data (e.g., Confluence exports - configure .gitignore)
-│   └── public/          # Public data (e.g., PDFs)
-├── debug/               # Log files for debugging (not checked into Git)
+
+├── debug/               # Log files for debugging (e.g., pytest logs, chunked files)
 ├── docs/                # MkDocs documentation source files
-├── mkdocs.yml           # MkDocs configuration
-├── poetry.lock          # Poetry lock file
-├── proof_of_concept/    # Initial proof-of-concept scripts (if any)
+├── proof_of_concept/    # Initial proof-of-concept script with some testing
 ├── pyproject.toml       # Poetry configuration, dependencies, and poe tasks
 ├── src/                 # Main source code
-│   ├── __init__.py
+│   ├── data/            # Data storage 
+│   │   ├── cache/       # Cache for processed data and vector stores
+│   │   ├── private/     # Private data (e.g., Confluence exports)
+│   │   └── public/      # Public data (e.g., PDFs)
 │   ├── common/          # Shared utilities, configurations, models
 │   ├── evaluation/      # Evaluation datasets and logic (using deepeval)
 │   ├── ingestion/       # Data ingestion modules (PDF, Web, Confluence)
@@ -46,15 +41,15 @@ The primary goal is to experiment with different configurations of a RAG pipelin
 │   ├── processing/      # Document cleaning, chunking, processing logic
 │   ├── rag_pipeline/    # Core RAG pipeline components (vector store, retrieval, generation)
 │   └── testing/         # Test suite (using pytest and deepeval)
-└── test_results/        # Evaluation results (JSON, HTML reports - not checked into Git)
+└── test_results/        # Evaluation results (JSON, HTML reportsd)
 ```
 
 ## Setup
 
 1.  **Clone the Repository:**
     ```bash
-    git clone <your-repository-url>
-    cd <repository-directory>
+    git clone git@github.com:martinlejko/bachelors_thesis.git
+    cd bachelors_thesis/rag_project 
     ```
 
 2.  **Install Ollama:**
@@ -63,8 +58,8 @@ The primary goal is to experiment with different configurations of a RAG pipelin
 3.  **Pull Required Ollama Models:**
     This project requires specific LLM and embedding models to be available via Ollama. Check the configuration (e.g., `src/common/config.py`) for the model names specified in `OLLAMA_MODEL` and `EMBEDDING_MODEL`. Pull them using:
     ```bash
-    ollama pull <model_name> # e.g., ollama pull llama3
-    ollama pull <embedding_model_name> # e.g., ollama pull mxbai-embed-large
+    ollama pull <model_name> # e.g., ollama pull lllama3.1:8b
+    ollama pull <embedding_model_name> # e.g., ollama pull nomic-embed-text
     ```
     *Note: Ensure the models defined in your config are pulled.*
 
@@ -73,10 +68,12 @@ The primary goal is to experiment with different configurations of a RAG pipelin
     ```bash
     ollama serve
     ```
-    Keep this terminal running while you use the RAG pipeline.
+    Keep this terminal running while you use the RAG pipeline. Ensure that the models are running in the same environment as the project.
 
 5.  **Install Project Dependencies using Poetry:**
     If you don't have Poetry installed, follow the instructions [here](https://python-poetry.org/docs/#installation).
+    *Note: I would suggest downloading also the Poetry plugin for `poetry shell` to make it easier to work with the virtual environment. [here](https://github.com/python-poetry/poetry-plugin-shell)*
+
     ```bash
     poetry install
     ```
@@ -93,7 +90,7 @@ The primary goal is to experiment with different configurations of a RAG pipelin
 7.  **Download NLTK Data:**
     Some processing steps might require NLTK data (e.g., for tokenization, stop words). Run the setup script using Poe:
     ```bash
-    poetry run poe nltk-setup
+    poetry run nltk-setup
     ```
 
 8.  **Place Data Files:**
@@ -102,38 +99,47 @@ The primary goal is to experiment with different configurations of a RAG pipelin
 
 ## Usage
 
-All commands should be run from the project's root directory using `poetry run poe <task_name>`.
+All commands should be run from the project's root directory using `poe <task_name>`.
+
+*   **Runing Proof of Concept:**
+    If you want to try out the functionality you can simply run the proof of concept script:
+    ```bash
+    poe run-proof
+    ```
+
+*   **Run Evaluation Tests for PoC:**
+    If you are curios about the evaluation and would like to see a quick example. You can run the testing pipeline for the proof of concept:
+    ```bash
+    poe test-proof
+    ```
+    Test results will be saved in the `test_results/` directory. There will be a Html report generated for all the iterations from the original JSON file. Logs are saved to `debug/`.
 
 *   **Run a Specific RAG Pipeline Iteration:**
-    This typically involves initializing the pipeline and querying it. Check the `run_pipeline.py` script or specific iteration files for details. A general command might be:
+    This typically involves initializing the pipeline and querying it. Check the `src/testing/run_pipeline.py` script. Where you can test out iterations by changing the import path.
+    And run the pipeline using:
     ```bash
-    poetry run poe run-pipeline --iteration <iteration_number> # Adjust based on run_pipeline.py arguments
+    poe run-pipeline
     ```
-    *(Example - you might need to adapt `src/testing/run_pipeline.py` to accept arguments)*
 
 *   **Run Evaluation Tests:**
     Execute the test suite using pytest and DeepEval. This will run tests against all implemented iterations.
     ```bash
-    poetry run poe test-iterations
+    poe test-iterations
     ```
-    Test results (including detailed DeepEval reports if configured) will often be saved in the `test_results/` directory. Logs are saved to `debug/pytest.log`.
+    Test results will be saved in the `test_results/` directory. There will be a Html report generated for all the iterations from the original JSON file. Logs are saved to `debug/pytest.log`.
 
-*   **Run Proof of Concept (if applicable):**
-    ```bash
-    poetry run poe run-proof
-    ```
 
 *   **Serve Documentation Locally:**
     View the project documentation generated by MkDocs.
     ```bash
-    poetry run mkdocs serve
+    mkdocs serve
     ```
     Then open your browser to `http://127.0.0.1:8000`.
 
 *   **Build Documentation:**
     Generate the static HTML documentation site.
     ```bash
-    poetry run mkdocs build
+    mkdocs build
     ```
     The output will be in the `site/` directory.
 
@@ -146,15 +152,15 @@ Key metrics measured might include:
 *   **Faithfulness**: How factually consistent the answer is with the retrieved context.
 *   **Answer Relevancy**: How relevant the answer is to the given question.
 *   **Context Relevancy**: How relevant the retrieved context chunks are to the question.
-*   *(Other metrics like Conciseness, Coherence, etc., can be added)*
+*   **Conciseness**: How concise the answer is.
 
-The framework is designed to produce comparable results across iterations, helping to identify the impact of specific changes on the RAG system's performance. Results are typically logged and saved, potentially including detailed HTML reports generated by DeepEval.
+The framework is designed to produce comparable results across iterations, helping to identify the impact of specific changes on the RAG system's performance. Results are typically logged and saved, including detailed HTML report.
 
 ## Extending the Project
 
 *   **Adding a New Data Source**: Create a new class inheriting from `DataIngestionSource` in `src/ingestion/`, implement its methods, and integrate it into a pipeline iteration.
 *   **Creating a New Iteration**:
-    1.  Duplicate an existing iteration directory (e.g., `cp -r src/iterations/iter_N src/iterations/iter_M`).
+    1.  Create a new directory under `src/iterations/` (e.g., `iter_M/`) for the new iteration.
     2.  Modify the pipeline logic (`pipeline.py`) or associated components (e.g., processing functions) within the new iteration directory (`src/iterations/iter_M/`).
     3.  Ensure the new iteration's `create_pipeline` function is correctly imported and used in the testing/evaluation framework (`src/testing/test_rag.py`). Tests should automatically pick up the new iteration if structured correctly.
 

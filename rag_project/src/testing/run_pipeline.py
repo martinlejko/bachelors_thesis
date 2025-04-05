@@ -1,8 +1,6 @@
 #!/usr/bin/env python3
 """
 Main entry point for running the RAG pipeline.
-
-This script ensures that the Python path is set up correctly for imports.
 """
 
 import sys
