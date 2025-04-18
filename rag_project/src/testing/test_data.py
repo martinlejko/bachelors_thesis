@@ -24,6 +24,40 @@ POC_TEST_CASES = {
 }
 
 TEST_CASES = {
+    "investor_support": {
+    "question": "What factors helped investors during the 12-month period ending April 30, 2024?",
+    "expected_output": "Continued economic growth and cooling inflation provided a supportive backdrop for investors.",
+    "context": [
+        "The combination of continued economic growth and cooling inflation provided a supportive backdrop for investors during the 12-month reporting period ended April 30, 2024.",
+        "Higher interest rates helped to rein in inflation, and the Consumer Price Index decelerated substantially while remaining above pre-pandemic levels.",
+        "Wage and job growth powered robust consumer spending, backstopping the economy."
+    ]},
+    "asia_pacific_performance": {
+    "question": "What factors contributed to the performance of Asia-Pacific region stocks?",
+    "expected_output": "The strong performance of Japanese equities and India's economic growth contributed to the performance of Asia-Pacific region stocks.",
+    "context": [
+        "Asia-Pacific region stocks advanced, helped by strong Japanese equities and India's economic growth.",
+        "Japanese stocks were bolstered by solid exports, rising profits, and corporate reforms.",
+        "India saw significant gains due to strong growth and robust corporate earnings."
+    ]},
+    "emerging_markets_etf": {
+    "question": "What does the iShares Emerging Markets Dividend ETF aim to track?",
+    "expected_output": "It aims to track the investment results of an index composed of relatively high dividend paying equities in emerging markets.",
+    "context": [
+        "The iShares Emerging Markets Dividend ETF seeks to track the investment results of an index composed of relatively high dividend paying equities in emerging markets.",
+        "The Index is the Dow Jones Emerging Markets Select Dividend Index.",
+        "The Fund uses representative sampling and may not hold all securities in the Index."
+    ],
+    },
+    "emerging_markets_allocation":
+    {
+        "question": "What is the percentage allocation of the iShares Emerging Markets Dividend ETF into energy?",
+        "expected_output": "The ETF has a 21.1% allocation to energy.",
+        "context": [
+            "The iShares Emerging Markets Dividend ETF has a 21.1% allocation to energy.",
+            "The ETF invests in stocks from various sectors, including financials, consumer discretionary, and energy."
+        ],
+    },
     "market_trends_2023": {
         "question": "What were the key market trends in 2023?",
         "expected_output": "The stock market saw a strong rebound driven by technology stocks and easing inflation.",
@@ -41,6 +75,20 @@ TEST_CASES = {
         "expected_output": "Rising interest rates and slowing economic growth led to concerns of a recession.",
         "context": ["Analysts debated the impact of tighter monetary policy on economic expansion."],
     },
+    "ai_investments_2023": {
+        "question": "Why did AI-related investments increase in 2023?",
+        "expected_output": "Businesses and investors saw AI as a transformative technology.",
+        "context": ["Companies focused on AI adoption, boosting tech sector valuations."],
+    },
+    "market_outlook": {
+    "question": "What is the investment stance on U.S., Japanese, and European stocks?",
+    "expected_output": "There is an overweight stance on U.S. and Japanese stocks, and an underweight stance on European stocks.",
+    "context": [
+        "There is an overweight stance on U.S. stocks overall, particularly due to emerging AI technologies.",
+        "Japanese stocks are also overweight due to shareholder-friendly policies and increased investor interest.",
+        "European stocks are underweight in the current investment stance."
+    ]
+    }
 }
 
 ALL_TEST_CASES = {

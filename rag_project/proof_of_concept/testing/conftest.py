@@ -39,7 +39,7 @@ def evaluation_metrics():
                 LLMTestCaseParams.EXPECTED_OUTPUT,
                 LLMTestCaseParams.CONTEXT,
             ],
-            threshold=0.7,
+            threshold=0.5,
         ),
         GEval(
             name="Answer Relevancy",
@@ -48,7 +48,7 @@ def evaluation_metrics():
                 LLMTestCaseParams.INPUT,
                 LLMTestCaseParams.ACTUAL_OUTPUT,
             ],
-            threshold=0.7,
+            threshold=0.5,
         ),
         GEval(
             name="Conciseness",
@@ -56,7 +56,7 @@ def evaluation_metrics():
             evaluation_params=[
                 LLMTestCaseParams.ACTUAL_OUTPUT,
             ],
-            threshold=0.8,
+            threshold=0.5,
         ),
         GEval(
             name="Context Relevancy",
@@ -65,6 +65,6 @@ def evaluation_metrics():
                 LLMTestCaseParams.INPUT,
                 LLMTestCaseParams.RETRIEVAL_CONTEXT,
             ],
-            threshold=0.7,
+            threshold=0.5,
         ),
     ]

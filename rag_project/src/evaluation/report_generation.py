@@ -7,9 +7,10 @@ This module handles the generation of HTML reports from JSON evaluation results.
 import os
 import json
 import logging
-from typing import Dict, List, Any, Optional
+from typing import Dict, List, Any, Optional, Counter
 from datetime import datetime
 from pathlib import Path
+from collections import defaultdict
 
 from src.common.config import TEST_RESULTS_DIR
 
@@ -26,11 +27,30 @@ def generate_html_report(json_data: List[Dict[str, Any]]) -> str:
     Returns:
         str: HTML report content
     """
+    # Basic test statistics
     total_tests = len(json_data)
     passed_tests = sum(1 for test in json_data if test.get("success", False))
     failed_tests = total_tests - passed_tests
+    overall_success_rate = (passed_tests / total_tests * 100) if total_tests > 0 else 0
 
-    success_rate = (passed_tests / total_tests * 100) if total_tests > 0 else 0
+    # Collect metrics across all tests
+    all_metrics = set()
+    metrics_totals = defaultdict(lambda: {"total": 0, "passed": 0, "scores": []})
+    
+    for test in json_data:
+        if "metrics" in test:
+            for metric_name, metric_data in test["metrics"].items():
+                all_metrics.add(metric_name)
+                metrics_totals[metric_name]["total"] += 1
+                if metric_data.get("passed", False):
+                    metrics_totals[metric_name]["passed"] += 1
+                metrics_totals[metric_name]["scores"].append(metric_data.get("score", 0))
+
+    # Calculate average scores for each metric
+    metrics_avg = {}
+    for metric_name, data in metrics_totals.items():
+        scores = data["scores"]
+        metrics_avg[metric_name] = sum(scores) / len(scores) if scores else 0
 
     timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
@@ -75,6 +95,13 @@ def generate_html_report(json_data: List[Dict[str, Any]]) -> str:
                 box-shadow: 0 2px 5px rgba(0,0,0,0.1);
                 flex: 1;
             }}
+            .metric-summary {{
+                background-color: white;
+                border-radius: 5px;
+                padding: 15px;
+                margin: 15px 0;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            }}
             .test-case {{
                 background-color: #f8f9fa;
                 border-radius: 5px;
@@ -114,7 +141,13 @@ def generate_html_report(json_data: List[Dict[str, Any]]) -> str:
                 height: 100%;
                 background-color: #28a745;
                 border-radius: 5px;
-                width: {success_rate}%;
+                width: {overall_success_rate}%;
+            }}
+            .test-summary {{
+                margin-top: 10px;
+                padding: 10px;
+                background-color: #f2f2f2;
+                border-radius: 5px;
             }}
         </style>
     </head>
@@ -123,7 +156,7 @@ def generate_html_report(json_data: List[Dict[str, Any]]) -> str:
         <p>Generated on: {timestamp}</p>
         
         <div class="summary">
-            <h2>Summary</h2>
+            <h2>Overall Summary</h2>
             <div class="progress-bar">
                 <div class="progress"></div>
             </div>
@@ -142,21 +175,54 @@ def generate_html_report(json_data: List[Dict[str, Any]]) -> str:
                 </div>
                 <div class="stat-box">
                     <h3>Success Rate</h3>
-                    <p>{success_rate:.2f}%</p>
+                    <p>{overall_success_rate:.2f}%</p>
                 </div>
             </div>
+            
+            <h2>Metrics Summary</h2>
+    """
+    
+    # Add metrics summary section
+    for metric_name in sorted(all_metrics):
+        metric_data = metrics_totals[metric_name]
+        pass_rate = (metric_data["passed"] / metric_data["total"]) * 100 if metric_data["total"] > 0 else 0
+        avg_score = metrics_avg[metric_name]
+        
+        status_class = "success" if pass_rate >= 70 else "failure"
+        
+        html += f"""
+            <div class="metric-summary">
+                <h3>{metric_name}</h3>
+                <p><strong>Pass Rate:</strong> <span class="{status_class}">{metric_data["passed"]}/{metric_data["total"]} ({pass_rate:.2f}%)</span></p>
+                <p><strong>Average Score:</strong> {avg_score:.2f}</p>
+                <div class="progress-bar">
+                    <div class="progress" style="width: {pass_rate}%"></div>
+                </div>
+            </div>
+        """
+    
+    html += """
         </div>
         
-        <h2>Test Results</h2>
+        <h2>Individual Test Results</h2>
     """
 
     for test in json_data:
         status_class = "success" if test.get("success", False) else "failure"
         status_text = "PASSED" if test.get("success", False) else "FAILED"
 
+        # Calculate average score for this test if metrics exist
+        avg_test_score = 0
+        if "metrics" in test:
+            scores = [data.get("score", 0) for data in test["metrics"].values()]
+            avg_test_score = sum(scores) / len(scores) if scores else 0
+
         html += f"""
         <div class="test-case">
             <h3>{test.get("test_name", "Unnamed Test")} - <span class="{status_class}">{status_text}</span></h3>
+            <div class="test-summary">
+                <p><strong>Average Score: </strong>{avg_test_score:.2f}</p>
+            </div>
             <p><strong>Question:</strong> {test.get("question", "")}</p>
             <div><strong>Actual context:</strong> <pre>{test.get("actual_context", test.get("actual_conext", ""))}</pre></div>
             <p><strong>Expected Output:</strong> {test.get("expected_output", "")}</p>
