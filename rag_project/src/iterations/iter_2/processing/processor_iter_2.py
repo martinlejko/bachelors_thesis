@@ -139,6 +139,8 @@ class DocumentProcessor:
         Returns:
             str: Cleaned text
         """
+        logger.info("Cleaning text with minimal cleaning method")
+        print(f"Cleaning text.")
         cleaned = text.lower()
         cleaned = re.sub(r"\s+", " ", cleaned).strip()
 

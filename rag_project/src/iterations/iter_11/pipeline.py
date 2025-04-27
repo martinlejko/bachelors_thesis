@@ -1,4 +1,4 @@
-"""Iteration 7: Defines the pipeline logic for iteration 7."""
+"""Iteration 9: Defines the pipeline logic for iteration 9."""
 
 """
 Initial RAG pipeline implementation.
@@ -10,12 +10,12 @@ based on the proof of concept code. Aiming to improve the quality of the data by
 import logging
 from typing import Optional
 
-from src.common.config import TEST_URLS, OLLAMA_MODEL, EMBEDDING_MODEL_EXPERIMENTAL
+from src.common.config import TEST_URLS, OLLAMA_MODEL, EMBEDDING_MODEL
 from src.common.utils import setup_environment
 from src.ingestion.base import DataIngestionSource
-from src.processing.processor import DocumentProcessor
-from src.rag_pipeline.pipeline import RagPipeline
-from src.iterations.iter_7.rag_pipeline.vector_store import VectorStoreManager
+from src.iterations.iter_11.rag_pipeline.processor_iter_11 import DocumentProcessor
+from src.iterations.iter_11.rag_pipeline.pipeline import RagPipeline
+from src.rag_pipeline.vector_store import VectorStoreManager
 from src.ingestion.pdf import PdfFolderSource
 from src.common.models import Document
 
@@ -35,7 +35,7 @@ def create_pipeline(
     use_confluence: bool = False,
     confluence_space: Optional[str] = None,
     model_name: str = OLLAMA_MODEL,
-    embedding_model: str = EMBEDDING_MODEL_EXPERIMENTAL,
+    embedding_model: str = EMBEDDING_MODEL,
     force_refresh: bool = False,
 ) -> RagPipeline:
     """

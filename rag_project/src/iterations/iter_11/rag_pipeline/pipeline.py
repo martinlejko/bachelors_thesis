@@ -58,7 +58,7 @@ class RagPipeline:
         self.llm = ChatOllama(model=model_name)
 
         # Initialize the prompt template
-        self.prompt_template = self._create_financial_prompt_template()
+        self.prompt_template = self._create_prompt_template()
 
         # Vector store and chain will be initialized when needed
         self.vector_store = None
@@ -158,38 +158,25 @@ class RagPipeline:
         logger.info(f"Loaded {len(all_documents)} documents in total")
         return all_documents
 
-    def _create_financial_prompt_template(self) -> ChatPromptTemplate:
+    def _create_prompt_template(self) -> ChatPromptTemplate:
         """
-        Create the RAG prompt template for financial data analysis.
+        Create the RAG prompt template.
+
         Returns:
             ChatPromptTemplate: The prompt template
         """
-        logger.info("Creating financial prompt template")
         template = """
-        You are a specialized ETF and investment fund analyst with expertise in analyzing financial documents including annual reports, prospectuses, fact sheets, earnings calls, balance sheets, and performance summaries.
+        You are an assistant for question-answering tasks. Use the following pieces of retrieved 
+        context to answer the question. If you don't know the answer, just say that you don't know. 
+        Use three sentences maximum and keep the answer concise.
         
         <context>
         {context}
         </context>
         
-        Extract and synthesize key financial insights from the provided context to answer the question. Key information includes:
-        - Performance metrics (returns, expense ratios, tracking error)
-        - Portfolio composition and allocation percentages
-        - Risk indicators and benchmarks
-        - Management changes or strategy shifts
-        - Fee structures and expense trends
-        
-        When answering:
-        1. Only use information explicitly stated in the context
-        2. Cite specific figures with their exact values and time periods
-        3. If the answer is not clearly contained in the context, state "Based on the provided information, I cannot determine [specific aspect]" rather than speculating
-        4. Distinguish between factual data points and forward-looking statements
-        5. Preserve the precision of numerical data (do not round unless specified)
-        
-        Keep your response to three sentences maximum unless additional detail is essential for accuracy.
-        
         Question: {question}
         """
+
         return ChatPromptTemplate.from_template(template)
 
     def _format_docs(self, docs: List[Any]) -> str:
@@ -220,6 +207,7 @@ class RagPipeline:
             | StrOutputParser()
         )
 
+        # Wrap the chain to include retrieved documents in the output
         def invoke_with_retrieval_context(question):
             # Get retrieved documents
             retrieved_docs = retriever.invoke(question)

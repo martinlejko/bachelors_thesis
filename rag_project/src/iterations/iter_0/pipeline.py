@@ -28,7 +28,7 @@ logger = logging.getLogger(__name__)
 
 
 def create_pipeline(
-    use_web_urls: bool = True,
+    use_web_urls: bool = False,
     use_pdf: bool = True,
     use_confluence: bool = False,
     confluence_space: Optional[str] = None,
