@@ -169,13 +169,83 @@ Key metrics measured might include:
 
 The framework is designed to produce comparable results across iterations, helping to identify the impact of specific changes on the RAG system's performance. Results are typically logged and saved, including detailed HTML report.
 
-## Extending the Project
+## Test Data and JSON Schema
 
-*   **Adding a New Data Source**: Create a new class inheriting from `DataIngestionSource` in `src/ingestion/`, implement its methods, and integrate it into a pipeline iteration.
-*   **Creating a New Iteration**:
-    1.  Create a new directory under `src/iterations/` (e.g., `iter_M/`) for the new iteration.
-    2.  Modify the pipeline logic (`pipeline.py`) or associated components (e.g., processing functions) within the new iteration directory (`src/iterations/iter_M/`).
-    3.  Ensure the new iteration's `create_pipeline` function is correctly imported and used in the testing/evaluation framework (`src/testing/test_rag.py`). Tests should automatically pick up the new iteration if structured correctly.
+### Locating Test Data
+Test data after evaluation is stored in the `test_results/` directory at the project root. JSON files contain raw results per iteration (e.g., `results_iter_3_20250419_152405.json`). You can use these files to review individual test outcomes or to drive custom evaluation scripts.
+
+### JSON Schema for Result Files
+Below is the JSON schema defining the structure of the evaluation result files:
+```json
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "array",
+  "items": {
+    "type": "object",
+    "properties": {
+      "test_name": {"type": "string"},
+      "timestamp": {"type": "string", "format": "date-time"},
+      "question": {"type": "string"},
+      "actual_context": {"type": "array", "items": {"type": "string"}},
+      "context": {"type": "array", "items": {"type": "string"}},
+      "actual_output": {"type": "string"},
+      "expected_output": {"type": "string"},
+      "metrics": {
+        "type": "object",
+        "patternProperties": {
+          ".*": {
+            "type": "object",
+            "properties": {
+              "score": {"type": "number"},
+              "threshold": {"type": "number"},
+              "passed": {"type": "boolean"}
+            },
+            "required": ["score","threshold","passed"]
+          }
+        }
+      },
+      "success": {"type": "boolean"},
+      "iteration": {"type": "string"}
+    },
+    "required": ["test_name","timestamp","question","actual_context","context","actual_output","expected_output","metrics","success","iteration"]
+  }
+}
+```
+
+### Test Data JSON Structure
+
+Below is the JSON schema defining how individual test case files (e.g., entries in `src/testing/test_data.py`) should be structured:
+```json
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "properties": {
+    "question": {"type": "string"},
+    "expected_output": {"type": "string"},
+    "context": {"type": "array", "items": {"type": "string"}}
+  },
+  "required": ["question", "expected_output", "context"]
+}
+```
+
+## Extending the Project Further
+
+### Adding a New Iteration
+1. Create a new folder under `src/iterations/` named `iter_<N>` (e.g., `iter_4`).
+2. Add a `pipeline.py` file implementing your custom pipeline logic.
+3. If your iteration requires custom versions of shared components (e.g., processing or retrieval), place them in your iteration folder and import accordingly.
+
+### Adding or Modifying Metrics
+To change evaluation thresholds or add new metrics, edit `src/evaluation/metrics.py`. Define new metric functions and configure thresholds as needed. Please refer to the [DeepEval documentation](https://www.deepeval.com/docs/metrics-introduction) for details about supported metrics. 
+
+### Extending Test Cases
+Test inputs and expected outputs are managed in `src/testing/test_data.py`. Add new question entries or modify existing ones to expand your test suite.
+
+### Adding New Embedding Data
+Place any public documents (e.g., PDFs) for ingestion in `src/data/public/`. The ingestion module will automatically include these files when running the pipeline.
+
+### Creating boxplots
+To create boxplots for the evaluation results, you can use the `src/testing/boxplot.py` script. This script generates boxplots based on the evaluation results stored in the `test_results/` directory. You can customize the script to include specific metrics or iterations as needed.
 
 ## License
 

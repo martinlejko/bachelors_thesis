@@ -20,6 +20,9 @@ langchain-community = "^0.3.20"
 deepeval = "^2.5.5"
 pytest = "^8.1.1"
 nltk = "^3.9.1"
+seaborn = "^0.13.2"
+matplotlib = "^3.10.1"
+pandas = "^2.2.3"
 
 [tool.poetry.group.dev.dependencies]
 ruff = "^0.11.2"
