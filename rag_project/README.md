@@ -58,7 +58,7 @@ The primary goal is to experiment with different configurations of a RAG pipelin
 3.  **Pull Required Ollama Models:**
     This project requires specific LLM and embedding models to be available via Ollama. Check the configuration (e.g., `src/common/config.py`) for the model names specified in `OLLAMA_MODEL` and `EMBEDDING_MODEL`. Pull them using:
     ```bash
-    ollama pull <model_name> # e.g., ollama pull lllama3.1:8b
+    ollama pull <model_name> # e.g., ollama pull llama3.1:8b
     ollama pull <embedding_model_name> # e.g., ollama pull nomic-embed-text
     ```
     *Note: Ensure the models defined in your config are pulled.*
