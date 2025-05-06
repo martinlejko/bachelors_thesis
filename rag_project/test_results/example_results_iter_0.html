@@ -1,0 +1,612 @@
+
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>RAG System Evaluation Report</title>
+        <style>
+            body {
+                font-family: Arial, sans-serif;
+                line-height: 1.6;
+                color: #333;
+                max-width: 1200px;
+                margin: 0 auto;
+                padding: 20px;
+            }
+            h1, h2, h3 {
+                color: #2c3e50;
+            }
+            .summary {
+                background-color: #f8f9fa;
+                border-radius: 5px;
+                padding: 20px;
+                margin-bottom: 30px;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            }
+            .summary-stats {
+                display: flex;
+                justify-content: space-between;
+                flex-wrap: wrap;
+                margin-top: 20px;
+            }
+            .stat-box {
+                background-color: white;
+                border-radius: 5px;
+                padding: 15px;
+                min-width: 150px;
+                margin: 10px;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+                flex: 1;
+            }
+            .metric-summary {
+                background-color: white;
+                border-radius: 5px;
+                padding: 15px;
+                margin: 15px 0;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            }
+            .test-case {
+                background-color: #f8f9fa;
+                border-radius: 5px;
+                padding: 20px;
+                margin-bottom: 20px;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            }
+            .metrics-table {
+                width: 100%;
+                border-collapse: collapse;
+                margin-top: 15px;
+            }
+            .metrics-table th, .metrics-table td {
+                border: 1px solid #ddd;
+                padding: 8px;
+                text-align: left;
+            }
+            .metrics-table th {
+                background-color: #f2f2f2;
+            }
+            .success {
+                color: #28a745;
+                font-weight: bold;
+            }
+            .failure {
+                color: #dc3545;
+                font-weight: bold;
+            }
+            .progress-bar {
+                height: 20px;
+                background-color: #e9ecef;
+                border-radius: 5px;
+                margin-top: 10px;
+                overflow: hidden;
+            }
+            .progress {
+                height: 100%;
+                background-color: #28a745;
+                border-radius: 5px;
+                width: 44.44444444444444%;
+            }
+            .test-summary {
+                margin-top: 10px;
+                padding: 10px;
+                background-color: #f2f2f2;
+                border-radius: 5px;
+            }
+        </style>
+    </head>
+    <body>
+        <h1>RAG System Evaluation Report</h1>
+        <p>Generated on: 2025-04-19 19:37:38</p>
+        
+        <div class="summary">
+            <h2>Overall Summary</h2>
+            <div class="progress-bar">
+                <div class="progress"></div>
+            </div>
+            <div class="summary-stats">
+                <div class="stat-box">
+                    <h3>Total Tests</h3>
+                    <p>9</p>
+                </div>
+                <div class="stat-box">
+                    <h3>Passed</h3>
+                    <p class="success">4</p>
+                </div>
+                <div class="stat-box">
+                    <h3>Failed</h3>
+                    <p class="failure">5</p>
+                </div>
+                <div class="stat-box">
+                    <h3>Success Rate</h3>
+                    <p>44.44%</p>
+                </div>
+            </div>
+            
+            <h2>Metrics Summary</h2>
+    
+            <div class="metric-summary">
+                <h3>Answer Correctness (GEval)</h3>
+                <p><strong>Pass Rate:</strong> <span class="failure">4/9 (44.44%)</span></p>
+                <p><strong>Average Score:</strong> 0.49</p>
+                <div class="progress-bar">
+                    <div class="progress" style="width: 44.44444444444444%"></div>
+                </div>
+            </div>
+        
+            <div class="metric-summary">
+                <h3>Answer Relevancy (GEval)</h3>
+                <p><strong>Pass Rate:</strong> <span class="success">7/9 (77.78%)</span></p>
+                <p><strong>Average Score:</strong> 0.73</p>
+                <div class="progress-bar">
+                    <div class="progress" style="width: 77.77777777777779%"></div>
+                </div>
+            </div>
+        
+            <div class="metric-summary">
+                <h3>Conciseness (GEval)</h3>
+                <p><strong>Pass Rate:</strong> <span class="success">7/9 (77.78%)</span></p>
+                <p><strong>Average Score:</strong> 0.73</p>
+                <div class="progress-bar">
+                    <div class="progress" style="width: 77.77777777777779%"></div>
+                </div>
+            </div>
+        
+            <div class="metric-summary">
+                <h3>Context Relevancy (GEval)</h3>
+                <p><strong>Pass Rate:</strong> <span class="success">9/9 (100.00%)</span></p>
+                <p><strong>Average Score:</strong> 0.99</p>
+                <div class="progress-bar">
+                    <div class="progress" style="width: 100.0%"></div>
+                </div>
+            </div>
+        
+        </div>
+        
+        <h2>Individual Test Results</h2>
+    
+        <div class="test-case">
+            <h3>market_trends_2023 - <span class="failure">FAILED</span></h3>
+            <div class="test-summary">
+                <p><strong>Average Score: </strong>0.70</p>
+            </div>
+            <p><strong>Question:</strong> What were the key market trends in 2023?</p>
+            <div><strong>Actual context:</strong> <pre>['more resilient than many investors expected. The U.S. economy continued to show strength, andgrowth\nfurther accelerated in the second half of 2023. Large-capitalization U.S. stocks posted particularly\nsubstantial gains, supported by the performance of a few notable technology companies, while small-\ncapitalization U.S. stocks’ advance was slower but still impressive. Meanwhile, both international\ndeveloped market equities and emerging market stocks alsogained, albeit at a notably slower pace than\nthat ofU .S. stocks.\nThe 10-year U.S. Treasuryy ield rose during the reporting period, driving its price down, as investors\nreacted to elevated inflation and attempted to anticipatefuture interest rate changes. However, higher\nyields drove solidgains in shorter-duration U.S. Treasuries. The corporate bond market benefited from\nimproving economic sentiment, althoughh igh-yield corporate bond pricesfared significantly better than', 'markets advanced during the 12 months ended april 30, 2024(“reporting period”), supported by continued economicgrowth and moderating inflation in most parts of the world. the msci acwi, a broadglobal equity index that includes both developed and emerging markets, returned 17.46% in u.s. dollar terms for the reporting period. despite concerns about the impact of higher interest rates and rising prices, theglobal economy was resilient, posting moderate gr o w t hi n2023 at a similar pace to the', 'markets advanced during the 12 months ended april 30, 2024(“reporting period”), supported by continued economicgrowth and moderating inflation in most parts of the world. the msci acwi, a broadglobal equity index that includes both developed and emerging markets, returned 17.46% in u.s. dollar terms for the reporting period. despite concerns about the impact of higher interest rates and rising prices, theglobal economy was resilient, posting moderate gr o w t hi n2023 at a similar pace to the', 'markets advanced during the 12 months ended april 30, 2024(“reporting period”), supported by continued economicgrowth and moderating inflation in most parts of the world. the msci acwi, a broadglobal equity index that includes both developed and emerging markets, returned 17.46% in u.s. dollar terms for the reporting period. despite concerns about the impact of higher interest rates and rising prices, theglobal economy was resilient, posting moderate gr o w t hi n2023 at a similar pace to the']</pre></div>
+            <p><strong>Expected Output:</strong> The stock market saw a strong rebound driven by technology stocks and easing inflation.</p>
+            <p><strong>Actual Output:</strong> The global economy posted moderate growth in 2023 at a similar pace to the previous period. Large-capitalization U.S. stocks, international developed market equities, and emerging market stocks all gained, although with varying speeds. The MSCI ACWI, a broad global equity index, returned 17.46% in USD terms for the year.</p>
+            
+            <table class="metrics-table">
+                <tr>
+                    <th>Metric</th>
+                    <th>Score</th>
+                    <th>Threshold</th>
+                    <th>Status</th>
+                </tr>
+        
+                <tr>
+                    <td>Answer Correctness (GEval)</td>
+                    <td>0.20</td>
+                    <td>0.50</td>
+                    <td class="failure">FAILED</td>
+                </tr>
+                
+                <tr>
+                    <td>Answer Relevancy (GEval)</td>
+                    <td>0.80</td>
+                    <td>0.50</td>
+                    <td class="success">PASSED</td>
+                </tr>
+                
+                <tr>
+                    <td>Conciseness (GEval)</td>
+                    <td>0.80</td>
+                    <td>0.50</td>
+                    <td class="success">PASSED</td>
+                </tr>
+                
+                <tr>
+                    <td>Context Relevancy (GEval)</td>
+                    <td>1.00</td>
+                    <td>0.50</td>
+                    <td class="success">PASSED</td>
+                </tr>
+                
+            </table>
+        </div>
+        
+        <div class="test-case">
+            <h3>investor_support - <span class="success">PASSED</span></h3>
+            <div class="test-summary">
+                <p><strong>Average Score: </strong>1.00</p>
+            </div>
+            <p><strong>Question:</strong> What factors helped investors during the 12-month period ending April 30, 2024?</p>
+            <div><strong>Actual context:</strong> <pre>['Dear Shareholder,\nThe combination of continued economicgrowth and cooling inflation provided a supportive backdropfor\ninvestors during the 12-month reporting period ended April 30, 2024. Higher interest rates helped to rein\nini nflation, and theConsumer Price Index decelerated substantially while remaining above pre-pandemic\nlevels. A moderating labor market helped ease inflationary pressure, althoughw ages continued togrow.', 'Dear Shareholder,\nThe combination of continued economicgrowth and cooling inflation provided a supportive backdropfor\ninvestors during the 12-month reporting period ended April 30, 2024. Higher interest rates helped to rein\nini nflation, and theConsumer Price Index decelerated substantially while remaining above pre-pandemic\nlevels. A moderating labor market helped ease inflationary pressure, althoughw ages continued togrow.', 'Dear Shareholder,\nThe combination of continued economicgrowth and cooling inflation provided a supportive backdropfor\ninvestors during the 12-month reporting period ended April 30, 2024. Higher interest rates helped to rein\nini nflation, and theConsumer Price Index decelerated substantially while remaining above pre-pandemic\nlevels. A moderating labor market helped ease inflationary pressure, althoughw ages continued togrow.', 'Dear Shareholder,\nThe combination of continued economicgrowth and cooling inflation provided a supportive backdropfor\ninvestors during the 12-month reporting period ended April 30, 2024. Higher interest rates helped to rein\nini nflation, and theConsumer Price Index decelerated substantially while remaining above pre-pandemic\nlevels. A moderating labor market helped ease inflationary pressure, althoughw ages continued togrow.']</pre></div>
+            <p><strong>Expected Output:</strong> Continued economic growth and cooling inflation provided a supportive backdrop for investors.</p>
+            <p><strong>Actual Output:</strong> Continued economic growth and cooling inflation provided a supportive backdrop for investors. Higher interest rates helped to rein in inflation, and the Consumer Price Index decelerated substantially. A moderating labor market also eased inflationary pressure.</p>
+            
+            <table class="metrics-table">
+                <tr>
+                    <th>Metric</th>
+                    <th>Score</th>
+                    <th>Threshold</th>
+                    <th>Status</th>
+                </tr>
+        
+                <tr>
+                    <td>Answer Correctness (GEval)</td>
+                    <td>1.00</td>
+                    <td>0.50</td>
+                    <td class="success">PASSED</td>
+                </tr>
+                
+                <tr>
+                    <td>Answer Relevancy (GEval)</td>
+                    <td>1.00</td>
+                    <td>0.50</td>
+                    <td class="success">PASSED</td>
+                </tr>
+                
+                <tr>
+                    <td>Conciseness (GEval)</td>
+                    <td>1.00</td>
+                    <td>0.50</td>
+                    <td class="success">PASSED</td>
+                </tr>
+                
+                <tr>
+                    <td>Context Relevancy (GEval)</td>
+                    <td>1.00</td>
+                    <td>0.50</td>
+                    <td class="success">PASSED</td>
+                </tr>
+                
+            </table>
+        </div>
+        
+        <div class="test-case">
+            <h3>emerging_markets_etf - <span class="success">PASSED</span></h3>
+            <div class="test-summary">
+                <p><strong>Average Score: </strong>1.00</p>
+            </div>
+            <p><strong>Question:</strong> What does the iShares Emerging Markets Dividend ETF aim to track?</p>
+            <div><strong>Actual context:</strong> <pre>['Investment Objective\nThe iShares Emerging Markets Dividend ETF(the “Fund”) seeks to track the investment results of an index composed of relatively high dividend paying equities in\nemerging markets, as represented by the Dow Jones Emerging Markets Select Dividend IndexTM (the “Index”). The Fund invests in a representative sample of securities', 'Investment Objective\nThe iShares Emerging Markets Dividend ETF(the “Fund”) seeks to track the investment results of an index composed of relatively high dividend paying equities in\nemerging markets, as represented by the Dow Jones Emerging Markets Select Dividend IndexTM (the “Index”). The Fund invests in a representative sample of securities', 'Investment Objective\nThe iShares Emerging Markets Dividend ETF(the “Fund”) seeks to track the investment results of an index composed of relatively high dividend paying equities in\nemerging markets, as represented by the Dow Jones Emerging Markets Select Dividend IndexTM (the “Index”). The Fund invests in a representative sample of securities', 'Investment Objective\nThe iShares Emerging Markets Dividend ETF(the “Fund”) seeks to track the investment results of an index composed of relatively high dividend paying equities in\nemerging markets, as represented by the Dow Jones Emerging Markets Select Dividend IndexTM (the “Index”). The Fund invests in a representative sample of securities']</pre></div>
+            <p><strong>Expected Output:</strong> It aims to track the investment results of an index composed of relatively high dividend paying equities in emerging markets.</p>
+            <p><strong>Actual Output:</strong> The iShares Emerging Markets Dividend ETF aims to track an index composed of relatively high dividend paying equities in emerging markets, represented by the Dow Jones Emerging Markets Select Dividend Index. It seeks to replicate the investment results of this specific index. The fund invests in a representative sample of securities that make up the index.</p>
+            
+            <table class="metrics-table">
+                <tr>
+                    <th>Metric</th>
+                    <th>Score</th>
+                    <th>Threshold</th>
+                    <th>Status</th>
+                </tr>
+        
+                <tr>
+                    <td>Answer Correctness (GEval)</td>
+                    <td>1.00</td>
+                    <td>0.50</td>
+                    <td class="success">PASSED</td>
+                </tr>
+                
+                <tr>
+                    <td>Answer Relevancy (GEval)</td>
+                    <td>1.00</td>
+                    <td>0.50</td>
+                    <td class="success">PASSED</td>
+                </tr>
+                
+                <tr>
+                    <td>Conciseness (GEval)</td>
+                    <td>1.00</td>
+                    <td>0.50</td>
+                    <td class="success">PASSED</td>
+                </tr>
+                
+                <tr>
+                    <td>Context Relevancy (GEval)</td>
+                    <td>1.00</td>
+                    <td>0.50</td>
+                    <td class="success">PASSED</td>
+                </tr>
+                
+            </table>
+        </div>
+        
+        <div class="test-case">
+            <h3>market_outlook - <span class="success">PASSED</span></h3>
+            <div class="test-summary">
+                <p><strong>Average Score: </strong>0.82</p>
+            </div>
+            <p><strong>Question:</strong> What is the investment stance on U.S., Japanese, and European stocks?</p>
+            <div><strong>Actual context:</strong> <pre>['at developed market stocks, we have an overweight stance on u.s. stocks overall, particularly given the promise of emerging ai technologies. we are also overweight japanese stocks as shareholder- friendly policies generate increased investor interest, although we maintain an underweight stance on european stocks. in credit, we believe there are selective opportunities in the near term despite tighter credit andfinancial conditions. forfixed income investing with a six- to twelve-month horizon,', 'at developed market stocks, we have an overweight stance on u.s. stocks overall, particularly given the promise of emerging ai technologies. we are also overweight japanese stocks as shareholder- friendly policies generate increased investor interest, although we maintain an underweight stance on european stocks. in credit, we believe there are selective opportunities in the near term despite tighter credit andfinancial conditions. forfixed income investing with a six- to twelve-month horizon,', 'at developed market stocks, we have an overweight stance on u.s. stocks overall, particularly given the promise of emerging ai technologies. we are also overweight japanese stocks as shareholder- friendly policies generate increased investor interest, although we maintain an underweight stance on european stocks. in credit, we believe there are selective opportunities in the near term despite tighter credit andfinancial conditions. forfixed income investing with a six- to twelve-month horizon,', 'supervision not typically associated with investing in U.S. securities. Investment percentages in specific countries are presented in theSchedule of Investments.\nCertain Funds invest a significant portion of their assets in securities of issuers located in Asia or with significant exposure to Asian issuers or countries.T h eAsian financial']</pre></div>
+            <p><strong>Expected Output:</strong> There is an overweight stance on U.S. and Japanese stocks, and an underweight stance on European stocks.</p>
+            <p><strong>Actual Output:</strong> We have an overweight stance on U.S. stocks overall due to emerging AI technologies. We are also overweight Japanese stocks due to shareholder-friendly policies. We maintain an underweight stance on European stocks.</p>
+            
+            <table class="metrics-table">
+                <tr>
+                    <th>Metric</th>
+                    <th>Score</th>
+                    <th>Threshold</th>
+                    <th>Status</th>
+                </tr>
+        
+                <tr>
+                    <td>Answer Correctness (GEval)</td>
+                    <td>0.80</td>
+                    <td>0.50</td>
+                    <td class="success">PASSED</td>
+                </tr>
+                
+                <tr>
+                    <td>Answer Relevancy (GEval)</td>
+                    <td>0.80</td>
+                    <td>0.50</td>
+                    <td class="success">PASSED</td>
+                </tr>
+                
+                <tr>
+                    <td>Conciseness (GEval)</td>
+                    <td>0.70</td>
+                    <td>0.50</td>
+                    <td class="success">PASSED</td>
+                </tr>
+                
+                <tr>
+                    <td>Context Relevancy (GEval)</td>
+                    <td>1.00</td>
+                    <td>0.50</td>
+                    <td class="success">PASSED</td>
+                </tr>
+                
+            </table>
+        </div>
+        
+        <div class="test-case">
+            <h3>ai_investments_2023 - <span class="failure">FAILED</span></h3>
+            <div class="test-summary">
+                <p><strong>Average Score: </strong>0.38</p>
+            </div>
+            <p><strong>Question:</strong> Why did AI-related investments increase in 2023?</p>
+            <div><strong>Actual context:</strong> <pre>['given the promise of emerging AI technologies. We are also overweight Japanese stocks as shareholder-\nfriendly policies generate increased investor interest, although we maintain an underweight stance on\nEuropean stocks. In credit, we believe there are selective opportunities in the near term despite tighter\ncredit andfinancial conditions. Forfixed income investing with a six- to twelve-month horizon, we see the', 'given the promise of emerging AI technologies. We are also overweight Japanese stocks as shareholder-\nfriendly policies generate increased investor interest, although we maintain an underweight stance on\nEuropean stocks. In credit, we believe there are selective opportunities in the near term despite tighter\ncredit andfinancial conditions. Forfixed income investing with a six- to twelve-month horizon, we see the', 'given the promise of emerging AI technologies. We are also overweight Japanese stocks as shareholder-\nfriendly policies generate increased investor interest, although we maintain an underweight stance on\nEuropean stocks. In credit, we believe there are selective opportunities in the near term despite tighter\ncredit andfinancial conditions. Forfixed income investing with a six- to twelve-month horizon, we see the', 'given the promise of emerging AI technologies. We are also overweight Japanese stocks as shareholder-\nfriendly policies generate increased investor interest, although we maintain an underweight stance on\nEuropean stocks. In credit, we believe there are selective opportunities in the near term despite tighter\ncredit andfinancial conditions. Forfixed income investing with a six- to twelve-month horizon, we see the']</pre></div>
+            <p><strong>Expected Output:</strong> Businesses and investors saw AI as a transformative technology.</p>
+            <p><strong>Actual Output:</strong> I don't know. The context provided doesn't mention anything about AI-related investments increasing in 2023. It only mentions the promise of emerging AI technologies as a reason for overweighting Japanese stocks, but it doesn't provide information on investment trends or changes over time.</p>
+            
+            <table class="metrics-table">
+                <tr>
+                    <th>Metric</th>
+                    <th>Score</th>
+                    <th>Threshold</th>
+                    <th>Status</th>
+                </tr>
+        
+                <tr>
+                    <td>Answer Correctness (GEval)</td>
+                    <td>0.20</td>
+                    <td>0.50</td>
+                    <td class="failure">FAILED</td>
+                </tr>
+                
+                <tr>
+                    <td>Answer Relevancy (GEval)</td>
+                    <td>0.20</td>
+                    <td>0.50</td>
+                    <td class="failure">FAILED</td>
+                </tr>
+                
+                <tr>
+                    <td>Conciseness (GEval)</td>
+                    <td>0.20</td>
+                    <td>0.50</td>
+                    <td class="failure">FAILED</td>
+                </tr>
+                
+                <tr>
+                    <td>Context Relevancy (GEval)</td>
+                    <td>0.90</td>
+                    <td>0.50</td>
+                    <td class="success">PASSED</td>
+                </tr>
+                
+            </table>
+        </div>
+        
+        <div class="test-case">
+            <h3>emerging_markets_allocation - <span class="failure">FAILED</span></h3>
+            <div class="test-summary">
+                <p><strong>Average Score: </strong>0.60</p>
+            </div>
+            <p><strong>Question:</strong> What is the percentage allocation of the iShares Emerging Markets Dividend ETF into energy?</p>
+            <div><strong>Actual context:</strong> <pre>['Investment Objective\nThe iShares Emerging Markets Dividend ETF(the “Fund”) seeks to track the investment results of an index composed of relatively high dividend paying equities in\nemerging markets, as represented by the Dow Jones Emerging Markets Select Dividend IndexTM (the “Index”). The Fund invests in a representative sample of securities', 'Investment Objective\nThe iShares Emerging Markets Dividend ETF(the “Fund”) seeks to track the investment results of an index composed of relatively high dividend paying equities in\nemerging markets, as represented by the Dow Jones Emerging Markets Select Dividend IndexTM (the “Index”). The Fund invests in a representative sample of securities', 'Investment Objective\nThe iShares Emerging Markets Dividend ETF(the “Fund”) seeks to track the investment results of an index composed of relatively high dividend paying equities in\nemerging markets, as represented by the Dow Jones Emerging Markets Select Dividend IndexTM (the “Index”). The Fund invests in a representative sample of securities', 'Investment Objective\nThe iShares Emerging Markets Dividend ETF(the “Fund”) seeks to track the investment results of an index composed of relatively high dividend paying equities in\nemerging markets, as represented by the Dow Jones Emerging Markets Select Dividend IndexTM (the “Index”). The Fund invests in a representative sample of securities']</pre></div>
+            <p><strong>Expected Output:</strong> The ETF has a 21.1% allocation to energy.</p>
+            <p><strong>Actual Output:</strong> I don't know. The context provided only mentions the investment objective and index tracking, but does not specify any information about the percentage allocation to specific sectors such as energy.</p>
+            
+            <table class="metrics-table">
+                <tr>
+                    <th>Metric</th>
+                    <th>Score</th>
+                    <th>Threshold</th>
+                    <th>Status</th>
+                </tr>
+        
+                <tr>
+                    <td>Answer Correctness (GEval)</td>
+                    <td>0.20</td>
+                    <td>0.50</td>
+                    <td class="failure">FAILED</td>
+                </tr>
+                
+                <tr>
+                    <td>Answer Relevancy (GEval)</td>
+                    <td>1.00</td>
+                    <td>0.50</td>
+                    <td class="success">PASSED</td>
+                </tr>
+                
+                <tr>
+                    <td>Conciseness (GEval)</td>
+                    <td>0.20</td>
+                    <td>0.50</td>
+                    <td class="failure">FAILED</td>
+                </tr>
+                
+                <tr>
+                    <td>Context Relevancy (GEval)</td>
+                    <td>1.00</td>
+                    <td>0.50</td>
+                    <td class="success">PASSED</td>
+                </tr>
+                
+            </table>
+        </div>
+        
+        <div class="test-case">
+            <h3>recession_fears_2023 - <span class="failure">FAILED</span></h3>
+            <div class="test-summary">
+                <p><strong>Average Score: </strong>0.47</p>
+            </div>
+            <p><strong>Question:</strong> Why were recession fears high in 2023?</p>
+            <div><strong>Actual context:</strong> <pre>['more resilient than many investors expected. The U.S. economy continued to show strength, andgrowth\nfurther accelerated in the second half of 2023. Large-capitalization U.S. stocks posted particularly\nsubstantial gains, supported by the performance of a few notable technology companies, while small-\ncapitalization U.S. stocks’ advance was slower but still impressive. Meanwhile, both international\ndeveloped market equities and emerging market stocks alsogained, albeit at a notably slower pace than\nthat ofU .S. stocks.\nThe 10-year U.S. Treasuryy ield rose during the reporting period, driving its price down, as investors\nreacted to elevated inflation and attempted to anticipatefuture interest rate changes. However, higher\nyields drove solidgains in shorter-duration U.S. Treasuries. The corporate bond market benefited from\nimproving economic sentiment, althoughh igh-yield corporate bond pricesfared significantly better than', 'were high during the reporting period, raising concerns about potential disruptions to theglobal economy. ighting continued in kraine, and conflict erupted in aza following amas terrorist attack on srael. issile attacks on a major shipping lane in the iddle ast raised concerns about a wider conflict while disrupting some supply chains. mong developed economies, the .. stood out,growing at a robust pace in 2023 before slowing slightly in the first quarter of 2024. he .. consumer helped to power', 'as a structural market riskgoingf orward. see ourgeopolitical risk dashboard at blackrock.comfor more details. equity returns were robust during the period, as interest rates stabilized and the economy proved to be more resilient than many investors expected. the u.s. economy continued to show strength, andgrowth further accelerated in the second half of 2023. large-capitalization u.s. stocks posted particularly substantial gains, supported by the performance of a few notable technology', 'as a structural market riskgoingf orward. see ourgeopolitical risk dashboard at blackrock.comfor more details. equity returns were robust during the period, as interest rates stabilized and the economy proved to be more resilient than many investors expected. the u.s. economy continued to show strength, andgrowth further accelerated in the second half of 2023. large-capitalization u.s. stocks posted particularly substantial gains, supported by the performance of a few notable technology']</pre></div>
+            <p><strong>Expected Output:</strong> Rising interest rates and slowing economic growth led to concerns of a recession.</p>
+            <p><strong>Actual Output:</strong> I don't know. The provided context does not mention recession fears being high in 2023. It actually states that the U.S. economy continued to show strength and growth further accelerated in the second half of 2023.</p>
+            
+            <table class="metrics-table">
+                <tr>
+                    <th>Metric</th>
+                    <th>Score</th>
+                    <th>Threshold</th>
+                    <th>Status</th>
+                </tr>
+        
+                <tr>
+                    <td>Answer Correctness (GEval)</td>
+                    <td>0.00</td>
+                    <td>0.50</td>
+                    <td class="failure">FAILED</td>
+                </tr>
+                
+                <tr>
+                    <td>Answer Relevancy (GEval)</td>
+                    <td>0.10</td>
+                    <td>0.50</td>
+                    <td class="failure">FAILED</td>
+                </tr>
+                
+                <tr>
+                    <td>Conciseness (GEval)</td>
+                    <td>0.80</td>
+                    <td>0.50</td>
+                    <td class="success">PASSED</td>
+                </tr>
+                
+                <tr>
+                    <td>Context Relevancy (GEval)</td>
+                    <td>1.00</td>
+                    <td>0.50</td>
+                    <td class="success">PASSED</td>
+                </tr>
+                
+            </table>
+        </div>
+        
+        <div class="test-case">
+            <h3>inflation_decline_causes - <span class="failure">FAILED</span></h3>
+            <div class="test-summary">
+                <p><strong>Average Score: </strong>0.82</p>
+            </div>
+            <p><strong>Question:</strong> What were the main reasons for the decline in inflation?</p>
+            <div><strong>Actual context:</strong> <pre>['To counteract inflation, the U.S. Federal Reserve Bank(“Fed”) raised interest rates twice early in the reporting period, reaching the highest level since 2001. However, the\nFed paused its interest rate increases thereafter as inflation edged down, keeping interest rates steady following its July 2023 meeting. The Fed also continued to decrease\nt h es i z eof its balance sheet by reducing the store of U.S. Treasuries it had accumulated to stabilize markets in the early phases of the coronavirus pandemic. While investors\nclosely watched the Fed for signs of a shift toward lower interest rates, tenacious inflation later in the reporting period led investors to limit their expectations.\nEuropean stocks posted strongg ains as energy prices stabilized, and inflation decelerated sharply. Whilegrowth in the Eurozone was nearly flat, the tepid economy meant', 'ains as energy prices stabilized, and inflation decelerated sharply. hilegrowth in the urozone was nearly flat, the tepid economy meant that consumer spendingg rew slowly, leading to less upward pressure on prices. he uropean entral ank() raised interest rates four times in thef i rst half of the reporting period, but declined to increase interest rates thereafter, citing progress in lowering inflation. sia-acific region stocks also advanced, helped by the strong performance of apanese', 'improved supply chains easedgoods inflation, the tight labor market kept labor costs near record highs, andgrowing services inflation was a significant driver of inflations overall persistence. o counteract inflation, the .. ederal eserve ank(ed) raised interest rates twice early in the reporting period, reaching the highest level since 2001. owever, the ed paused its interest rate increases thereafter as inflation edged down, keeping interest rates steady following its uly 2023 meeting. he ed', 'the tight labor market kept labor costs near record highs, andgrowing services inflation was a significant driver of inflations overall persistence. o counteract inflation, the .. ederal eserve ank(ed) raised interest rates twice early in the reporting period, reaching the highest level since 2001. owever, the ed paused its interest rate increases thereafter as inflation edged down, keeping interest rates steady following its uly 2023 meeting. he ed also continued to decrease t h es i z eof its']</pre></div>
+            <p><strong>Expected Output:</strong> Supply chain improvements and higher interest rates helped reduce inflation.</p>
+            <p><strong>Actual Output:</strong> The main reasons for the decline in inflation included energy prices stabilizing and economic growth being nearly flat, leading to slower consumer spending and less upward pressure on prices. Improved supply chains also eased goods inflation. Additionally, services inflation was still a significant driver of overall persistence but showed some progress.</p>
+            
+            <table class="metrics-table">
+                <tr>
+                    <th>Metric</th>
+                    <th>Score</th>
+                    <th>Threshold</th>
+                    <th>Status</th>
+                </tr>
+        
+                <tr>
+                    <td>Answer Correctness (GEval)</td>
+                    <td>0.40</td>
+                    <td>0.50</td>
+                    <td class="failure">FAILED</td>
+                </tr>
+                
+                <tr>
+                    <td>Answer Relevancy (GEval)</td>
+                    <td>0.90</td>
+                    <td>0.50</td>
+                    <td class="success">PASSED</td>
+                </tr>
+                
+                <tr>
+                    <td>Conciseness (GEval)</td>
+                    <td>1.00</td>
+                    <td>0.50</td>
+                    <td class="success">PASSED</td>
+                </tr>
+                
+                <tr>
+                    <td>Context Relevancy (GEval)</td>
+                    <td>1.00</td>
+                    <td>0.50</td>
+                    <td class="success">PASSED</td>
+                </tr>
+                
+            </table>
+        </div>
+        
+        <div class="test-case">
+            <h3>asia_pacific_performance - <span class="success">PASSED</span></h3>
+            <div class="test-summary">
+                <p><strong>Average Score: </strong>0.82</p>
+            </div>
+            <p><strong>Question:</strong> What factors contributed to the performance of Asia-Pacific region stocks?</p>
+            <div><strong>Actual context:</strong> <pre>['Asia-Pacific region stocks also advanced, helped by the strong performance of Japanese equities. Japan returned to moderategr o w t hi nt h efourth quarter of 2023 following\na contraction in the third quarter. Solid exports, rising profits, and a series of corporate reforms bolstered Japanese stocks. However, Chinese equities were negatively', 'Asia-Pacific region stocks also advanced, helped by the strong performance of Japanese equities. Japan returned to moderategr o w t hi nt h efourth quarter of 2023 following\na contraction in the third quarter. Solid exports, rising profits, and a series of corporate reforms bolstered Japanese stocks. However, Chinese equities were negatively', 'Asia-Pacific region stocks also advanced, helped by the strong performance of Japanese equities. Japan returned to moderategr o w t hi nt h efourth quarter of 2023 following\na contraction in the third quarter. Solid exports, rising profits, and a series of corporate reforms bolstered Japanese stocks. However, Chinese equities were negatively', 'Asia-Pacific region stocks also advanced, helped by the strong performance of Japanese equities. Japan returned to moderategr o w t hi nt h efourth quarter of 2023 following\na contraction in the third quarter. Solid exports, rising profits, and a series of corporate reforms bolstered Japanese stocks. However, Chinese equities were negatively']</pre></div>
+            <p><strong>Expected Output:</strong> The strong performance of Japanese equities and India's economic growth contributed to the performance of Asia-Pacific region stocks.</p>
+            <p><strong>Actual Output:</strong> The strong performance of Japanese equities helped advance Asia-Pacific region stocks. Solid exports, rising profits, and a series of corporate reforms bolstered Japanese stocks. These factors contributed to Japan's moderate growth in the fourth quarter of 2023.</p>
+            
+            <table class="metrics-table">
+                <tr>
+                    <th>Metric</th>
+                    <th>Score</th>
+                    <th>Threshold</th>
+                    <th>Status</th>
+                </tr>
+        
+                <tr>
+                    <td>Answer Correctness (GEval)</td>
+                    <td>0.60</td>
+                    <td>0.50</td>
+                    <td class="success">PASSED</td>
+                </tr>
+                
+                <tr>
+                    <td>Answer Relevancy (GEval)</td>
+                    <td>0.80</td>
+                    <td>0.50</td>
+                    <td class="success">PASSED</td>
+                </tr>
+                
+                <tr>
+                    <td>Conciseness (GEval)</td>
+                    <td>0.90</td>
+                    <td>0.50</td>
+                    <td class="success">PASSED</td>
+                </tr>
+                
+                <tr>
+                    <td>Context Relevancy (GEval)</td>
+                    <td>1.00</td>
+                    <td>0.50</td>
+                    <td class="success">PASSED</td>
+                </tr>
+                
+            </table>
+        </div>
+        
+        </div>
+    </body>
+    </html>
+    

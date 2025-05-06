@@ -1,0 +1,371 @@
+[
+  {
+    "test_name": "market_trends_2023",
+    "timestamp": "2025-04-19T19:37:38.529755",
+    "question": "What were the key market trends in 2023?",
+    "actual_context": [
+      "more resilient than many investors expected. The U.S. economy continued to show strength, andgrowth\nfurther accelerated in the second half of 2023. Large-capitalization U.S. stocks posted particularly\nsubstantial gains, supported by the performance of a few notable technology companies, while small-\ncapitalization U.S. stocks\u2019 advance was slower but still impressive. Meanwhile, both international\ndeveloped market equities and emerging market stocks alsogained, albeit at a notably slower pace than\nthat ofU .S. stocks.\nThe 10-year U.S. Treasuryy ield rose during the reporting period, driving its price down, as investors\nreacted to elevated inflation and attempted to anticipatefuture interest rate changes. However, higher\nyields drove solidgains in shorter-duration U.S. Treasuries. The corporate bond market benefited from\nimproving economic sentiment, althoughh igh-yield corporate bond pricesfared significantly better than",
+      "markets advanced during the 12 months ended april 30, 2024(\u201creporting period\u201d), supported by continued economicgrowth and moderating inflation in most parts of the world. the msci acwi, a broadglobal equity index that includes both developed and emerging markets, returned 17.46% in u.s. dollar terms for the reporting period. despite concerns about the impact of higher interest rates and rising prices, theglobal economy was resilient, posting moderate gr o w t hi n2023 at a similar pace to the",
+      "markets advanced during the 12 months ended april 30, 2024(\u201creporting period\u201d), supported by continued economicgrowth and moderating inflation in most parts of the world. the msci acwi, a broadglobal equity index that includes both developed and emerging markets, returned 17.46% in u.s. dollar terms for the reporting period. despite concerns about the impact of higher interest rates and rising prices, theglobal economy was resilient, posting moderate gr o w t hi n2023 at a similar pace to the",
+      "markets advanced during the 12 months ended april 30, 2024(\u201creporting period\u201d), supported by continued economicgrowth and moderating inflation in most parts of the world. the msci acwi, a broadglobal equity index that includes both developed and emerging markets, returned 17.46% in u.s. dollar terms for the reporting period. despite concerns about the impact of higher interest rates and rising prices, theglobal economy was resilient, posting moderate gr o w t hi n2023 at a similar pace to the"
+    ],
+    "context": [
+      "Investors regained confidence as inflation cooled and central banks slowed interest rate hikes."
+    ],
+    "actual_output": "The global economy posted moderate growth in 2023 at a similar pace to the previous period. Large-capitalization U.S. stocks, international developed market equities, and emerging market stocks all gained, although with varying speeds. The MSCI ACWI, a broad global equity index, returned 17.46% in USD terms for the year.",
+    "expected_output": "The stock market saw a strong rebound driven by technology stocks and easing inflation.",
+    "metrics": {
+      "Answer Correctness (GEval)": {
+        "score": 0.2,
+        "threshold": 0.5,
+        "passed": false
+      },
+      "Answer Relevancy (GEval)": {
+        "score": 0.8,
+        "threshold": 0.5,
+        "passed": true
+      },
+      "Conciseness (GEval)": {
+        "score": 0.8,
+        "threshold": 0.5,
+        "passed": true
+      },
+      "Context Relevancy (GEval)": {
+        "score": 0.6,
+        "threshold": 0.5,
+        "passed": true
+      }
+    },
+    "success": false,
+    "iteration": "iter_0"
+  },
+  {
+    "test_name": "investor_support",
+    "timestamp": "2025-04-19T19:37:38.529794",
+    "question": "What factors helped investors during the 12-month period ending April 30, 2024?",
+    "actual_context": [
+      "Dear Shareholder,\nThe combination of continued economicgrowth and cooling inflation provided a supportive backdropfor\ninvestors during the 12-month reporting period ended April 30, 2024. Higher interest rates helped to rein\nini nflation, and theConsumer Price Index decelerated substantially while remaining above pre-pandemic\nlevels. A moderating labor market helped ease inflationary pressure, althoughw ages continued togrow.",
+      "Dear Shareholder,\nThe combination of continued economicgrowth and cooling inflation provided a supportive backdropfor\ninvestors during the 12-month reporting period ended April 30, 2024. Higher interest rates helped to rein\nini nflation, and theConsumer Price Index decelerated substantially while remaining above pre-pandemic\nlevels. A moderating labor market helped ease inflationary pressure, althoughw ages continued togrow.",
+      "Dear Shareholder,\nThe combination of continued economicgrowth and cooling inflation provided a supportive backdropfor\ninvestors during the 12-month reporting period ended April 30, 2024. Higher interest rates helped to rein\nini nflation, and theConsumer Price Index decelerated substantially while remaining above pre-pandemic\nlevels. A moderating labor market helped ease inflationary pressure, althoughw ages continued togrow.",
+      "Dear Shareholder,\nThe combination of continued economicgrowth and cooling inflation provided a supportive backdropfor\ninvestors during the 12-month reporting period ended April 30, 2024. Higher interest rates helped to rein\nini nflation, and theConsumer Price Index decelerated substantially while remaining above pre-pandemic\nlevels. A moderating labor market helped ease inflationary pressure, althoughw ages continued togrow."
+    ],
+    "context": [
+      "The combination of continued economic growth and cooling inflation provided a supportive backdrop for investors during the 12-month reporting period ended April 30, 2024.",
+      "Higher interest rates helped to rein in inflation, and the Consumer Price Index decelerated substantially while remaining above pre-pandemic levels.",
+      "Wage and job growth powered robust consumer spending, backstopping the economy."
+    ],
+    "actual_output": "Continued economic growth and cooling inflation provided a supportive backdrop for investors. Higher interest rates helped to rein in inflation, and the Consumer Price Index decelerated substantially. A moderating labor market also eased inflationary pressure.",
+    "expected_output": "Continued economic growth and cooling inflation provided a supportive backdrop for investors.",
+    "metrics": {
+      "Answer Correctness (GEval)": {
+        "score": 1.0,
+        "threshold": 0.5,
+        "passed": true
+      },
+      "Answer Relevancy (GEval)": {
+        "score": 1.0,
+        "threshold": 0.5,
+        "passed": true
+      },
+      "Conciseness (GEval)": {
+        "score": 1.0,
+        "threshold": 0.5,
+        "passed": true
+      },
+      "Context Relevancy (GEval)": {
+        "score": 0.7,
+        "threshold": 0.5,
+        "passed": true
+      }
+    },
+    "success": true,
+    "iteration": "iter_0"
+  },
+  {
+    "test_name": "emerging_markets_etf",
+    "timestamp": "2025-04-19T19:37:38.529802",
+    "question": "What does the iShares Emerging Markets Dividend ETF aim to track?",
+    "actual_context": [
+      "Investment Objective\nThe iShares Emerging Markets Dividend ETF(the \u201cFund\u201d) seeks to track the investment results of an index composed of relatively high dividend paying equities in\nemerging markets, as represented by the Dow Jones Emerging Markets Select Dividend IndexTM (the \u201cIndex\u201d). The Fund invests in a representative sample of securities",
+      "Investment Objective\nThe iShares Emerging Markets Dividend ETF(the \u201cFund\u201d) seeks to track the investment results of an index composed of relatively high dividend paying equities in\nemerging markets, as represented by the Dow Jones Emerging Markets Select Dividend IndexTM (the \u201cIndex\u201d). The Fund invests in a representative sample of securities",
+      "Investment Objective\nThe iShares Emerging Markets Dividend ETF(the \u201cFund\u201d) seeks to track the investment results of an index composed of relatively high dividend paying equities in\nemerging markets, as represented by the Dow Jones Emerging Markets Select Dividend IndexTM (the \u201cIndex\u201d). The Fund invests in a representative sample of securities",
+      "Investment Objective\nThe iShares Emerging Markets Dividend ETF(the \u201cFund\u201d) seeks to track the investment results of an index composed of relatively high dividend paying equities in\nemerging markets, as represented by the Dow Jones Emerging Markets Select Dividend IndexTM (the \u201cIndex\u201d). The Fund invests in a representative sample of securities"
+    ],
+    "context": [
+      "The iShares Emerging Markets Dividend ETF seeks to track the investment results of an index composed of relatively high dividend paying equities in emerging markets.",
+      "The Index is the Dow Jones Emerging Markets Select Dividend Index.",
+      "The Fund uses representative sampling and may not hold all securities in the Index."
+    ],
+    "actual_output": "The iShares Emerging Markets Dividend ETF aims to track an index composed of relatively high dividend paying equities in emerging markets, represented by the Dow Jones Emerging Markets Select Dividend Index. It seeks to replicate the investment results of this specific index. The fund invests in a representative sample of securities that make up the index.",
+    "expected_output": "It aims to track the investment results of an index composed of relatively high dividend paying equities in emerging markets.",
+    "metrics": {
+      "Answer Correctness (GEval)": {
+        "score": 1.0,
+        "threshold": 0.5,
+        "passed": true
+      },
+      "Answer Relevancy (GEval)": {
+        "score": 1.0,
+        "threshold": 0.5,
+        "passed": true
+      },
+      "Conciseness (GEval)": {
+        "score": 1.0,
+        "threshold": 0.5,
+        "passed": true
+      },
+      "Context Relevancy (GEval)": {
+        "score": 0.8,
+        "threshold": 0.5,
+        "passed": true
+      }
+    },
+    "success": true,
+    "iteration": "iter_0"
+  },
+  {
+    "test_name": "market_outlook",
+    "timestamp": "2025-04-19T19:37:38.529808",
+    "question": "What is the investment stance on U.S., Japanese, and European stocks?",
+    "actual_context": [
+      "at developed market stocks, we have an overweight stance on u.s. stocks overall, particularly given the promise of emerging ai technologies. we are also overweight japanese stocks as shareholder- friendly policies generate increased investor interest, although we maintain an underweight stance on european stocks. in credit, we believe there are selective opportunities in the near term despite tighter credit andfinancial conditions. forfixed income investing with a six- to twelve-month horizon,",
+      "at developed market stocks, we have an overweight stance on u.s. stocks overall, particularly given the promise of emerging ai technologies. we are also overweight japanese stocks as shareholder- friendly policies generate increased investor interest, although we maintain an underweight stance on european stocks. in credit, we believe there are selective opportunities in the near term despite tighter credit andfinancial conditions. forfixed income investing with a six- to twelve-month horizon,",
+      "at developed market stocks, we have an overweight stance on u.s. stocks overall, particularly given the promise of emerging ai technologies. we are also overweight japanese stocks as shareholder- friendly policies generate increased investor interest, although we maintain an underweight stance on european stocks. in credit, we believe there are selective opportunities in the near term despite tighter credit andfinancial conditions. forfixed income investing with a six- to twelve-month horizon,",
+      "supervision not typically associated with investing in U.S. securities. Investment percentages in specific countries are presented in theSchedule of Investments.\nCertain Funds invest a significant portion of their assets in securities of issuers located in Asia or with significant exposure to Asian issuers or countries.T h eAsian financial"
+    ],
+    "context": [
+      "There is an overweight stance on U.S. stocks overall, particularly due to emerging AI technologies.",
+      "Japanese stocks are also overweight due to shareholder-friendly policies and increased investor interest.",
+      "European stocks are underweight in the current investment stance."
+    ],
+    "actual_output": "We have an overweight stance on U.S. stocks overall due to emerging AI technologies. We are also overweight Japanese stocks due to shareholder-friendly policies. We maintain an underweight stance on European stocks.",
+    "expected_output": "There is an overweight stance on U.S. and Japanese stocks, and an underweight stance on European stocks.",
+    "metrics": {
+      "Answer Correctness (GEval)": {
+        "score": 0.8,
+        "threshold": 0.5,
+        "passed": true
+      },
+      "Answer Relevancy (GEval)": {
+        "score": 0.8,
+        "threshold": 0.5,
+        "passed": true
+      },
+      "Conciseness (GEval)": {
+        "score": 0.7,
+        "threshold": 0.5,
+        "passed": true
+      },
+      "Context Relevancy (GEval)": {
+        "score": 0.7,
+        "threshold": 0.5,
+        "passed": true
+      }
+    },
+    "success": true,
+    "iteration": "iter_0"
+  },
+  {
+    "test_name": "ai_investments_2023",
+    "timestamp": "2025-04-19T19:37:38.529814",
+    "question": "Why did AI-related investments increase in 2023?",
+    "actual_context": [
+      "given the promise of emerging AI technologies. We are also overweight Japanese stocks as shareholder-\nfriendly policies generate increased investor interest, although we maintain an underweight stance on\nEuropean stocks. In credit, we believe there are selective opportunities in the near term despite tighter\ncredit andfinancial conditions. Forfixed income investing with a six- to twelve-month horizon, we see the",
+      "given the promise of emerging AI technologies. We are also overweight Japanese stocks as shareholder-\nfriendly policies generate increased investor interest, although we maintain an underweight stance on\nEuropean stocks. In credit, we believe there are selective opportunities in the near term despite tighter\ncredit andfinancial conditions. Forfixed income investing with a six- to twelve-month horizon, we see the",
+      "given the promise of emerging AI technologies. We are also overweight Japanese stocks as shareholder-\nfriendly policies generate increased investor interest, although we maintain an underweight stance on\nEuropean stocks. In credit, we believe there are selective opportunities in the near term despite tighter\ncredit andfinancial conditions. Forfixed income investing with a six- to twelve-month horizon, we see the",
+      "given the promise of emerging AI technologies. We are also overweight Japanese stocks as shareholder-\nfriendly policies generate increased investor interest, although we maintain an underweight stance on\nEuropean stocks. In credit, we believe there are selective opportunities in the near term despite tighter\ncredit andfinancial conditions. Forfixed income investing with a six- to twelve-month horizon, we see the"
+    ],
+    "context": [
+      "Companies focused on AI adoption, boosting tech sector valuations."
+    ],
+    "actual_output": "I don't know. The context provided doesn't mention anything about AI-related investments increasing in 2023. It only mentions the promise of emerging AI technologies as a reason for overweighting Japanese stocks, but it doesn't provide information on investment trends or changes over time.",
+    "expected_output": "Businesses and investors saw AI as a transformative technology.",
+    "metrics": {
+      "Answer Correctness (GEval)": {
+        "score": 0.2,
+        "threshold": 0.5,
+        "passed": false
+      },
+      "Answer Relevancy (GEval)": {
+        "score": 0.2,
+        "threshold": 0.5,
+        "passed": false
+      },
+      "Conciseness (GEval)": {
+        "score": 0.2,
+        "threshold": 0.5,
+        "passed": false
+      },
+      "Context Relevancy (GEval)": {
+        "score": 0.9,
+        "threshold": 0.5,
+        "passed": true
+      }
+    },
+    "success": false,
+    "iteration": "iter_0"
+  },
+  {
+    "test_name": "emerging_markets_allocation",
+    "timestamp": "2025-04-19T19:37:38.529820",
+    "question": "What is the percentage allocation of the iShares Emerging Markets Dividend ETF into energy?",
+    "actual_context": [
+      "Investment Objective\nThe iShares Emerging Markets Dividend ETF(the \u201cFund\u201d) seeks to track the investment results of an index composed of relatively high dividend paying equities in\nemerging markets, as represented by the Dow Jones Emerging Markets Select Dividend IndexTM (the \u201cIndex\u201d). The Fund invests in a representative sample of securities",
+      "Investment Objective\nThe iShares Emerging Markets Dividend ETF(the \u201cFund\u201d) seeks to track the investment results of an index composed of relatively high dividend paying equities in\nemerging markets, as represented by the Dow Jones Emerging Markets Select Dividend IndexTM (the \u201cIndex\u201d). The Fund invests in a representative sample of securities",
+      "Investment Objective\nThe iShares Emerging Markets Dividend ETF(the \u201cFund\u201d) seeks to track the investment results of an index composed of relatively high dividend paying equities in\nemerging markets, as represented by the Dow Jones Emerging Markets Select Dividend IndexTM (the \u201cIndex\u201d). The Fund invests in a representative sample of securities",
+      "Investment Objective\nThe iShares Emerging Markets Dividend ETF(the \u201cFund\u201d) seeks to track the investment results of an index composed of relatively high dividend paying equities in\nemerging markets, as represented by the Dow Jones Emerging Markets Select Dividend IndexTM (the \u201cIndex\u201d). The Fund invests in a representative sample of securities"
+    ],
+    "context": [
+      "The iShares Emerging Markets Dividend ETF has a 21.1% allocation to energy.",
+      "The ETF invests in stocks from various sectors, including financials, consumer discretionary, and energy."
+    ],
+    "actual_output": "I don't know. The context provided only mentions the investment objective and index tracking, but does not specify any information about the percentage allocation to specific sectors such as energy.",
+    "expected_output": "The ETF has a 21.1% allocation to energy.",
+    "metrics": {
+      "Answer Correctness (GEval)": {
+        "score": 0.2,
+        "threshold": 0.5,
+        "passed": false
+      },
+      "Answer Relevancy (GEval)": {
+        "score": 1.0,
+        "threshold": 0.5,
+        "passed": true
+      },
+      "Conciseness (GEval)": {
+        "score": 0.2,
+        "threshold": 0.5,
+        "passed": false
+      },
+      "Context Relevancy (GEval)": {
+        "score": 0.7,
+        "threshold": 0.5,
+        "passed": true
+      }
+    },
+    "success": false,
+    "iteration": "iter_0"
+  },
+  {
+    "test_name": "recession_fears_2023",
+    "timestamp": "2025-04-19T19:37:38.529826",
+    "question": "Why were recession fears high in 2023?",
+    "actual_context": [
+      "more resilient than many investors expected. The U.S. economy continued to show strength, andgrowth\nfurther accelerated in the second half of 2023. Large-capitalization U.S. stocks posted particularly\nsubstantial gains, supported by the performance of a few notable technology companies, while small-\ncapitalization U.S. stocks\u2019 advance was slower but still impressive. Meanwhile, both international\ndeveloped market equities and emerging market stocks alsogained, albeit at a notably slower pace than\nthat ofU .S. stocks.\nThe 10-year U.S. Treasuryy ield rose during the reporting period, driving its price down, as investors\nreacted to elevated inflation and attempted to anticipatefuture interest rate changes. However, higher\nyields drove solidgains in shorter-duration U.S. Treasuries. The corporate bond market benefited from\nimproving economic sentiment, althoughh igh-yield corporate bond pricesfared significantly better than",
+      "were high during the reporting period, raising concerns about potential disruptions to theglobal economy. ighting continued in kraine, and conflict erupted in aza following amas terrorist attack on srael. issile attacks on a major shipping lane in the iddle ast raised concerns about a wider conflict while disrupting some supply chains. mong developed economies, the .. stood out,growing at a robust pace in 2023 before slowing slightly in the first quarter of 2024. he .. consumer helped to power",
+      "as a structural market riskgoingf orward. see ourgeopolitical risk dashboard at blackrock.comfor more details. equity returns were robust during the period, as interest rates stabilized and the economy proved to be more resilient than many investors expected. the u.s. economy continued to show strength, andgrowth further accelerated in the second half of 2023. large-capitalization u.s. stocks posted particularly substantial gains, supported by the performance of a few notable technology",
+      "as a structural market riskgoingf orward. see ourgeopolitical risk dashboard at blackrock.comfor more details. equity returns were robust during the period, as interest rates stabilized and the economy proved to be more resilient than many investors expected. the u.s. economy continued to show strength, andgrowth further accelerated in the second half of 2023. large-capitalization u.s. stocks posted particularly substantial gains, supported by the performance of a few notable technology"
+    ],
+    "context": [
+      "Analysts debated the impact of tighter monetary policy on economic expansion."
+    ],
+    "actual_output": "I don't know. The provided context does not mention recession fears being high in 2023. It actually states that the U.S. economy continued to show strength and growth further accelerated in the second half of 2023.",
+    "expected_output": "Rising interest rates and slowing economic growth led to concerns of a recession.",
+    "metrics": {
+      "Answer Correctness (GEval)": {
+        "score": 0.0,
+        "threshold": 0.5,
+        "passed": false
+      },
+      "Answer Relevancy (GEval)": {
+        "score": 0.1,
+        "threshold": 0.5,
+        "passed": false
+      },
+      "Conciseness (GEval)": {
+        "score": 0.8,
+        "threshold": 0.5,
+        "passed": true
+      },
+      "Context Relevancy (GEval)": {
+        "score": 1.0,
+        "threshold": 0.5,
+        "passed": true
+      }
+    },
+    "success": false,
+    "iteration": "iter_0"
+  },
+  {
+    "test_name": "inflation_decline_causes",
+    "timestamp": "2025-04-19T19:37:38.529831",
+    "question": "What were the main reasons for the decline in inflation?",
+    "actual_context": [
+      "To counteract inflation, the U.S. Federal Reserve Bank(\u201cFed\u201d) raised interest rates twice early in the reporting period, reaching the highest level since 2001. However, the\nFed paused its interest rate increases thereafter as inflation edged down, keeping interest rates steady following its July 2023 meeting. The Fed also continued to decrease\nt h es i z eof its balance sheet by reducing the store of U.S. Treasuries it had accumulated to stabilize markets in the early phases of the coronavirus pandemic. While investors\nclosely watched the Fed for signs of a shift toward lower interest rates, tenacious inflation later in the reporting period led investors to limit their expectations.\nEuropean stocks posted strongg ains as energy prices stabilized, and inflation decelerated sharply. Whilegrowth in the Eurozone was nearly flat, the tepid economy meant",
+      "ains as energy prices stabilized, and inflation decelerated sharply. hilegrowth in the urozone was nearly flat, the tepid economy meant that consumer spendingg rew slowly, leading to less upward pressure on prices. he uropean entral ank() raised interest rates four times in thef i rst half of the reporting period, but declined to increase interest rates thereafter, citing progress in lowering inflation. sia-acific region stocks also advanced, helped by the strong performance of apanese",
+      "improved supply chains easedgoods inflation, the tight labor market kept labor costs near record highs, andgrowing services inflation was a significant driver of inflations overall persistence. o counteract inflation, the .. ederal eserve ank(ed) raised interest rates twice early in the reporting period, reaching the highest level since 2001. owever, the ed paused its interest rate increases thereafter as inflation edged down, keeping interest rates steady following its uly 2023 meeting. he ed",
+      "the tight labor market kept labor costs near record highs, andgrowing services inflation was a significant driver of inflations overall persistence. o counteract inflation, the .. ederal eserve ank(ed) raised interest rates twice early in the reporting period, reaching the highest level since 2001. owever, the ed paused its interest rate increases thereafter as inflation edged down, keeping interest rates steady following its uly 2023 meeting. he ed also continued to decrease t h es i z eof its"
+    ],
+    "context": [
+      "The Federal Reserve's monetary policy and stabilization of global supply chains played key roles."
+    ],
+    "actual_output": "The main reasons for the decline in inflation included energy prices stabilizing and economic growth being nearly flat, leading to slower consumer spending and less upward pressure on prices. Improved supply chains also eased goods inflation. Additionally, services inflation was still a significant driver of overall persistence but showed some progress.",
+    "expected_output": "Supply chain improvements and higher interest rates helped reduce inflation.",
+    "metrics": {
+      "Answer Correctness (GEval)": {
+        "score": 0.4,
+        "threshold": 0.5,
+        "passed": false
+      },
+      "Answer Relevancy (GEval)": {
+        "score": 0.8,
+        "threshold": 0.5,
+        "passed": true
+      },
+      "Conciseness (GEval)": {
+        "score": 1.0,
+        "threshold": 0.5,
+        "passed": true
+      },
+      "Context Relevancy (GEval)": {
+        "score": 0.8,
+        "threshold": 0.5,
+        "passed": true
+      }
+    },
+    "success": false,
+    "iteration": "iter_0"
+  },
+  {
+    "test_name": "asia_pacific_performance",
+    "timestamp": "2025-04-19T19:37:38.529837",
+    "question": "What factors contributed to the performance of Asia-Pacific region stocks?",
+    "actual_context": [
+      "Asia-Pacific region stocks also advanced, helped by the strong performance of Japanese equities. Japan returned to moderategr o w t hi nt h efourth quarter of 2023 following\na contraction in the third quarter. Solid exports, rising profits, and a series of corporate reforms bolstered Japanese stocks. However, Chinese equities were negatively",
+      "Asia-Pacific region stocks also advanced, helped by the strong performance of Japanese equities. Japan returned to moderategr o w t hi nt h efourth quarter of 2023 following\na contraction in the third quarter. Solid exports, rising profits, and a series of corporate reforms bolstered Japanese stocks. However, Chinese equities were negatively",
+      "Asia-Pacific region stocks also advanced, helped by the strong performance of Japanese equities. Japan returned to moderategr o w t hi nt h efourth quarter of 2023 following\na contraction in the third quarter. Solid exports, rising profits, and a series of corporate reforms bolstered Japanese stocks. However, Chinese equities were negatively",
+      "Asia-Pacific region stocks also advanced, helped by the strong performance of Japanese equities. Japan returned to moderategr o w t hi nt h efourth quarter of 2023 following\na contraction in the third quarter. Solid exports, rising profits, and a series of corporate reforms bolstered Japanese stocks. However, Chinese equities were negatively"
+    ],
+    "context": [
+      "Asia-Pacific region stocks advanced, helped by strong Japanese equities and India's economic growth.",
+      "Japanese stocks were bolstered by solid exports, rising profits, and corporate reforms.",
+      "India saw significant gains due to strong growth and robust corporate earnings."
+    ],
+    "actual_output": "The strong performance of Japanese equities helped advance Asia-Pacific region stocks. Solid exports, rising profits, and a series of corporate reforms bolstered Japanese stocks. These factors contributed to Japan's moderate growth in the fourth quarter of 2023.",
+    "expected_output": "The strong performance of Japanese equities and India's economic growth contributed to the performance of Asia-Pacific region stocks.",
+    "metrics": {
+      "Answer Correctness (GEval)": {
+        "score": 0.6,
+        "threshold": 0.5,
+        "passed": true
+      },
+      "Answer Relevancy (GEval)": {
+        "score": 0.8,
+        "threshold": 0.5,
+        "passed": true
+      },
+      "Conciseness (GEval)": {
+        "score": 0.9,
+        "threshold": 0.5,
+        "passed": true
+      },
+      "Context Relevancy (GEval)": {
+        "score": 0.8,
+        "threshold": 0.5,
+        "passed": true
+      }
+    },
+    "success": true,
+    "iteration": "iter_0"
+  }
+]
