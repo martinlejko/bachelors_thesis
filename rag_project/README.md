@@ -103,6 +103,14 @@ The primary goal is to experiment with different configurations of a RAG pipelin
     poetry shell
     ```
 
+10. **Setting the local model for DeepEvals testing:**
+    Use this command if you would like to use the ollama as the judge. Otherwise, openAI connection to their API is used as the default.
+    ```bash
+    deepeval set-local-model --model-name=llama3.1:8b \
+    --base-url="http://localhost:11434/" \
+    --api-key="ollama"
+    ```
+
 ## Usage
 
 All commands should be run from the project's root directory using `poe <task_name>`.
@@ -120,12 +128,7 @@ All commands should be run from the project's root directory using `poe <task_na
     ```
     Test results will be saved in the `test_results/` directory. There will be a Html report generated for all the iterations from the original JSON file. Logs are saved to `debug/`.
 
-    Note: Use this command if you would like to use the ollama as the judge.
-    ```bash
-    deepeval set-local-model --model-name=llama3.1:8b \
-    --base-url="http://localhost:11434/" \
-    --api-key="ollama"
-    ```
+
 
 *   **Run a Specific RAG Pipeline Iteration:**
     This typically involves initializing the pipeline and querying it. Check the `src/testing/run_pipeline.py` script. Where you can test out iterations by changing the import path.
