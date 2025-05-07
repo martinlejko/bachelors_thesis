@@ -33,11 +33,22 @@ def test_rag_pipeline(qa_pipeline, evaluation_metrics, test_data, iteration_name
     dataset = EvaluationDatasetFactory.create_from_dict_with_invocation(test_data, qa_pipeline)
 
     logger.info(f"Evaluating dataset for iteration {iteration_name}")
-    # Evaluate the dataset
-    result = evaluate(
-        test_cases=dataset.test_cases,
-        metrics=evaluation_metrics,
-    )
+    
+    max_retries = 2
+    for attempt in range(1, max_retries + 1):
+        try:
+            result = evaluate(
+                test_cases=dataset.test_cases,
+                metrics=evaluation_metrics,
+            )
+            break
+        except ValueError as e:
+            if 'invalid JSON' in str(e):
+                logger.warning(f"Attempt {attempt}/{max_retries} failed due to invalid JSON. Retrying...")
+                if attempt == max_retries:
+                    raise
+            else:
+                raise
 
     # Save results to JSON file
     json_file = save_test_results(result, iteration_name)
