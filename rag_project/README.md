@@ -63,6 +63,13 @@ The primary goal is to experiment with different configurations of a RAG pipelin
     ```
     *Note: Ensure the models defined in your config are pulled.*
 
+    The exact commands for the default settup are:
+    ```bash
+    ollama pull llama3.1:8b
+    ollama pull nomic-embed-text
+    ollama pull mxbai-embed-large
+    ```
+
 4.  **Run Ollama Service:**
     Ollama needs to be running in the background to serve the models. Open a separate terminal and run:
     ```bash
