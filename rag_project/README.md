@@ -17,6 +17,10 @@ The primary goal is to experiment with different configurations of a RAG pipelin
 *   **Dependency Management**: Uses Poetry for robust dependency management.
 *   **Documentation**: Uses MkDocs for generating project documentation.
 
+## Runtime Environment
+
+The system is designed to be runnable on a personal computer without requiring access to cloud GPUs or server infrastructure. Development and testing were conducted on a MacBook Air with an M1 chip (2020, 16 GB RAM). All components, including local LLMs via Ollama, were optimized to perform efficiently within the constraints of such hardware.
+
 ## Project Structure
 
 ```
